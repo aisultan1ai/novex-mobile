@@ -1,0 +1,11 @@
+<!-- Знак Novex («узел»). Векторная копия novex-icon-512.png от команды Novex (совпадение ≈99% по пикселям).
+     Мастер для иконок приложения: PNG генерирует scripts/generate-icons.js. Компонент в коде — src/ui/Logo.tsx. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <circle cx="155" cy="256" r="45.5" fill="#22C9E0"/>
+  <line x1="155" y1="256" x2="375" y2="256" stroke="#22C9E0" stroke-width="22"/>
+  <circle cx="375" cy="256" r="42.5" fill="#22C9E0"/>
+  <line x1="183.5" y1="233" x2="365" y2="142.25" stroke="#3E6E8A" stroke-width="20" stroke-linecap="round"/>
+  <line x1="183.5" y1="279" x2="365" y2="369.75" stroke="#3E6E8A" stroke-width="20" stroke-linecap="round"/>
+  <circle cx="365" cy="146.5" r="31" fill="#3E6E8A"/>
+  <circle cx="365" cy="365.5" r="31" fill="#3E6E8A"/>
+</svg>

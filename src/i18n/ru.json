@@ -1,0 +1,177 @@
+{
+  "tabs": {
+    "quote": "Расчёт",
+    "orders": "Заказы",
+    "track": "Отследить",
+    "notifications": "Уведомления",
+    "profile": "Профиль"
+  },
+  "common": {
+    "retry": "Повторить",
+    "loading": "Загрузка…",
+    "comingSoon": "Экран появится на следующем этапе",
+    "close": "Закрыть",
+    "back": "Назад",
+    "undo": "Отменить"
+  },
+  "state": {
+    "emptyTitle": "Здесь пока пусто",
+    "errorTitle": "Что-то пошло не так",
+    "errorText": "Попробуйте ещё раз. Если ошибка повторится, напишите в поддержку.",
+    "offlineTitle": "Нет подключения к интернету",
+    "offlineText": "Проверьте сеть и повторите.",
+    "rateLimitTitle": "Слишком много запросов",
+    "rateLimitText": "Подождите минуту и повторите."
+  },
+  "notFound": {
+    "title": "Страница не найдена",
+    "home": "На главную"
+  },
+  "statusGroup": {
+    "processing": "Обрабатывается",
+    "preparing": "Оформляется",
+    "awaitingPayment": "Ждёт оплаты",
+    "paymentReview": "Оплата проверяется",
+    "handover": "Передаётся перевозчику",
+    "inTransit": "В пути",
+    "problem": "Проблема",
+    "delivered": "Доставлен",
+    "return": "Возврат",
+    "cancelled": "Отменён"
+  },
+  "orderStatus": {
+    "draft": "Черновик",
+    "shipment_details_completed": "Детали заполнены",
+    "ready_for_checkout": "Готов к оплате",
+    "awaiting_payment": "Ожидает оплаты",
+    "payment_under_review": "Чек на проверке",
+    "payment_rejected": "Чек отклонён",
+    "paid": "Оплачен",
+    "dispatch_queued": "Ожидает отправки",
+    "dispatch_failed": "Уточняем детали",
+    "pending_manual": "Передаётся перевозчику",
+    "pending_manual_dispatch": "Передаётся перевозчику",
+    "sent_to_carrier": "Передан перевозчику",
+    "picked_up": "Забран",
+    "in_transit": "В пути",
+    "out_for_delivery": "Выезд на доставку",
+    "arrived": "Прибыл в пункт выдачи",
+    "delivery_failed": "Попытка доставки не удалась",
+    "customs_hold": "Задержан на таможне",
+    "delivered": "Доставлен",
+    "return_requested": "Запрос возврата",
+    "return_in_progress": "Возврат в пути",
+    "returned": "Возвращён",
+    "cancelled": "Отменён"
+  },
+  "validation": {
+    "cityRequired": "Выберите город",
+    "cityUnknown": "Выберите город из списка",
+    "streetRequired": "Укажите улицу или микрорайон",
+    "houseRequired": "Укажите номер дома",
+    "tooLong": "Слишком длинное значение",
+    "postalCode": "Индекс — 6 цифр или новый формат, например A15E3C5",
+    "email": "Введите корректный email",
+    "passwordRequired": "Введите пароль"
+  },
+  "address": {
+    "city": "Город",
+    "cityPlaceholder": "Выберите город",
+    "street": "Улица, микрорайон",
+    "streetPlaceholder": "Например, ул. Абая",
+    "streetHint": "Можно вставить адрес целиком — разложим по полям",
+    "house": "Дом",
+    "apartment": "Квартира, офис",
+    "entrance": "Подъезд",
+    "floor": "Этаж",
+    "pasteFromClipboard": "Вставить адрес",
+    "pasteHint": "Возьмём адрес из буфера обмена и разложим по полям",
+    "pasted": "Разложили адрес по полям — проверьте"
+  },
+  "cityPicker": {
+    "placeholder": "Поиск города",
+    "notFound": "Такого города нет в списке"
+  },
+  "quote": {
+    "title": "Куда отправим?",
+    "subtitle": "Сравним цены и сроки перевозчиков",
+    "from": "Откуда",
+    "fromPlaceholder": "Город отправки",
+    "to": "Куда",
+    "toPlaceholder": "Город доставки",
+    "swap": "Поменять города местами",
+    "what": "Что отправляете",
+    "parcel": "Посылка",
+    "document": "Документ",
+    "presets": "Размер посылки",
+    "presetCaption": "до {{weight}} кг · {{dims}} см",
+    "weight": "Вес, кг",
+    "quantity": "Мест",
+    "width": "Ширина, см",
+    "height": "Высота, см",
+    "depth": "Глубина, см",
+    "calculate": "Рассчитать",
+    "calculating": "Рассчитываем…",
+    "errors": {
+      "fromCity": "Укажите город отправления",
+      "toCity": "Укажите город доставки",
+      "weight": "Введите вес больше нуля",
+      "weightMax": "Вес не может превышать 1000 кг",
+      "quantity": "Введите количество больше нуля",
+      "quantityInt": "Количество — целое число",
+      "quantityMax": "Не больше 999 мест",
+      "dims": "Укажите размер больше нуля",
+      "dimsMax": "Не больше 500 см"
+    }
+  },
+  "tariffs": {
+    "title": "Тарифы",
+    "days": "{{n}} дн.",
+    "daysRange": "{{min}}–{{max}} дн.",
+    "cheapest": "Дешевле всех",
+    "fastest": "Быстрее всех",
+    "checkout": "Оформить",
+    "empty": "На этот маршрут перевозчиков нет",
+    "emptyText": "Попробуйте другой город или параметры посылки",
+    "sort": "Сортировка",
+    "byPrice": "По цене",
+    "byEta": "По сроку"
+  },
+  "auth": {
+    "signIn": "Войти",
+    "wallTitle": "Войдите, чтобы оформить",
+    "wallText": "Расчёт и выбранный тариф сохранятся — продолжим с того же места.",
+    "email": "Email",
+    "password": "Пароль",
+    "noAccount": "Нет аккаунта? Регистрация в приложении появится в ближайшем обновлении — пока её можно пройти на сайте Novex тем же email."
+  },
+  "tracking": {
+    "title": "Где моя посылка?",
+    "subtitle": "Введите трек-номер — покажем статус по любой службе",
+    "numberLabel": "Трек-номер",
+    "numberPlaceholder": "Например, NX123456789",
+    "recent": "Недавние",
+    "hint": "Трек-номер есть в письме о заказе и в SMS от перевозчика",
+    "statusNow": "Сейчас",
+    "delivered": "Доставлено",
+    "expected": "Ожидаемая доставка",
+    "deliveredAt": "{{date}}, {{time}}",
+    "history": "История",
+    "historyEmpty": "События появятся после передачи перевозчику",
+    "historyOffline": "История загрузится, когда появится интернет",
+    "share": "Поделиться",
+    "shareWithLink": "Отслеживайте посылку {{number}}: {{url}}",
+    "shareNumber": "Трек-номер посылки: {{number}}",
+    "copyNumber": "Скопировать трек-номер {{number}}",
+    "copied": "Скопировано",
+    "updatedAgo": "Нет сети · обновлено {{minutes}} мин назад",
+    "notFound": "Трек-номер не найден",
+    "notFoundText": "Проверьте номер: он есть в письме о заказе",
+    "errors": {
+      "empty": "Введите трек-номер"
+    }
+  },
+  "checkout": {
+    "title": "Оформление"
+  }
+}

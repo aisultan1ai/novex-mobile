@@ -1,0 +1,7010 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Novex API — клиент",
+    "version": "0.1.0",
+    "description": "Клиентская часть API Novex для мобильного приложения. Базовый путь /api/v1. Авторизация: заголовок Authorization: Bearer <access_token> из POST /auth/login. Ошибки: {\"detail\": \"текст\"}; 422 — {\"detail\": [{\"loc\": [...], \"msg\": \"...\"}]}."
+  },
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Healthcheck",
+        "operationId": "healthcheck_api_v1_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object",
+                  "title": "Response Healthcheck Api V1 Health Get"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/register": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Register User",
+        "operationId": "register_user_api_v1_auth_register_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Login User",
+        "operationId": "login_user_api_v1_auth_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/refresh": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Обновить access token по refresh token из cookie",
+        "operationId": "refresh_access_token_api_v1_auth_refresh_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Завершить сессию — удаляет HttpOnly-cookie",
+        "operationId": "logout_user_api_v1_auth_logout_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Logout User Api V1 Auth Logout Post"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/profile": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Get My Profile",
+        "operationId": "get_my_profile_api_v1_auth_profile_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Update My Profile",
+        "operationId": "update_my_profile_api_v1_auth_profile_patch",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/locale": {
+      "patch": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Сохранить язык интерфейса (для писем и уведомлений)",
+        "operationId": "update_my_locale_api_v1_auth_locale_patch",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocaleUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/forgot-password": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Запросить сброс пароля — отправляет письмо со ссылкой",
+        "operationId": "forgot_password_api_v1_auth_forgot_password_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgotPasswordRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Forgot Password Api V1 Auth Forgot Password Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/reset-password": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Установить новый пароль по токену из письма",
+        "operationId": "reset_password_api_v1_auth_reset_password_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Reset Password Api V1 Auth Reset Password Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/verify-email": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Подтвердить email по токену из письма",
+        "operationId": "verify_email_api_v1_auth_verify_email_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyEmailRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Verify Email Api V1 Auth Verify Email Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/resend-verification": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Отправить письмо подтверждения повторно",
+        "operationId": "resend_verification_api_v1_auth_resend_verification_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Resend Verification Api V1 Auth Resend Verification Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/profile": {
+      "get": {
+        "tags": [
+          "profile"
+        ],
+        "summary": "Get Profile",
+        "operationId": "get_profile_api_v1_profile_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "profile"
+        ],
+        "summary": "Update Profile",
+        "operationId": "update_profile_api_v1_profile_patch",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/profile/change-password": {
+      "post": {
+        "tags": [
+          "profile"
+        ],
+        "summary": "Change Password",
+        "operationId": "change_password_api_v1_profile_change_password_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/profile/addresses": {
+      "get": {
+        "tags": [
+          "address-book"
+        ],
+        "summary": "Мои адреса",
+        "operationId": "list_addresses_api_v1_profile_addresses_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AddressEntryResponse"
+                  },
+                  "title": "Response List Addresses Api V1 Profile Addresses Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "address-book"
+        ],
+        "summary": "Добавить адрес",
+        "operationId": "create_address_api_v1_profile_addresses_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddressEntryCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddressEntryResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/profile/addresses/{entry_id}": {
+      "delete": {
+        "tags": [
+          "address-book"
+        ],
+        "summary": "Удалить адрес",
+        "operationId": "delete_address_api_v1_profile_addresses__entry_id__delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "entry_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Entry Id"
+            }
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/shipping/carrier-services": {
+      "get": {
+        "tags": [
+          "shipping"
+        ],
+        "summary": "Get available additional services for a carrier (optionally route-specific)",
+        "operationId": "get_carrier_services_api_v1_shipping_carrier_services_get",
+        "parameters": [
+          {
+            "name": "carrier_code",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Carrier code: azimuth, exline, cse",
+              "title": "Carrier Code"
+            },
+            "description": "Carrier code: azimuth, exline, cse"
+          },
+          {
+            "name": "from_city",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Origin city name",
+              "default": "",
+              "title": "From City"
+            },
+            "description": "Origin city name"
+          },
+          {
+            "name": "to_city",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Destination city name",
+              "default": "",
+              "title": "To City"
+            },
+            "description": "Destination city name"
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CarrierServiceItem"
+                  },
+                  "title": "Response Get Carrier Services Api V1 Shipping Carrier Services Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/shipping/quote": {
+      "post": {
+        "tags": [
+          "shipping"
+        ],
+        "summary": "Calculate Shipping Quote",
+        "operationId": "calculate_shipping_quote_api_v1_shipping_quote_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShippingQuoteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShippingQuoteResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/shipping/quote/{quote_session_id}": {
+      "get": {
+        "tags": [
+          "shipping"
+        ],
+        "summary": "Get Shipping Quote",
+        "operationId": "get_shipping_quote_api_v1_shipping_quote__quote_session_id__get",
+        "parameters": [
+          {
+            "name": "quote_session_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Quote Session Id"
+            }
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Token"
+            }
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShippingQuoteResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/shipping/quote/{quote_session_id}/select": {
+      "post": {
+        "tags": [
+          "shipping"
+        ],
+        "summary": "Select Shipping Quote",
+        "operationId": "select_shipping_quote_api_v1_shipping_quote__quote_session_id__select_post",
+        "parameters": [
+          {
+            "name": "quote_session_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Quote Session Id"
+            }
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Token"
+            }
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuoteSelectionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShippingQuoteResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders/drafts/from-quote": {
+      "post": {
+        "tags": [
+          "orders"
+        ],
+        "summary": "Create Order Draft From Quote",
+        "operationId": "create_order_draft_from_quote_api_v1_orders_drafts_from_quote_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDraftFromQuoteRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDraftResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders": {
+      "get": {
+        "tags": [
+          "orders"
+        ],
+        "summary": "Список заказов текущего клиента",
+        "operationId": "list_orders_api_v1_orders_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Номер страницы",
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Номер страницы"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Элементов на странице",
+              "default": 20,
+              "title": "Size"
+            },
+            "description": "Элементов на странице"
+          },
+          {
+            "name": "statuses",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Фильтр по статусам (можно передавать несколько раз или через запятую)",
+              "title": "Statuses"
+            },
+            "description": "Фильтр по статусам (можно передавать несколько раз или через запятую)"
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDraftListResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders/drafts/{draft_id}": {
+      "get": {
+        "tags": [
+          "orders"
+        ],
+        "summary": "Get Order Draft",
+        "operationId": "get_order_draft_api_v1_orders_drafts__draft_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "draft_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Draft Id"
+            }
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDraftResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "orders"
+        ],
+        "summary": "Удалить черновик заказа",
+        "operationId": "delete_order_draft_api_v1_orders_drafts__draft_id__delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "draft_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Draft Id"
+            }
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders/drafts/{draft_id}/checkout": {
+      "post": {
+        "tags": [
+          "orders"
+        ],
+        "summary": "Перейти к оплате",
+        "operationId": "proceed_to_checkout_api_v1_orders_drafts__draft_id__checkout_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "draft_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Draft Id"
+            }
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDraftResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders/{order_id}/cancel": {
+      "post": {
+        "tags": [
+          "orders"
+        ],
+        "summary": "Отменить заказ (клиент)",
+        "description": "Отменить заказ по инициативе клиента.\n\nДва возможных исхода:\n  • outcome=\"cancelled\" — заказ уже cancelled (CSE/Exline подтвердил\n    отмену через API). Комиссия сторнирована, платежи переведены в\n    refund_pending для последующей обработки админом.\n  • outcome=\"requested\" — создали заявку на отмену для перевозчика\n    (Azimuth — всегда; CSE/Exline — если API отказал или недоступен).\n    Заказ остаётся в текущем статусе, пока перевозчик или админ не\n    подтвердит заявку.",
+        "operationId": "cancel_order_api_v1_orders__order_id__cancel_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "order_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Order Id"
+            }
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelOrderRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CancelOrderResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders/drafts/{draft_id}/shipment": {
+      "patch": {
+        "tags": [
+          "orders"
+        ],
+        "summary": "Update Order Draft Shipment",
+        "operationId": "update_order_draft_shipment_api_v1_orders_drafts__draft_id__shipment_patch",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "draft_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Draft Id"
+            }
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateShipmentDetailsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDraftResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders/drafts/{draft_id}/cse-recalc": {
+      "post": {
+        "tags": [
+          "orders"
+        ],
+        "summary": "Recalc CSE quote with add-on services",
+        "description": "FE calls this from the checkout form (debounced) whenever the customer\ntoggles insurance / delivery type / declared value. Returns the fully\nloaded final price for the currently-selected urgency. For non-CSE\ndrafts it silently echoes the current price so the FE can call it\nunconditionally.",
+        "operationId": "cse_recalc_draft_api_v1_orders_drafts__draft_id__cse_recalc_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "draft_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Draft Id"
+            }
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CseRecalcRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CseRecalcResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders/{draft_id}/reschedule-pickup": {
+      "post": {
+        "tags": [
+          "orders"
+        ],
+        "summary": "Перенести дату забора груза",
+        "description": "Клиент меняет дату и время забора груза. Разрешено пока курьер не\nприехал (статусы dispatch_queued / sent_to_carrier / dispatch_failed).\n\nЕсли у карриера уже была создана накладная — она отменяется через\ncancel_invoice (для КСЭ = DeleteDocuments), затем ставится новая через\nштатный dispatch worker с новой pickup_date.",
+        "operationId": "reschedule_pickup_api_v1_orders__draft_id__reschedule_pickup_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "draft_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Draft Id"
+            }
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReschedulePickupRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReschedulePickupResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders/{draft_id}/tracking": {
+      "get": {
+        "tags": [
+          "tracking"
+        ],
+        "summary": "История трекинга заказа",
+        "operationId": "get_order_tracking_api_v1_orders__draft_id__tracking_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "draft_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Draft Id"
+            }
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrackingHistoryResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/payments/orders/{draft_id}/initiate-bank-transfer": {
+      "post": {
+        "tags": [
+          "payments"
+        ],
+        "summary": "Инициировать оплату по банковским реквизитам",
+        "operationId": "initiate_bank_transfer_api_v1_payments_orders__draft_id__initiate_bank_transfer_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "draft_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Draft Id"
+            }
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InitiateBankTransferResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/payments/orders/{draft_id}/upload-proof": {
+      "post": {
+        "tags": [
+          "payments"
+        ],
+        "summary": "Загрузить чек оплаты",
+        "operationId": "upload_payment_proof_api_v1_payments_orders__draft_id__upload_proof_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "draft_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Draft Id"
+            }
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_upload_payment_proof_api_v1_payments_orders__draft_id__upload_proof_post"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Upload Payment Proof Api V1 Payments Orders  Draft Id  Upload Proof Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/payments/orders/{draft_id}/payment-status": {
+      "get": {
+        "tags": [
+          "payments"
+        ],
+        "summary": "Статус оплаты заказа",
+        "operationId": "get_payment_status_api_v1_payments_orders__draft_id__payment_status_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "draft_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Draft Id"
+            }
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentStatusResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/contracts/me": {
+      "get": {
+        "tags": [
+          "contracts"
+        ],
+        "summary": "Мой договор и задолженность",
+        "operationId": "my_contract_api_v1_contracts_me_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response My Contract Api V1 Contracts Me Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/payments/orders/{draft_id}/pay-by-contract": {
+      "post": {
+        "tags": [
+          "contracts"
+        ],
+        "summary": "Оформить заказ по договору",
+        "operationId": "pay_by_contract_api_v1_payments_orders__draft_id__pay_by_contract_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "draft_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Draft Id"
+            }
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Pay By Contract Api V1 Payments Orders  Draft Id  Pay By Contract Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/batches/template.xlsx": {
+      "get": {
+        "tags": [
+          "batches"
+        ],
+        "summary": "Шаблон Excel для нескольких отправлений",
+        "operationId": "download_template_api_v1_batches_template_xlsx_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/batches/parse-excel": {
+      "post": {
+        "tags": [
+          "batches"
+        ],
+        "summary": "Разобрать заполненный шаблон Excel",
+        "operationId": "parse_excel_api_v1_batches_parse_excel_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_parse_excel_api_v1_batches_parse_excel_post"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Parse Excel Api V1 Batches Parse Excel Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/batches/quote": {
+      "post": {
+        "tags": [
+          "batches"
+        ],
+        "summary": "Пакетный расчёт тарифов",
+        "operationId": "quote_batch_api_v1_batches_quote_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchQuoteRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchQuoteResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/batches": {
+      "post": {
+        "tags": [
+          "batches"
+        ],
+        "summary": "Оформить несколько отправлений",
+        "operationId": "create_batch_api_v1_batches_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "batches"
+        ],
+        "summary": "Мои пакеты отправлений",
+        "operationId": "list_batches_api_v1_batches_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BatchListItem"
+                  },
+                  "title": "Response List Batches Api V1 Batches Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/batches/{batch_id}": {
+      "get": {
+        "tags": [
+          "batches"
+        ],
+        "summary": "Пакет отправлений",
+        "operationId": "get_batch_api_v1_batches__batch_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "batch_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Batch Id"
+            }
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/batches/{batch_id}/initiate-bank-transfer": {
+      "post": {
+        "tags": [
+          "batches"
+        ],
+        "summary": "Оплатить пакет одним переводом",
+        "operationId": "initiate_bank_transfer_api_v1_batches__batch_id__initiate_bank_transfer_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "batch_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Batch Id"
+            }
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Initiate Bank Transfer Api V1 Batches  Batch Id  Initiate Bank Transfer Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/batches/{batch_id}/upload-proof": {
+      "post": {
+        "tags": [
+          "batches"
+        ],
+        "summary": "Загрузить один чек за весь пакет",
+        "operationId": "upload_proof_api_v1_batches__batch_id__upload_proof_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "batch_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Batch Id"
+            }
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_upload_proof_api_v1_batches__batch_id__upload_proof_post"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Upload Proof Api V1 Batches  Batch Id  Upload Proof Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/batches/{batch_id}/pay-by-contract": {
+      "post": {
+        "tags": [
+          "batches"
+        ],
+        "summary": "Оформить пакет по договору",
+        "operationId": "pay_by_contract_api_v1_batches__batch_id__pay_by_contract_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "batch_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Batch Id"
+            }
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Pay By Contract Api V1 Batches  Batch Id  Pay By Contract Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/notifications": {
+      "get": {
+        "tags": [
+          "notifications"
+        ],
+        "summary": "Мои уведомления",
+        "operationId": "list_notifications_api_v1_notifications_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationListResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/notifications/{notification_id}/read": {
+      "patch": {
+        "tags": [
+          "notifications"
+        ],
+        "summary": "Отметить прочитанным",
+        "operationId": "mark_read_api_v1_notifications__notification_id__read_patch",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "notification_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Notification Id"
+            }
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/notifications/read-all": {
+      "post": {
+        "tags": [
+          "notifications"
+        ],
+        "summary": "Отметить все прочитанными",
+        "operationId": "mark_all_read_api_v1_notifications_read_all_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Mark All Read Api V1 Notifications Read All Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders/{order_draft_id}/review": {
+      "post": {
+        "tags": [
+          "reviews"
+        ],
+        "summary": "Оставить отзыв после доставки",
+        "operationId": "create_review_api_v1_orders__order_draft_id__review_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "order_draft_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Order Draft Id"
+            }
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "reviews"
+        ],
+        "summary": "Получить свой отзыв на заказ (null если нет)",
+        "operationId": "get_my_review_api_v1_orders__order_draft_id__review_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "order_draft_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Order Draft Id"
+            }
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/ReviewResponse"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "title": "Response Get My Review Api V1 Orders  Order Draft Id  Review Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders/{order_draft_id}/label": {
+      "get": {
+        "tags": [
+          "documents"
+        ],
+        "summary": "Скачать накладную (PDF)",
+        "operationId": "download_label_api_v1_orders__order_draft_id__label_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "order_draft_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Order Draft Id"
+            }
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "PDF-накладная",
+            "content": {
+              "application/pdf": {}
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/carriers/cse/geography": {
+      "get": {
+        "tags": [
+          "cse"
+        ],
+        "summary": "Search CSE geography",
+        "description": "Search CSE Geography reference directory.",
+        "operationId": "search_geography_api_v1_carriers_cse_geography_get",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "description": "City name, postal code, or FIAS",
+              "title": "Search"
+            },
+            "description": "City name, postal code, or FIAS"
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GeoItem"
+                  },
+                  "title": "Response Search Geography Api V1 Carriers Cse Geography Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/carriers/cse/pvz": {
+      "get": {
+        "tags": [
+          "cse"
+        ],
+        "summary": "List CSE pickup/delivery points",
+        "description": "Return CSE pickup/delivery points, optionally filtered by city.\n\nAccepts either the raw city GUID or a city name (server does the geography\nlookup and reuses the Redis GUID cache). If both are given, `city_guid`\nwins.",
+        "operationId": "list_pvz_api_v1_carriers_cse_pvz_get",
+        "parameters": [
+          {
+            "name": "city_guid",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by CSE city GUID",
+              "title": "City Guid"
+            },
+            "description": "Filter by CSE city GUID"
+          },
+          {
+            "name": "city",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "City name; server resolves it to a GUID (ignored if city_guid is given)",
+              "title": "City"
+            },
+            "description": "City name; server resolves it to a GUID (ignored if city_guid is given)"
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PvzItem"
+                  },
+                  "title": "Response List Pvz Api V1 Carriers Cse Pvz Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/carriers/cse/delivery-info": {
+      "get": {
+        "tags": [
+          "cse"
+        ],
+        "summary": "Get delivery info for a route",
+        "description": "Return transit times and COD/card availability for a route.",
+        "operationId": "delivery_info_api_v1_carriers_cse_delivery_info_get",
+        "parameters": [
+          {
+            "name": "from_geo",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "CSE GUID, postcode-KZ-XXXXXX, or KZ city name",
+              "title": "From Geo"
+            },
+            "description": "CSE GUID, postcode-KZ-XXXXXX, or KZ city name"
+          },
+          {
+            "name": "to_geo",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "CSE GUID, postcode-KZ-XXXXXX, or KZ city name",
+              "title": "To Geo"
+            },
+            "description": "CSE GUID, postcode-KZ-XXXXXX, or KZ city name"
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeliveryInfoResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/carriers/cse/delivery-dates": {
+      "get": {
+        "tags": [
+          "cse"
+        ],
+        "summary": "Available delivery date/time slots",
+        "description": "Return available delivery dates and time slots for a route.",
+        "operationId": "available_delivery_dates_api_v1_carriers_cse_delivery_dates_get",
+        "parameters": [
+          {
+            "name": "from_geo",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "CSE GUID, postcode-KZ-XXXXXX, or KZ city name (sender)",
+              "title": "From Geo"
+            },
+            "description": "CSE GUID, postcode-KZ-XXXXXX, or KZ city name (sender)"
+          },
+          {
+            "name": "to_geo",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "CSE GUID, postcode-KZ-XXXXXX, or KZ city name (recipient)",
+              "title": "To Geo"
+            },
+            "description": "CSE GUID, postcode-KZ-XXXXXX, or KZ city name (recipient)"
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AvailableDateItem"
+                  },
+                  "title": "Response Available Delivery Dates Api V1 Carriers Cse Delivery Dates Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/carriers/cse/take-dates": {
+      "get": {
+        "tags": [
+          "cse"
+        ],
+        "summary": "Available courier pickup date/time slots",
+        "description": "Return available dates and slots for courier to pick up cargo.",
+        "operationId": "available_take_dates_api_v1_carriers_cse_take_dates_get",
+        "parameters": [
+          {
+            "name": "from_geo",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "CSE GUID, postcode-KZ-XXXXXX, or KZ city name (sender)",
+              "title": "From Geo"
+            },
+            "description": "CSE GUID, postcode-KZ-XXXXXX, or KZ city name (sender)"
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AvailableDateItem"
+                  },
+                  "title": "Response Available Take Dates Api V1 Carriers Cse Take Dates Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tracking/{tracking_number}": {
+      "get": {
+        "tags": [
+          "tracking"
+        ],
+        "summary": "Публичное отслеживание по номеру",
+        "operationId": "get_public_tracking_api_v1_tracking__tracking_number__get",
+        "parameters": [
+          {
+            "name": "tracking_number",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Tracking Number"
+            }
+          },
+          {
+            "name": "X-Locale",
+            "in": "header",
+            "required": false,
+            "description": "Язык ответа: ru или kk. Тексты ошибок (`detail`) и уведомлений приходят на этом языке.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "kk"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicTrackingResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AddressEntryCreate": {
+        "properties": {
+          "label": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Label"
+          },
+          "full_name": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Full Name"
+          },
+          "phone": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 1,
+            "title": "Phone"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "company_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Company Name"
+          },
+          "tax_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 12
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tax Id"
+          },
+          "country": {
+            "type": "string",
+            "maxLength": 2,
+            "minLength": 2,
+            "title": "Country"
+          },
+          "city": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "City"
+          },
+          "address_line1": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Address Line1"
+          },
+          "address_line2": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Address Line2"
+          },
+          "postal_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Postal Code"
+          },
+          "is_default": {
+            "type": "boolean",
+            "title": "Is Default",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "full_name",
+          "phone",
+          "country",
+          "city",
+          "address_line1"
+        ],
+        "title": "AddressEntryCreate"
+      },
+      "AddressEntryResponse": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "user_id": {
+            "type": "integer",
+            "title": "User Id"
+          },
+          "label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Label"
+          },
+          "full_name": {
+            "type": "string",
+            "title": "Full Name"
+          },
+          "phone": {
+            "type": "string",
+            "title": "Phone"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "company_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Company Name"
+          },
+          "tax_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tax Id"
+          },
+          "country": {
+            "type": "string",
+            "title": "Country"
+          },
+          "city": {
+            "type": "string",
+            "title": "City"
+          },
+          "address_line1": {
+            "type": "string",
+            "title": "Address Line1"
+          },
+          "address_line2": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Address Line2"
+          },
+          "postal_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Postal Code"
+          },
+          "is_default": {
+            "type": "boolean",
+            "title": "Is Default"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "user_id",
+          "label",
+          "full_name",
+          "phone",
+          "email",
+          "company_name",
+          "tax_id",
+          "country",
+          "city",
+          "address_line1",
+          "address_line2",
+          "postal_code",
+          "is_default",
+          "created_at"
+        ],
+        "title": "AddressEntryResponse"
+      },
+      "AvailableDateItem": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "title": "Date"
+          },
+          "time_from": {
+            "type": "string",
+            "title": "Time From"
+          },
+          "time_to": {
+            "type": "string",
+            "title": "Time To"
+          },
+          "slots": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Slots"
+          }
+        },
+        "type": "object",
+        "required": [
+          "date",
+          "time_from",
+          "time_to",
+          "slots"
+        ],
+        "title": "AvailableDateItem"
+      },
+      "BankTransferDetails": {
+        "properties": {
+          "recipient_name": {
+            "type": "string",
+            "title": "Recipient Name"
+          },
+          "bank_name": {
+            "type": "string",
+            "title": "Bank Name"
+          },
+          "iban": {
+            "type": "string",
+            "title": "Iban"
+          },
+          "bin": {
+            "type": "string",
+            "title": "Bin"
+          },
+          "knp": {
+            "type": "string",
+            "title": "Knp"
+          },
+          "bik": {
+            "type": "string",
+            "title": "Bik",
+            "default": ""
+          },
+          "kbe": {
+            "type": "string",
+            "title": "Kbe",
+            "default": ""
+          },
+          "purpose": {
+            "type": "string",
+            "title": "Purpose"
+          },
+          "amount": {
+            "type": "string",
+            "title": "Amount"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          }
+        },
+        "type": "object",
+        "required": [
+          "recipient_name",
+          "bank_name",
+          "iban",
+          "bin",
+          "knp",
+          "purpose",
+          "amount",
+          "currency"
+        ],
+        "title": "BankTransferDetails"
+      },
+      "BatchCreateRequest": {
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "same_address",
+              "different"
+            ],
+            "title": "Mode",
+            "default": "different"
+          },
+          "sender": {
+            "$ref": "#/components/schemas/ShipmentPartyInput"
+          },
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/BatchOrderRow"
+            },
+            "type": "array",
+            "maxItems": 50,
+            "minItems": 1,
+            "title": "Rows"
+          },
+          "pd_consent": {
+            "type": "boolean",
+            "title": "Pd Consent",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "sender",
+          "rows"
+        ],
+        "title": "BatchCreateRequest"
+      },
+      "BatchListItem": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "orders_count": {
+            "type": "integer",
+            "title": "Orders Count"
+          },
+          "total_amount": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Total Amount"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "state": {
+            "type": "string",
+            "title": "State"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "orders_count",
+          "total_amount",
+          "currency",
+          "created_at",
+          "state"
+        ],
+        "title": "BatchListItem"
+      },
+      "BatchOrderItem": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "recipient_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Recipient Name"
+          },
+          "to_city": {
+            "type": "string",
+            "title": "To City"
+          },
+          "carrier_name": {
+            "type": "string",
+            "title": "Carrier Name"
+          },
+          "tariff_name": {
+            "type": "string",
+            "title": "Tariff Name"
+          },
+          "price": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Price"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "tracking_number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tracking Number"
+          },
+          "dispatch_error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dispatch Error"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "status",
+          "recipient_name",
+          "to_city",
+          "carrier_name",
+          "tariff_name",
+          "price",
+          "currency"
+        ],
+        "title": "BatchOrderItem"
+      },
+      "BatchOrderRow": {
+        "properties": {
+          "quote_session_id": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Quote Session Id"
+          },
+          "public_token": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Public Token"
+          },
+          "rate_quote_id": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Rate Quote Id"
+          },
+          "recipient": {
+            "$ref": "#/components/schemas/ShipmentPartyInput"
+          },
+          "package": {
+            "$ref": "#/components/schemas/ShipmentPackageInput"
+          }
+        },
+        "type": "object",
+        "required": [
+          "quote_session_id",
+          "public_token",
+          "rate_quote_id",
+          "recipient",
+          "package"
+        ],
+        "title": "BatchOrderRow"
+      },
+      "BatchQuoteRequest": {
+        "properties": {
+          "from_city": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "From City"
+          },
+          "shipment_type": {
+            "type": "string",
+            "enum": [
+              "parcel",
+              "document"
+            ],
+            "title": "Shipment Type",
+            "default": "parcel"
+          },
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/BatchQuoteRow"
+            },
+            "type": "array",
+            "maxItems": 50,
+            "minItems": 1,
+            "title": "Rows"
+          }
+        },
+        "type": "object",
+        "required": [
+          "from_city",
+          "rows"
+        ],
+        "title": "BatchQuoteRequest"
+      },
+      "BatchQuoteResponse": {
+        "properties": {
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/BatchQuoteRowResult"
+            },
+            "type": "array",
+            "title": "Rows"
+          }
+        },
+        "type": "object",
+        "required": [
+          "rows"
+        ],
+        "title": "BatchQuoteResponse"
+      },
+      "BatchQuoteRow": {
+        "properties": {
+          "to_city": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "To City"
+          },
+          "weight_kg": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 1000.0,
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Weight Kg"
+          },
+          "quantity": {
+            "type": "integer",
+            "maximum": 999.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Quantity"
+          },
+          "width_cm": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 500.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Width Cm",
+            "default": "0"
+          },
+          "height_cm": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 500.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Height Cm",
+            "default": "0"
+          },
+          "depth_cm": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 500.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Depth Cm",
+            "default": "0"
+          }
+        },
+        "type": "object",
+        "required": [
+          "to_city",
+          "weight_kg",
+          "quantity"
+        ],
+        "title": "BatchQuoteRow"
+      },
+      "BatchQuoteRowResult": {
+        "properties": {
+          "index": {
+            "type": "integer",
+            "title": "Index"
+          },
+          "quote_session_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quote Session Id"
+          },
+          "public_token": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Public Token"
+          },
+          "quotes": {
+            "items": {
+              "$ref": "#/components/schemas/RateQuoteItem"
+            },
+            "type": "array",
+            "title": "Quotes",
+            "default": []
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          }
+        },
+        "type": "object",
+        "required": [
+          "index"
+        ],
+        "title": "BatchQuoteRowResult"
+      },
+      "BatchResponse": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "mode": {
+            "type": "string",
+            "title": "Mode"
+          },
+          "shipment_type": {
+            "type": "string",
+            "title": "Shipment Type"
+          },
+          "from_city": {
+            "type": "string",
+            "title": "From City"
+          },
+          "orders_count": {
+            "type": "integer",
+            "title": "Orders Count"
+          },
+          "total_amount": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Total Amount"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "payment_reference": {
+            "type": "string",
+            "title": "Payment Reference"
+          },
+          "state": {
+            "type": "string",
+            "title": "State"
+          },
+          "amount_due": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Amount Due"
+          },
+          "orders": {
+            "items": {
+              "$ref": "#/components/schemas/BatchOrderItem"
+            },
+            "type": "array",
+            "title": "Orders",
+            "default": []
+          },
+          "carrier_pickup_number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Carrier Pickup Number"
+          },
+          "carrier_pickup_status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Carrier Pickup Status"
+          },
+          "carrier_pickup_error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Carrier Pickup Error"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "mode",
+          "shipment_type",
+          "from_city",
+          "orders_count",
+          "total_amount",
+          "currency",
+          "created_at",
+          "payment_reference",
+          "state",
+          "amount_due"
+        ],
+        "title": "BatchResponse"
+      },
+      "BillingMode": {
+        "type": "string",
+        "enum": [
+          "prepaid",
+          "postpaid"
+        ],
+        "title": "BillingMode"
+      },
+      "Body_parse_excel_api_v1_batches_parse_excel_post": {
+        "properties": {
+          "file": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "File"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file"
+        ],
+        "title": "Body_parse_excel_api_v1_batches_parse_excel_post"
+      },
+      "Body_upload_payment_proof_api_v1_payments_orders__draft_id__upload_proof_post": {
+        "properties": {
+          "payment_id": {
+            "type": "integer",
+            "title": "Payment Id"
+          },
+          "comment": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Comment"
+          },
+          "file": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "File"
+          }
+        },
+        "type": "object",
+        "required": [
+          "payment_id",
+          "file"
+        ],
+        "title": "Body_upload_payment_proof_api_v1_payments_orders__draft_id__upload_proof_post"
+      },
+      "Body_upload_proof_api_v1_batches__batch_id__upload_proof_post": {
+        "properties": {
+          "comment": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Comment"
+          },
+          "file": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "File"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file"
+        ],
+        "title": "Body_upload_proof_api_v1_batches__batch_id__upload_proof_post"
+      },
+      "CancelOrderRequest": {
+        "properties": {
+          "reason": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 3,
+            "title": "Reason"
+          }
+        },
+        "type": "object",
+        "required": [
+          "reason"
+        ],
+        "title": "CancelOrderRequest"
+      },
+      "CancelOrderResponse": {
+        "properties": {
+          "outcome": {
+            "type": "string",
+            "title": "Outcome"
+          },
+          "order": {
+            "$ref": "#/components/schemas/OrderDraftResponse"
+          },
+          "request": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CancellationRequestSnippet"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "outcome",
+          "order"
+        ],
+        "title": "CancelOrderResponse",
+        "description": "Тонкая оболочка над результатом POST /orders/{id}/cancel.\n\noutcome:\n  • \"cancelled\" — заказ прямо сейчас cancelled (например, успешный API у\n    CSE/Exline). request всегда None.\n  • \"requested\" — создали заявку, ждём решения перевозчика/админа. Заказ\n    остаётся в старом статусе, request заполнен."
+      },
+      "CancellationRequestSnippet": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason"
+          },
+          "carrier_response": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Carrier Response"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "resolved_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Resolved At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "status",
+          "reason",
+          "created_at"
+        ],
+        "title": "CancellationRequestSnippet",
+        "description": "Мини-проекция CancellationRequest — только то, что нужно клиенту в\nкарточке заказа. Полная схема живёт в app.modules.cancellations.schemas."
+      },
+      "CarrierServiceItem": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "available": {
+            "type": "boolean",
+            "title": "Available"
+          },
+          "price": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Price"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency",
+            "default": "KZT"
+          },
+          "note": {
+            "type": "string",
+            "title": "Note",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "name",
+          "available"
+        ],
+        "title": "CarrierServiceItem"
+      },
+      "ChangePasswordRequest": {
+        "properties": {
+          "current_password": {
+            "type": "string",
+            "title": "Current Password"
+          },
+          "new_password": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "New Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "current_password",
+          "new_password"
+        ],
+        "title": "ChangePasswordRequest"
+      },
+      "CreateDraftFromQuoteRequest": {
+        "properties": {
+          "quote_session_id": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Quote Session Id"
+          },
+          "public_token": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Public Token"
+          }
+        },
+        "type": "object",
+        "required": [
+          "quote_session_id"
+        ],
+        "title": "CreateDraftFromQuoteRequest"
+      },
+      "CseRecalcRequest": {
+        "properties": {
+          "delivery_type": {
+            "type": "string",
+            "enum": [
+              "door_to_door",
+              "warehouse_to_door",
+              "door_to_warehouse",
+              "warehouse_to_warehouse"
+            ],
+            "title": "Delivery Type",
+            "default": "door_to_door"
+          },
+          "insurance": {
+            "type": "boolean",
+            "title": "Insurance",
+            "default": false
+          },
+          "declared_value": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Declared Value"
+          },
+          "weight_kg": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Weight Kg"
+          },
+          "width_cm": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Width Cm"
+          },
+          "height_cm": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Height Cm"
+          },
+          "depth_cm": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Depth Cm"
+          },
+          "quantity": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quantity"
+          }
+        },
+        "type": "object",
+        "title": "CseRecalcRequest",
+        "description": "Recalculate a draft's price for the current carrier/tariff.\n\nSent live from the shipment/checkout form. CSE drafts re-hit the CSE Calc\nAPI for a fully-loaded amount (services + declared value). Other carriers\nfall back to the tariff engine using the (optionally overridden) package\nweight/dimensions/quantity so the \"Pay\" price reflects the actual parcel."
+      },
+      "CseRecalcResponse": {
+        "properties": {
+          "price": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Price"
+          },
+          "carrier_price": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Carrier Price"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "recalculated": {
+            "type": "boolean",
+            "title": "Recalculated"
+          }
+        },
+        "type": "object",
+        "required": [
+          "price",
+          "carrier_price",
+          "currency",
+          "recalculated"
+        ],
+        "title": "CseRecalcResponse"
+      },
+      "CustomerType": {
+        "type": "string",
+        "enum": [
+          "individual",
+          "company"
+        ],
+        "title": "CustomerType"
+      },
+      "DeliveryInfo": {
+        "properties": {
+          "delivered_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Delivered At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "delivered_at"
+        ],
+        "title": "DeliveryInfo"
+      },
+      "DeliveryInfoResponse": {
+        "properties": {
+          "min_days": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Min Days"
+          },
+          "max_days": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Days"
+          },
+          "cod_available": {
+            "type": "boolean",
+            "title": "Cod Available"
+          },
+          "card_available": {
+            "type": "boolean",
+            "title": "Card Available"
+          },
+          "services": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Services"
+          }
+        },
+        "type": "object",
+        "required": [
+          "min_days",
+          "max_days",
+          "cod_available",
+          "card_available",
+          "services"
+        ],
+        "title": "DeliveryInfoResponse"
+      },
+      "ForgotPasswordRequest": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email"
+        ],
+        "title": "ForgotPasswordRequest"
+      },
+      "GeoItem": {
+        "properties": {
+          "guid": {
+            "type": "string",
+            "title": "Guid"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "parent": {
+            "type": "string",
+            "title": "Parent"
+          },
+          "type": {
+            "type": "string",
+            "title": "Type"
+          },
+          "fias": {
+            "type": "string",
+            "title": "Fias"
+          },
+          "iata": {
+            "type": "string",
+            "title": "Iata"
+          }
+        },
+        "type": "object",
+        "required": [
+          "guid",
+          "name",
+          "parent",
+          "type",
+          "fias",
+          "iata"
+        ],
+        "title": "GeoItem"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "InitiateBankTransferResponse": {
+        "properties": {
+          "payment_id": {
+            "type": "integer",
+            "title": "Payment Id"
+          },
+          "order_reference": {
+            "type": "string",
+            "title": "Order Reference"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "bank_details": {
+            "$ref": "#/components/schemas/BankTransferDetails"
+          }
+        },
+        "type": "object",
+        "required": [
+          "payment_id",
+          "order_reference",
+          "status",
+          "bank_details"
+        ],
+        "title": "InitiateBankTransferResponse"
+      },
+      "LocaleUpdateRequest": {
+        "properties": {
+          "locale": {
+            "type": "string",
+            "enum": [
+              "ru",
+              "kk"
+            ],
+            "title": "Locale"
+          }
+        },
+        "type": "object",
+        "required": [
+          "locale"
+        ],
+        "title": "LocaleUpdateRequest"
+      },
+      "LoginRequest": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "title": "LoginRequest"
+      },
+      "NotificationListResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/NotificationResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "unread_count": {
+            "type": "integer",
+            "title": "Unread Count"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "unread_count"
+        ],
+        "title": "NotificationListResponse"
+      },
+      "NotificationResponse": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "user_id": {
+            "type": "integer",
+            "title": "User Id"
+          },
+          "type": {
+            "type": "string",
+            "title": "Type"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "body": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Body"
+          },
+          "link_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Link Url"
+          },
+          "is_read": {
+            "type": "boolean",
+            "title": "Is Read"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "user_id",
+          "type",
+          "title",
+          "body",
+          "is_read",
+          "created_at"
+        ],
+        "title": "NotificationResponse"
+      },
+      "OrderDraftListResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/OrderDraftResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "page": {
+            "type": "integer",
+            "title": "Page"
+          },
+          "size": {
+            "type": "integer",
+            "title": "Size"
+          },
+          "pages": {
+            "type": "integer",
+            "title": "Pages"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "size",
+          "pages"
+        ],
+        "title": "OrderDraftListResponse"
+      },
+      "OrderDraftResponse": {
+        "properties": {
+          "draft_id": {
+            "type": "integer",
+            "title": "Draft Id"
+          },
+          "user_id": {
+            "type": "integer",
+            "title": "User Id"
+          },
+          "quote_session_id": {
+            "type": "integer",
+            "title": "Quote Session Id"
+          },
+          "selected_rate_quote_id": {
+            "type": "integer",
+            "title": "Selected Rate Quote Id"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "shipment_details_completed",
+              "ready_for_checkout",
+              "awaiting_payment",
+              "payment_under_review",
+              "payment_rejected",
+              "paid",
+              "dispatch_queued",
+              "sent_to_carrier",
+              "picked_up",
+              "in_transit",
+              "out_for_delivery",
+              "arrived",
+              "delivery_failed",
+              "customs_hold",
+              "delivered",
+              "return_requested",
+              "return_in_progress",
+              "returned",
+              "cancelled",
+              "dispatch_failed",
+              "pending_manual",
+              "pending_manual_dispatch"
+            ],
+            "title": "Status"
+          },
+          "carrier_code_snapshot": {
+            "type": "string",
+            "title": "Carrier Code Snapshot"
+          },
+          "carrier_name_snapshot": {
+            "type": "string",
+            "title": "Carrier Name Snapshot"
+          },
+          "tariff_name_snapshot": {
+            "type": "string",
+            "title": "Tariff Name Snapshot"
+          },
+          "price_snapshot": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Price Snapshot"
+          },
+          "currency_snapshot": {
+            "type": "string",
+            "title": "Currency Snapshot"
+          },
+          "eta_days_min_snapshot": {
+            "type": "integer",
+            "title": "Eta Days Min Snapshot"
+          },
+          "eta_days_max_snapshot": {
+            "type": "integer",
+            "title": "Eta Days Max Snapshot"
+          },
+          "from_country_snapshot": {
+            "type": "string",
+            "title": "From Country Snapshot"
+          },
+          "from_city_snapshot": {
+            "type": "string",
+            "title": "From City Snapshot"
+          },
+          "to_country_snapshot": {
+            "type": "string",
+            "title": "To Country Snapshot"
+          },
+          "to_city_snapshot": {
+            "type": "string",
+            "title": "To City Snapshot"
+          },
+          "shipment_type_snapshot": {
+            "type": "string",
+            "title": "Shipment Type Snapshot"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "call_before_delivery": {
+            "type": "boolean",
+            "title": "Call Before Delivery",
+            "default": false
+          },
+          "insurance": {
+            "type": "boolean",
+            "title": "Insurance",
+            "default": false
+          },
+          "fragile": {
+            "type": "boolean",
+            "title": "Fragile",
+            "default": false
+          },
+          "delivery_type": {
+            "type": "string",
+            "enum": [
+              "door_to_door",
+              "warehouse_to_door",
+              "door_to_warehouse",
+              "warehouse_to_warehouse"
+            ],
+            "title": "Delivery Type",
+            "default": "door_to_door"
+          },
+          "sender_pvz_guid": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sender Pvz Guid"
+          },
+          "recipient_pvz_guid": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Recipient Pvz Guid"
+          },
+          "pickup_requested": {
+            "type": "boolean",
+            "title": "Pickup Requested",
+            "default": false
+          },
+          "pickup_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pickup Date"
+          },
+          "pickup_time_slot": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pickup Time Slot"
+          },
+          "pickup_contact_person": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pickup Contact Person"
+          },
+          "pickup_contact_phone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pickup Contact Phone"
+          },
+          "pickup_scheduled": {
+            "type": "boolean",
+            "title": "Pickup Scheduled",
+            "default": false
+          },
+          "pickup_error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pickup Error"
+          },
+          "sender": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ShipmentPartyResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "recipient": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ShipmentPartyResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "packages": {
+            "items": {
+              "$ref": "#/components/schemas/ShipmentPackageResponse"
+            },
+            "type": "array",
+            "title": "Packages"
+          },
+          "tracking_number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tracking Number"
+          },
+          "cancellation_request": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CancellationRequestSnippet"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "group_pickup_order_ids": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Group Pickup Order Ids",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "draft_id",
+          "user_id",
+          "quote_session_id",
+          "selected_rate_quote_id",
+          "status",
+          "carrier_code_snapshot",
+          "carrier_name_snapshot",
+          "tariff_name_snapshot",
+          "price_snapshot",
+          "currency_snapshot",
+          "eta_days_min_snapshot",
+          "eta_days_max_snapshot",
+          "from_country_snapshot",
+          "from_city_snapshot",
+          "to_country_snapshot",
+          "to_city_snapshot",
+          "shipment_type_snapshot",
+          "created_at",
+          "packages"
+        ],
+        "title": "OrderDraftResponse"
+      },
+      "PaymentStatusResponse": {
+        "properties": {
+          "payment_id": {
+            "type": "integer",
+            "title": "Payment Id"
+          },
+          "order_id": {
+            "type": "integer",
+            "title": "Order Id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "payment_reference": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Reference"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          }
+        },
+        "type": "object",
+        "required": [
+          "payment_id",
+          "order_id",
+          "status",
+          "payment_reference",
+          "amount",
+          "currency"
+        ],
+        "title": "PaymentStatusResponse"
+      },
+      "ProfileResponse": {
+        "properties": {
+          "user_id": {
+            "type": "integer",
+            "title": "User Id"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email"
+          },
+          "full_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Full Name"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active"
+          },
+          "email_verified": {
+            "type": "boolean",
+            "title": "Email Verified",
+            "default": true
+          },
+          "role": {
+            "$ref": "#/components/schemas/RoleCode"
+          },
+          "customer_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CustomerType"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "company_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Company Name"
+          },
+          "tax_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tax Id"
+          },
+          "billing_mode": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/BillingMode"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "carrier_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Carrier Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "user_id",
+          "email",
+          "full_name",
+          "phone",
+          "is_active",
+          "role"
+        ],
+        "title": "ProfileResponse"
+      },
+      "ProfileUpdateRequest": {
+        "properties": {
+          "full_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Full Name"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 50
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "company_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Company Name"
+          },
+          "tax_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 12
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tax Id"
+          },
+          "billing_mode": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/BillingMode"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "ProfileUpdateRequest"
+      },
+      "PublicTrackingEventResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "location": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Location"
+          },
+          "occurred_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Occurred At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "description",
+          "location",
+          "occurred_at"
+        ],
+        "title": "PublicTrackingEventResponse"
+      },
+      "PublicTrackingResponse": {
+        "properties": {
+          "tracking_number": {
+            "type": "string",
+            "title": "Tracking Number"
+          },
+          "carrier_code": {
+            "type": "string",
+            "title": "Carrier Code"
+          },
+          "carrier_name": {
+            "type": "string",
+            "title": "Carrier Name"
+          },
+          "from_city": {
+            "type": "string",
+            "title": "From City"
+          },
+          "to_city": {
+            "type": "string",
+            "title": "To City"
+          },
+          "order_status": {
+            "type": "string",
+            "title": "Order Status"
+          },
+          "eta_days_min": {
+            "type": "integer",
+            "title": "Eta Days Min"
+          },
+          "eta_days_max": {
+            "type": "integer",
+            "title": "Eta Days Max"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/PublicTrackingEventResponse"
+            },
+            "type": "array",
+            "title": "Events"
+          },
+          "delivery": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DeliveryInfo"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "tracking_number",
+          "carrier_code",
+          "carrier_name",
+          "from_city",
+          "to_city",
+          "order_status",
+          "eta_days_min",
+          "eta_days_max",
+          "created_at",
+          "events"
+        ],
+        "title": "PublicTrackingResponse"
+      },
+      "PvzItem": {
+        "properties": {
+          "guid": {
+            "type": "string",
+            "title": "Guid"
+          },
+          "address": {
+            "type": "string",
+            "title": "Address"
+          },
+          "city": {
+            "type": "string",
+            "title": "City"
+          },
+          "lat": {
+            "type": "string",
+            "title": "Lat"
+          },
+          "lon": {
+            "type": "string",
+            "title": "Lon"
+          },
+          "schedule": {
+            "type": "string",
+            "title": "Schedule"
+          },
+          "phone": {
+            "type": "string",
+            "title": "Phone"
+          },
+          "type": {
+            "type": "string",
+            "title": "Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "guid",
+          "address",
+          "city",
+          "lat",
+          "lon",
+          "schedule",
+          "phone",
+          "type"
+        ],
+        "title": "PvzItem"
+      },
+      "QuoteSelectionRequest": {
+        "properties": {
+          "rate_quote_id": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Rate Quote Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "rate_quote_id"
+        ],
+        "title": "QuoteSelectionRequest"
+      },
+      "RateQuoteItem": {
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id"
+          },
+          "carrier_code": {
+            "type": "string",
+            "title": "Carrier Code"
+          },
+          "carrier_name": {
+            "type": "string",
+            "title": "Carrier Name"
+          },
+          "tariff_name": {
+            "type": "string",
+            "title": "Tariff Name"
+          },
+          "price": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Price"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "eta_days_min": {
+            "type": "integer",
+            "title": "Eta Days Min"
+          },
+          "eta_days_max": {
+            "type": "integer",
+            "title": "Eta Days Max"
+          },
+          "badge": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Badge"
+          },
+          "is_selected": {
+            "type": "boolean",
+            "title": "Is Selected",
+            "default": false
+          },
+          "available_services": {
+            "items": {
+              "$ref": "#/components/schemas/CarrierServiceItem"
+            },
+            "type": "array",
+            "title": "Available Services",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "carrier_code",
+          "carrier_name",
+          "tariff_name",
+          "price",
+          "currency",
+          "eta_days_min",
+          "eta_days_max"
+        ],
+        "title": "RateQuoteItem"
+      },
+      "RegisterRequest": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Password"
+          },
+          "full_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Full Name"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 50
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "customer_type": {
+            "$ref": "#/components/schemas/CustomerType",
+            "default": "individual"
+          },
+          "company_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Company Name"
+          },
+          "billing_mode": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/BillingMode"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "tax_id": {
+            "type": "string",
+            "maxLength": 12,
+            "minLength": 12,
+            "title": "Tax Id",
+            "description": "ИИН / БИН — 12 цифр"
+          },
+          "pd_consent": {
+            "type": "boolean",
+            "title": "Pd Consent",
+            "description": "Согласие на обработку персональных данных — обязательно",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "password",
+          "tax_id"
+        ],
+        "title": "RegisterRequest"
+      },
+      "ReschedulePickupRequest": {
+        "properties": {
+          "pickup_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Pickup Date"
+          },
+          "pickup_time_slot": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 1,
+            "title": "Pickup Time Slot"
+          }
+        },
+        "type": "object",
+        "required": [
+          "pickup_date",
+          "pickup_time_slot"
+        ],
+        "title": "ReschedulePickupRequest",
+        "description": "Клиент выбрал новую дату/время забора груза. Разрешено пока курьер\nещё не приехал — конкретный список статусов проверяет сервис.\n\n``pickup_time_slot`` наследует формат из UpdateShipmentDetailsRequest —\nсвободная строка «10:00-14:00» / «morning». Валидатор карриера сам\nприведёт её к формату CSE TakeTimeFrom/TakeTimeTo, если нужно."
+      },
+      "ReschedulePickupResponse": {
+        "properties": {
+          "outcome": {
+            "type": "string",
+            "title": "Outcome"
+          },
+          "order": {
+            "$ref": "#/components/schemas/OrderDraftResponse"
+          }
+        },
+        "type": "object",
+        "required": [
+          "outcome",
+          "order"
+        ],
+        "title": "ReschedulePickupResponse",
+        "description": "Ответ на POST /orders/{id}/reschedule-pickup.\n\n``outcome`` = \"rescheduled\" (успех, dispatch пересоздан) либо\n\"already_scheduled_new\" (если dispatch уже стоял в очереди)."
+      },
+      "ResetPasswordRequest": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "title": "Token"
+          },
+          "new_password": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "New Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "token",
+          "new_password"
+        ],
+        "title": "ResetPasswordRequest"
+      },
+      "ReviewCreate": {
+        "properties": {
+          "rating": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Rating"
+          },
+          "comment": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 1000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Comment"
+          }
+        },
+        "type": "object",
+        "required": [
+          "rating"
+        ],
+        "title": "ReviewCreate"
+      },
+      "ReviewResponse": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "order_draft_id": {
+            "type": "integer",
+            "title": "Order Draft Id"
+          },
+          "user_id": {
+            "type": "integer",
+            "title": "User Id"
+          },
+          "carrier_code": {
+            "type": "string",
+            "title": "Carrier Code"
+          },
+          "rating": {
+            "type": "integer",
+            "title": "Rating"
+          },
+          "comment": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Comment"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "order_draft_id",
+          "user_id",
+          "carrier_code",
+          "rating",
+          "comment",
+          "created_at"
+        ],
+        "title": "ReviewResponse"
+      },
+      "RoleCode": {
+        "type": "string",
+        "enum": [
+          "customer",
+          "admin",
+          "operator",
+          "carrier"
+        ],
+        "title": "RoleCode"
+      },
+      "ShipmentPackageInput": {
+        "properties": {
+          "description": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Description"
+          },
+          "quantity": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Quantity"
+          },
+          "weight_kg": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Weight Kg"
+          },
+          "width_cm": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Width Cm"
+          },
+          "height_cm": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Height Cm"
+          },
+          "depth_cm": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Depth Cm"
+          },
+          "declared_value": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Declared Value"
+          },
+          "declared_value_currency": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 3,
+                "minLength": 3
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Declared Value Currency"
+          }
+        },
+        "type": "object",
+        "required": [
+          "description",
+          "quantity",
+          "weight_kg",
+          "width_cm",
+          "height_cm",
+          "depth_cm"
+        ],
+        "title": "ShipmentPackageInput"
+      },
+      "ShipmentPackageResponse": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "quantity": {
+            "type": "integer",
+            "title": "Quantity"
+          },
+          "weight_kg": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Weight Kg"
+          },
+          "width_cm": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Width Cm"
+          },
+          "height_cm": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Height Cm"
+          },
+          "depth_cm": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Depth Cm"
+          },
+          "declared_value": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Declared Value"
+          },
+          "declared_value_currency": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Declared Value Currency"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "description",
+          "quantity",
+          "weight_kg",
+          "width_cm",
+          "height_cm",
+          "depth_cm",
+          "declared_value",
+          "declared_value_currency"
+        ],
+        "title": "ShipmentPackageResponse"
+      },
+      "ShipmentPartyInput": {
+        "properties": {
+          "full_name": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Full Name"
+          },
+          "phone": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 1,
+            "title": "Phone"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "company_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Company Name"
+          },
+          "tax_id": {
+            "type": "string",
+            "maxLength": 12,
+            "minLength": 12,
+            "title": "Tax Id",
+            "description": "ИИН / БИН — 12 цифр"
+          },
+          "country": {
+            "type": "string",
+            "maxLength": 2,
+            "minLength": 2,
+            "title": "Country"
+          },
+          "city": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "City"
+          },
+          "address_line1": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Address Line1"
+          },
+          "address_line2": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Address Line2"
+          },
+          "postal_code": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 50
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Postal Code"
+          },
+          "comment": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Comment"
+          },
+          "save_to_address_book": {
+            "type": "boolean",
+            "title": "Save To Address Book",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "full_name",
+          "phone",
+          "tax_id",
+          "country",
+          "city",
+          "address_line1"
+        ],
+        "title": "ShipmentPartyInput"
+      },
+      "ShipmentPartyResponse": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "sender",
+              "recipient"
+            ],
+            "title": "Role"
+          },
+          "full_name": {
+            "type": "string",
+            "title": "Full Name"
+          },
+          "phone": {
+            "type": "string",
+            "title": "Phone"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "company_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Company Name"
+          },
+          "tax_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tax Id"
+          },
+          "country": {
+            "type": "string",
+            "title": "Country"
+          },
+          "city": {
+            "type": "string",
+            "title": "City"
+          },
+          "address_line1": {
+            "type": "string",
+            "title": "Address Line1"
+          },
+          "address_line2": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Address Line2"
+          },
+          "postal_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Postal Code"
+          },
+          "comment": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Comment"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "role",
+          "full_name",
+          "phone",
+          "email",
+          "company_name",
+          "tax_id",
+          "country",
+          "city",
+          "address_line1",
+          "address_line2",
+          "postal_code",
+          "comment"
+        ],
+        "title": "ShipmentPartyResponse"
+      },
+      "ShippingQuoteRequest": {
+        "properties": {
+          "from_country": {
+            "type": "string",
+            "maxLength": 2,
+            "minLength": 2,
+            "title": "From Country"
+          },
+          "from_city": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "From City"
+          },
+          "to_country": {
+            "type": "string",
+            "maxLength": 2,
+            "minLength": 2,
+            "title": "To Country"
+          },
+          "to_city": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "To City"
+          },
+          "shipment_type": {
+            "type": "string",
+            "maxLength": 20,
+            "minLength": 1,
+            "title": "Shipment Type"
+          },
+          "weight_kg": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Weight Kg"
+          },
+          "quantity": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Quantity"
+          },
+          "width_cm": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Width Cm",
+            "default": "0"
+          },
+          "height_cm": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Height Cm",
+            "default": "0"
+          },
+          "depth_cm": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Depth Cm",
+            "default": "0"
+          }
+        },
+        "type": "object",
+        "required": [
+          "from_country",
+          "from_city",
+          "to_country",
+          "to_city",
+          "shipment_type",
+          "weight_kg",
+          "quantity"
+        ],
+        "title": "ShippingQuoteRequest"
+      },
+      "ShippingQuoteResponse": {
+        "properties": {
+          "quote_session_id": {
+            "type": "integer",
+            "title": "Quote Session Id"
+          },
+          "public_token": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Public Token"
+          },
+          "quotes": {
+            "items": {
+              "$ref": "#/components/schemas/RateQuoteItem"
+            },
+            "type": "array",
+            "title": "Quotes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "quote_session_id",
+          "quotes"
+        ],
+        "title": "ShippingQuoteResponse"
+      },
+      "TokenResponse": {
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "title": "Access Token"
+          },
+          "token_type": {
+            "type": "string",
+            "title": "Token Type",
+            "default": "bearer"
+          },
+          "expires_in": {
+            "type": "integer",
+            "title": "Expires In"
+          },
+          "profile": {
+            "$ref": "#/components/schemas/ProfileResponse"
+          }
+        },
+        "type": "object",
+        "required": [
+          "access_token",
+          "expires_in",
+          "profile"
+        ],
+        "title": "TokenResponse"
+      },
+      "TrackingEventResponse": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "order_draft_id": {
+            "type": "integer",
+            "title": "Order Draft Id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "location": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Location"
+          },
+          "carrier_status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Carrier Status"
+          },
+          "occurred_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Occurred At"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "order_draft_id",
+          "status",
+          "description",
+          "location",
+          "carrier_status",
+          "occurred_at",
+          "created_at"
+        ],
+        "title": "TrackingEventResponse"
+      },
+      "TrackingHistoryResponse": {
+        "properties": {
+          "order_draft_id": {
+            "type": "integer",
+            "title": "Order Draft Id"
+          },
+          "carrier_code": {
+            "type": "string",
+            "title": "Carrier Code"
+          },
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/TrackingEventResponse"
+            },
+            "type": "array",
+            "title": "Events"
+          }
+        },
+        "type": "object",
+        "required": [
+          "order_draft_id",
+          "carrier_code",
+          "events"
+        ],
+        "title": "TrackingHistoryResponse"
+      },
+      "UpdateShipmentDetailsRequest": {
+        "properties": {
+          "sender": {
+            "$ref": "#/components/schemas/ShipmentPartyInput"
+          },
+          "recipient": {
+            "$ref": "#/components/schemas/ShipmentPartyInput"
+          },
+          "packages": {
+            "items": {
+              "$ref": "#/components/schemas/ShipmentPackageInput"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Packages"
+          },
+          "call_before_delivery": {
+            "type": "boolean",
+            "title": "Call Before Delivery",
+            "default": false
+          },
+          "insurance": {
+            "type": "boolean",
+            "title": "Insurance",
+            "default": false
+          },
+          "fragile": {
+            "type": "boolean",
+            "title": "Fragile",
+            "default": false
+          },
+          "delivery_type": {
+            "type": "string",
+            "enum": [
+              "door_to_door",
+              "warehouse_to_door",
+              "door_to_warehouse",
+              "warehouse_to_warehouse"
+            ],
+            "title": "Delivery Type",
+            "default": "door_to_door"
+          },
+          "sender_pvz_guid": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 50
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sender Pvz Guid"
+          },
+          "recipient_pvz_guid": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 50
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Recipient Pvz Guid"
+          },
+          "pickup_requested": {
+            "type": "boolean",
+            "title": "Pickup Requested",
+            "default": false
+          },
+          "pickup_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pickup Date"
+          },
+          "pickup_time_slot": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 50
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pickup Time Slot"
+          },
+          "pickup_contact_person": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pickup Contact Person"
+          },
+          "pickup_contact_phone": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 50
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pickup Contact Phone"
+          },
+          "pd_consent": {
+            "type": "boolean",
+            "title": "Pd Consent",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "sender",
+          "recipient",
+          "packages"
+        ],
+        "title": "UpdateShipmentDetailsRequest"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "VerifyEmailRequest": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Token"
+          }
+        },
+        "type": "object",
+        "required": [
+          "token"
+        ],
+        "title": "VerifyEmailRequest"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
