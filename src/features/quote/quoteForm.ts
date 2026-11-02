@@ -43,38 +43,42 @@ export const quoteSchema = z
 
 export type QuoteFormValues = z.infer<typeof quoteSchema>;
 
+export type SizePreset = 'S' | 'M' | 'L';
+
+type Dims = Pick<QuoteFormValues, 'widthCm' | 'heightCm' | 'depthCm'>;
+
+export interface SizePresetDef extends Dims {
+  /** Вес, который подставляется при выборе размера (макеты v2: 1,5 / 3,5 / 8 кг). */
+  weightKg: string;
+  /** Подпись «до N кг». */
+  limitKg: number;
+}
+
+// Быстрые размеры (ТЗ 6.4.3, DESIGN-TZ 6.3). Веса и подписи — из макетов; габариты — типовые коробки,
+// согласовать с Novex.
+export const SIZE_PRESETS: Record<SizePreset, SizePresetDef> = {
+  S: { weightKg: '1,5', limitKg: 2, widthCm: '20', heightCm: '10', depthCm: '15' },
+  M: { weightKg: '3,5', limitKg: 5, widthCm: '35', heightCm: '20', depthCm: '25' },
+  L: { weightKg: '8', limitKg: 10, widthCm: '50', heightCm: '35', depthCm: '40' },
+};
+
 export const defaultQuoteForm: QuoteFormValues = {
   fromCity: '',
   toCity: '',
   shipmentType: 'parcel',
-  weightKg: '',
+  weightKg: SIZE_PRESETS.M.weightKg,
   quantity: '1',
-  widthCm: '',
-  heightCm: '',
-  depthCm: '',
+  widthCm: SIZE_PRESETS.M.widthCm,
+  heightCm: SIZE_PRESETS.M.heightCm,
+  depthCm: SIZE_PRESETS.M.depthCm,
 };
 
-export type SizePreset = 'S' | 'M' | 'L';
-
-// Быстрые размеры (ТЗ 6.4.3). Значения — наше допущение по типовым коробкам, согласовать с Novex.
-export const SIZE_PRESETS: Record<
-  SizePreset,
-  Pick<QuoteFormValues, 'weightKg' | 'widthCm' | 'heightCm' | 'depthCm'>
-> = {
-  S: { weightKg: '1', widthCm: '20', heightCm: '10', depthCm: '15' },
-  M: { weightKg: '5', widthCm: '35', heightCm: '20', depthCm: '25' },
-  L: { weightKg: '15', widthCm: '50', heightCm: '35', depthCm: '40' },
-};
-
-export function matchPreset(
-  values: Pick<QuoteFormValues, 'weightKg' | 'widthCm' | 'heightCm' | 'depthCm'>,
-): SizePreset | null {
-  for (const [name, preset] of Object.entries(SIZE_PRESETS) as [
-    SizePreset,
-    typeof SIZE_PRESETS.S,
-  ][]) {
-    const same = (Object.keys(preset) as (keyof typeof preset)[]).every(
-      (k) => toNumber(values[k]) === toNumber(preset[k]),
+/** Какой размер выбран — по габаритам: правка веса вручную не сбрасывает выбор. */
+export function matchPreset(values: Dims): SizePreset | null {
+  for (const name of Object.keys(SIZE_PRESETS) as SizePreset[]) {
+    const p = SIZE_PRESETS[name];
+    const same = (['widthCm', 'heightCm', 'depthCm'] as const).every(
+      (k) => toNumber(values[k]) === toNumber(p[k]),
     );
     if (same) return name;
   }

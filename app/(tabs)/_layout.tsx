@@ -1,55 +1,43 @@
-import { Tabs } from 'expo-router';
-import {
-  Bell,
-  Calculator,
-  Package,
-  ScanSearch,
-  UserRound,
-  type LucideIcon,
-} from 'lucide-react-native';
+import { Redirect, Tabs } from 'expo-router';
+import { Bell, Calculator, LocateFixed, Package, UserRound } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
-import type { ColorValue } from 'react-native';
 
-import { Text, fonts, sizes, useColors } from '@/ui';
+import { useHasUnread } from '@/features/notifications/useNotifications';
+import { useSettingsHydrated, useSettingsStore } from '@/store/settings';
+import { TabBar, type TabBarItem } from '@/ui/TabBar';
 
+/** Нижняя навигация v2: только иконки, подписи — для экранного диктора (DESIGN-TZ 4, TabBar). */
 export default function TabLayout() {
   const { t } = useTranslation();
-  const colors = useColors();
-  const asString = (color: ColorValue) => (typeof color === 'string' ? color : colors.textMuted);
+  const hasUnread = useHasUnread();
+  const hydrated = useSettingsHydrated();
+  const onboardingSeen = useSettingsStore((s) => s.onboardingSeen);
 
-  const tab = (title: string, Icon: LucideIcon) => ({
-    title,
-    tabBarAccessibilityLabel: title,
-    tabBarIcon: ({ color }: { color: ColorValue }) => (
-      <Icon color={asString(color)} size={sizes.tabIcon} strokeWidth={1.75} />
-    ),
-    // Казахские подписи длиннее — уменьшаем шрифт, а не обрезаем текст (ТЗ 6.2).
-    tabBarLabel: ({ color }: { color: ColorValue }) => (
-      <Text
-        numberOfLines={1}
-        adjustsFontSizeToFit
-        minimumFontScale={0.75}
-        style={{ color, fontFamily: fonts.medium, fontSize: 11, lineHeight: 14 }}
-      >
-        {title}
-      </Text>
-    ),
-  });
+  const items: Record<string, TabBarItem> = {
+    index: { icon: Calculator, label: t('tabs.quote') },
+    orders: { icon: Package, label: t('tabs.orders') },
+    track: { icon: LocateFixed, label: t('tabs.track') },
+    notifications: {
+      icon: Bell,
+      label: hasUnread ? t('tabs.notificationsUnread') : t('tabs.notifications'),
+      dot: hasUnread,
+    },
+    profile: { icon: UserRound, label: t('tabs.profile') },
+  };
+
+  // Первый запуск — онбординг; решаем только после чтения настроек из хранилища.
+  if (hydrated && !onboardingSeen) return <Redirect href="/onboarding" />;
 
   return (
     <Tabs
-      screenOptions={{
-        headerShown: false,
-        tabBarActiveTintColor: colors.accent,
-        tabBarInactiveTintColor: colors.textMuted,
-        tabBarStyle: { backgroundColor: colors.card, borderTopColor: colors.line },
-      }}
+      screenOptions={{ headerShown: false }}
+      tabBar={(props) => <TabBar {...props} items={items} />}
     >
-      <Tabs.Screen name="index" options={tab(t('tabs.quote'), Calculator)} />
-      <Tabs.Screen name="orders" options={tab(t('tabs.orders'), Package)} />
-      <Tabs.Screen name="track" options={tab(t('tabs.track'), ScanSearch)} />
-      <Tabs.Screen name="notifications" options={tab(t('tabs.notifications'), Bell)} />
-      <Tabs.Screen name="profile" options={tab(t('tabs.profile'), UserRound)} />
+      <Tabs.Screen name="index" options={{ title: t('tabs.quote') }} />
+      <Tabs.Screen name="orders" options={{ title: t('tabs.orders') }} />
+      <Tabs.Screen name="track" options={{ title: t('tabs.track') }} />
+      <Tabs.Screen name="notifications" options={{ title: t('tabs.notifications') }} />
+      <Tabs.Screen name="profile" options={{ title: t('tabs.profile') }} />
     </Tabs>
   );
 }

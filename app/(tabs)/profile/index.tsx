@@ -1,8 +1,3 @@
-import { useTranslation } from 'react-i18next';
+import { ProfileScreen } from '@/features/profile/ProfileScreen';
 
-import { ComingSoon } from '@/features/placeholder/ComingSoon';
-
-export default function ProfileScreen() {
-  const { t } = useTranslation();
-  return <ComingSoon title={t('tabs.profile')} />;
-}
+export default ProfileScreen;

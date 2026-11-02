@@ -24,9 +24,9 @@ export function RequestError({ error }: { error: unknown }) {
   return (
     <View
       accessibilityLiveRegion="assertive"
-      style={[styles.box, { backgroundColor: colors.subtle, borderColor: colors.status.danger }]}
+      style={[styles.box, { backgroundColor: colors.subtle, borderColor: colors.danger }]}
     >
-      <CircleAlert color={colors.status.danger} size={20} strokeWidth={1.75} />
+      <CircleAlert color={colors.danger} size={20} strokeWidth={1.75} />
       <Text style={styles.text}>{text}</Text>
     </View>
   );
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: spacing.xs,
     padding: spacing.sm,
-    borderRadius: radii.button,
+    borderRadius: radii.input,
     borderWidth: 1,
   },
   text: { flex: 1 },

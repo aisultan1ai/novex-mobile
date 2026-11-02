@@ -13,6 +13,8 @@ import ProfileScreen from '../app/(tabs)/profile/index';
 import TrackScreen from '../app/(tabs)/track';
 import i18n from '@/i18n';
 import { createQueryClient } from '@/lib/queryClient';
+import { useSessionStore } from '@/store/session';
+import { useSettingsStore } from '@/store/settings';
 
 const wrapper = ({ children }: { children: ReactNode }) => (
   <QueryClientProvider client={createQueryClient()}>{children}</QueryClientProvider>
@@ -30,6 +32,11 @@ const routes = {
 };
 
 describe('нижняя панель', () => {
+  beforeEach(() => {
+    useSettingsStore.setState({ onboardingSeen: true });
+    useSessionStore.setState({ status: 'signedOut' });
+  });
+
   afterEach(async () => {
     await act(() => i18n.changeLanguage('ru'));
   });
@@ -41,7 +48,18 @@ describe('нижняя панель', () => {
     for (const label of ['Расчёт', 'Заказы', 'Отследить', 'Уведомления', 'Профиль']) {
       expect(screen.getAllByLabelText(label).length).toBeGreaterThan(0);
     }
-    expect(screen.getByRole('header', { name: 'Куда отправим?' })).toBeTruthy();
+    expect(screen.getByRole('header', { name: /Куда отправим/ })).toBeTruthy();
+  });
+
+  it.each([
+    ['/orders', 'Ваши заказы'],
+    ['/notifications', 'Войдите, чтобы получать уведомления о каждом шаге доставки.'],
+    ['/profile', 'Вы не вошли'],
+    ['/track', 'Где моя посылка?'],
+  ])('гость: %s показывает «%s»', async (url, text) => {
+    await act(() => i18n.changeLanguage('ru'));
+    await renderRouter(routes, { initialUrl: url, wrapper });
+    expect(screen.getByText(text)).toBeTruthy();
   });
 
   it('вкладки на казахском', async () => {

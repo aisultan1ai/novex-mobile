@@ -1,8 +1,3 @@
-import { useTranslation } from 'react-i18next';
+import { NotificationsScreen } from '@/features/notifications/NotificationsScreen';
 
-import { ComingSoon } from '@/features/placeholder/ComingSoon';
-
-export default function NotificationsScreen() {
-  const { t } = useTranslation();
-  return <ComingSoon title={t('tabs.notifications')} />;
-}
+export default NotificationsScreen;

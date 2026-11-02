@@ -27,7 +27,7 @@ describe('форма расчёта', () => {
   });
 
   it('правила как на сайте', () => {
-    expect(issues({ ...defaultQuoteForm })).toMatchObject({
+    expect(issues({ ...defaultQuoteForm, weightKg: '', widthCm: '' })).toMatchObject({
       fromCity: 'quote.errors.fromCity',
       toCity: 'quote.errors.toCity',
       weightKg: 'quote.errors.weight',
@@ -59,9 +59,11 @@ describe('форма расчёта', () => {
     });
   });
 
-  it('пресет узнаётся по значениям полей', () => {
+  it('пресет узнаётся по габаритам', () => {
     expect(matchPreset({ ...valid, ...SIZE_PRESETS.M })).toBe('M');
-    expect(matchPreset({ ...valid, weightKg: '2' })).toBeNull();
+    // Вес на выбор не влияет — только габариты.
+    expect(matchPreset({ ...SIZE_PRESETS.M, weightKg: '4' } as never)).toBe('M');
+    expect(matchPreset({ ...valid, widthCm: '21' })).toBeNull();
   });
 });
 

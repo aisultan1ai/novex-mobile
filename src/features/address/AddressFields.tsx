@@ -54,7 +54,7 @@ export function AddressFields({ form, onPhone }: AddressFieldsProps) {
             hitSlop={spacing.sm}
             style={styles.undo}
           >
-            <Text variant="label" style={{ color: colors.primary }}>
+            <Text variant="label" style={{ color: colors.navy }}>
               {t('common.undo')}
             </Text>
           </Pressable>
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: spacing.xs,
     padding: spacing.sm,
-    borderRadius: radii.button,
+    borderRadius: radii.input,
   },
   bannerText: { flex: 1 },
   undo: { paddingHorizontal: spacing.xs },

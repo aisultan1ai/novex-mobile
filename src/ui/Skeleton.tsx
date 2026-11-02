@@ -1,5 +1,5 @@
 import { useEffect, type ReactNode } from 'react';
-import { type DimensionValue, StyleSheet, View } from 'react-native';
+import { type DimensionValue, StyleSheet } from 'react-native';
 import Animated, {
   FadeIn,
   useAnimatedStyle,
@@ -53,25 +53,6 @@ export function SkeletonGroup({ children, label }: { children: ReactNode; label:
   );
 }
 
-export function SkeletonCard() {
-  const colors = useColors();
-  return (
-    <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.line }]}>
-      <View style={styles.row}>
-        <Skeleton width={40} height={40} radius={radii.button} />
-        <View style={styles.lines}>
-          <Skeleton width="60%" />
-          <Skeleton width="35%" height={12} />
-        </View>
-        <Skeleton width={72} height={24} />
-      </View>
-    </View>
-  );
-}
-
 const styles = StyleSheet.create({
   group: { gap: spacing.sm },
-  card: { borderRadius: radii.card, borderWidth: 1, padding: spacing.md },
-  row: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
-  lines: { flex: 1, gap: spacing.xs },
 });

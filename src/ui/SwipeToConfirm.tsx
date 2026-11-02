@@ -133,7 +133,7 @@ function SwipeTrack({ label, onConfirm, disabled = false, loading = false }: Swi
       ]}
     >
       {/* Заливка — navy, не cyan: cyan большими площадями не используем (ТЗ 6.1). */}
-      <Animated.View style={[styles.fill, { backgroundColor: colors.primary }, fillStyle]} />
+      <Animated.View style={[styles.fill, { backgroundColor: colors.navy }, fillStyle]} />
       <Animated.View style={[styles.labelWrap, labelStyle]} pointerEvents="none">
         <Text variant="bodyStrong" numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8}>
           {label}
@@ -142,11 +142,11 @@ function SwipeTrack({ label, onConfirm, disabled = false, loading = false }: Swi
       <GestureDetector gesture={pan}>
         <Animated.View style={[styles.knob, { backgroundColor: colors.card }, knobStyle]}>
           {loading ? (
-            <ActivityIndicator color={colors.primary} />
+            <ActivityIndicator color={colors.navy} />
           ) : confirmed ? (
-            <Check color={colors.primary} size={24} strokeWidth={2} />
+            <Check color={colors.navy} size={24} strokeWidth={2} />
           ) : (
-            <ChevronsRight color={colors.primary} size={24} strokeWidth={2} />
+            <ChevronsRight color={colors.navy} size={24} strokeWidth={2} />
           )}
         </Animated.View>
       </GestureDetector>

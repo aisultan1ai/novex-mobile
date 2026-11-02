@@ -1,63 +1,125 @@
-import { ActivityIndicator, Pressable, StyleSheet, type PressableProps } from 'react-native';
+import type { LucideIcon } from 'lucide-react-native';
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleSheet,
+  View,
+  type PressableProps,
+  type StyleProp,
+  type ViewStyle,
+} from 'react-native';
+import Animated from 'react-native-reanimated';
 
 import { Text } from './Text';
 import { useColors } from './theme';
 import { radii, sizes, spacing } from './tokens';
+import { usePressScale } from './usePressScale';
 
-export interface ButtonProps extends Omit<PressableProps, 'children'> {
+export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'destructive';
+
+export interface ButtonProps extends Omit<PressableProps, 'children' | 'style'> {
   title: string;
-  variant?: 'primary' | 'secondary';
+  /**
+   * primary — cyan CTA с тёмным текстом; secondary — серая пилюля; ghost — только текст;
+   * destructive — серая пилюля с красным текстом (DESIGN-TZ 4).
+   */
+  variant?: ButtonVariant;
+  /** large — 56 pt (онбординг, «Заказ оформлен»). */
+  size?: 'default' | 'large';
+  icon?: LucideIcon;
   loading?: boolean;
+  style?: StyleProp<ViewStyle>;
 }
 
 export function Button({
   title,
   variant = 'primary',
+  size = 'default',
+  icon: Icon,
   loading = false,
   disabled,
   style,
+  onPressIn,
+  onPressOut,
   ...rest
 }: ButtonProps) {
   const colors = useColors();
-  const isPrimary = variant === 'primary';
+  const press = usePressScale();
   const inactive = disabled || loading;
-  const textColor = isPrimary ? colors.onPrimary : colors.text;
+
+  const textColor =
+    variant === 'primary'
+      ? colors.onPrimary
+      : variant === 'destructive'
+        ? colors.danger
+        : colors.text;
+  const background = (pressed: boolean) =>
+    variant === 'primary'
+      ? pressed
+        ? colors.primaryPressed
+        : colors.primary
+      : variant === 'ghost'
+        ? 'transparent'
+        : colors.subtle;
 
   return (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={title}
-      accessibilityState={{ disabled: !!inactive, busy: loading }}
-      disabled={inactive}
-      style={(state) => [
-        styles.base,
-        isPrimary
-          ? { backgroundColor: state.pressed ? colors.primaryPressed : colors.primary }
-          : { backgroundColor: colors.card, borderColor: colors.line, borderWidth: 1 },
-        inactive && styles.inactive,
-        typeof style === 'function' ? style(state) : style,
-      ]}
-      {...rest}
-    >
-      {loading ? (
-        <ActivityIndicator color={textColor} />
-      ) : (
-        <Text variant="bodyStrong" style={{ color: textColor }} numberOfLines={2}>
-          {title}
-        </Text>
-      )}
-    </Pressable>
+    <Animated.View style={[press.style, style]}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={title}
+        accessibilityState={{ disabled: !!inactive, busy: loading }}
+        disabled={inactive}
+        onPressIn={(e) => {
+          press.onPressIn();
+          onPressIn?.(e);
+        }}
+        onPressOut={(e) => {
+          press.onPressOut();
+          onPressOut?.(e);
+        }}
+        style={({ pressed }) => [
+          styles.base,
+          {
+            minHeight:
+              variant === 'ghost'
+                ? sizes.hitTarget
+                : size === 'large'
+                  ? sizes.buttonHeightLarge
+                  : sizes.buttonHeight,
+            backgroundColor: background(pressed),
+          },
+          inactive && styles.inactive,
+        ]}
+        {...rest}
+      >
+        {loading ? (
+          <ActivityIndicator color={textColor} />
+        ) : (
+          <View style={styles.content}>
+            {Icon ? <Icon color={textColor} size={20} strokeWidth={1.75} /> : null}
+            <Text
+              variant="bodyStrong"
+              style={[styles.label, { color: textColor }]}
+              numberOfLines={2}
+            >
+              {title}
+            </Text>
+          </View>
+        )}
+      </Pressable>
+    </Animated.View>
   );
 }
 
 const styles = StyleSheet.create({
   base: {
-    minHeight: sizes.buttonHeight,
     borderRadius: radii.button,
     paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.sm,
+    paddingVertical: spacing.xs,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  inactive: { opacity: 0.5 },
+  content: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs },
+  label: { textAlign: 'center', flexShrink: 1 },
+  inactive: { opacity: 0.45 },
 });

@@ -61,6 +61,47 @@ export function formatDate(value: Date | string, locale: Locale, now: Date = new
   return date.getFullYear() === now.getFullYear() ? base : `${base} ${date.getFullYear()}`;
 }
 
+// «В каком месяце»: ru — предложный падеж («в октябре»), kk — местный («қазанда»).
+const MONTHS_IN: Record<Locale, string[]> = {
+  ru: [
+    'январе',
+    'феврале',
+    'марте',
+    'апреле',
+    'мае',
+    'июне',
+    'июле',
+    'августе',
+    'сентябре',
+    'октябре',
+    'ноябре',
+    'декабре',
+  ],
+  kk: [
+    'қаңтарда',
+    'ақпанда',
+    'наурызда',
+    'сәуірде',
+    'мамырда',
+    'маусымда',
+    'шілдеде',
+    'тамызда',
+    'қыркүйекте',
+    'қазанда',
+    'қарашада',
+    'желтоқсанда',
+  ],
+};
+
+/** Месяц для заголовков «Доставлены в октябре» / «Қазанда жеткізілді»; не текущий год — с годом. */
+export function monthIn(value: Date | string, locale: Locale, now: Date = new Date()): string {
+  const date = toDate(value);
+  if (Number.isNaN(date.getTime())) return '—';
+  const month = MONTHS_IN[locale][date.getMonth()]!;
+  if (date.getFullYear() === now.getFullYear()) return month;
+  return locale === 'kk' ? `${date.getFullYear()} жылы ${month}` : `${month} ${date.getFullYear()}`;
+}
+
 /** Время в 24-часовом формате: `09:05`. */
 export function formatTime(value: Date | string): string {
   const date = toDate(value);

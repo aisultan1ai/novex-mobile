@@ -80,13 +80,15 @@ npm i --no-save sharp@0.34.4 && node scripts/generate-icons.js
 ```
 app/              маршруты expo-router — тонкие файлы, экран берут из src/features
   (tabs)/         нижняя панель: расчёт, заказы, отследить, уведомления, профиль
-  quote/ tracking/ checkout/ sign-in.tsx   экраны вне вкладок (sign-in — модальный Soft Wall)
+  quote/ tracking/ checkout/ sign-in.tsx onboarding.tsx   экраны вне вкладок (sign-in — модальный Soft Wall)
 src/api/          клиент API: schema.d.ts (генерируется), client.ts, tokens.ts, errors.ts, endpoints/
 src/features/     фичи: экран + его компоненты, хуки react-query, формы и своё состояние (zustand)
   quote/          расчёт и тарифы       tracking/   трекинг, офлайн-кэш, Live Activities
   cities/         выбор города          address/    поля адреса со Smart Paste
+  orders/         заказы-билеты         notifications/ лента уведомлений
+  profile/        профиль и настройки   onboarding/ первый запуск, анимированные сцены
   auth/ session/  вход и сессия         placeholder/ заглушки будущих экранов
-src/ui/           дизайн-система: tokens.ts и компоненты (Button, Card, TextField, SwipeToConfirm, Logo…)
+src/ui/           дизайн-система v2: tokens.ts, стекло (glass/), компоненты и иллюстрации (см. ниже)
 src/store/        общее состояние приложения: язык, тема, статус сессии
 src/lib/          без React-экранов: форматирование, города, статусы, формы, haptics, Sentry, react-query
 src/i18n/         ru.json, kk.json, настройка i18next
@@ -96,6 +98,25 @@ __tests__/        тесты (*.test.ts / *.test.tsx) и mocks/ для Jest
 ```
 
 Направление зависимостей: `app → features → ui / lib / api / store`. `ui`, `lib` и `api` не импортируют фичи.
+
+## Дизайн-система (v2)
+
+Описание — [DESIGN-TZ.md](DESIGN-TZ.md), макеты — `docs/design-v2/screens`. Коротко:
+
+- **Токены** (`src/ui/tokens.ts`): белый фон, cyan — только CTA и выбранное, navy — цены и активная вкладка;
+  шрифт Inter (Space Grotesk — только словесный знак). Контраст пар текст/фон обеих тем проверяет
+  `__tests__/tokens.test.ts`.
+- **Стекло** (`src/ui/glass`): `GlassSurface` на `expo-blur` с фолбэком при «Уменьшить прозрачность».
+  На Android размытие работает только поверх `BlurTargetView`: прокручиваемая часть `Screen` — цель размытия,
+  стеклянные панели (`footer`, `overlay`, таб-бар) лежат вне её.
+- **Экран** (`Screen`): `withTabBar` для вкладок — таб-бар плавает поверх, отступ снизу даёт `useScreenInsets()`.
+- **Компоненты**: Button, TextField (outlined / filled), Chip, SelectableCard, StatTile, ListGroup, Switch, Sheet,
+  StatusDot, Timeline, RouteCodes, CarrierLogo, TicketCard, BottomBar, TabBar, LargeTitle, SearchField,
+  иллюстрации (`src/ui/illustrations.tsx`). Все анимации отключаются при «Уменьшить движение».
+- **Коды городов** (`src/lib/cityCodes.ts`): IATA, иначе транслит; рядом всегда полное название.
+- **Логотипы перевозчиков**: `assets/carriers` (с сайта Novex), Exline переведён в PNG.
+- **Тесты**: Reanimated в Jest заменён своим моком `__tests__/mocks/reanimated.tsx` (официальный в этой связке
+  версий падает); путь `react-native-reanimated/mock` указывает на него через `moduleNameMapper`.
 
 ## Правила (ТЗ, раздел 4)
 

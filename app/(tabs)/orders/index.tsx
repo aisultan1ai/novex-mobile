@@ -1,8 +1,3 @@
-import { useTranslation } from 'react-i18next';
+import { OrdersScreen } from '@/features/orders/OrdersScreen';
 
-import { ComingSoon } from '@/features/placeholder/ComingSoon';
-
-export default function OrdersScreen() {
-  const { t } = useTranslation();
-  return <ComingSoon title={t('tabs.orders')} />;
-}
+export default OrdersScreen;

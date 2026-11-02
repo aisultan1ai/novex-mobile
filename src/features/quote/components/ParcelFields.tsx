@@ -1,6 +1,6 @@
-import { Controller, useWatch, type UseFormReturn } from 'react-hook-form';
+import { Controller, type UseFormReturn } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 
 import { fieldError } from '@/lib/forms';
 import { TextField, spacing } from '@/ui';
@@ -9,10 +9,18 @@ import type { QuoteFormValues } from '../quoteForm';
 
 type NumericField = 'weightKg' | 'quantity' | 'widthCm' | 'heightCm' | 'depthCm';
 
-/** Вес, количество мест и (для посылки) габариты. Числовая клавиатура, запятая допустима. */
-export function ParcelFields({ form }: { form: UseFormReturn<QuoteFormValues> }) {
+// iOS — серые плашки «подпись слева, значение справа»; Android — M3 outlined (DESIGN-TZ 6.3, 8).
+const VARIANT = Platform.OS === 'android' ? 'outlined' : 'filled';
+
+/** Вес и места; свои габариты — по запросу или если размер не из S/M/L. */
+export function ParcelFields({
+  form,
+  showDims,
+}: {
+  form: UseFormReturn<QuoteFormValues>;
+  showDims: boolean;
+}) {
   const { t } = useTranslation();
-  const isDoc = useWatch({ control: form.control, name: 'shipmentType' }) === 'document';
 
   const field = (name: NumericField, label: string, decimal = true) => (
     <Controller
@@ -21,6 +29,7 @@ export function ParcelFields({ form }: { form: UseFormReturn<QuoteFormValues> })
       render={({ field: f, fieldState }) => (
         <TextField
           ref={f.ref}
+          variant={VARIANT}
           label={label}
           value={f.value}
           onChangeText={f.onChange}
@@ -40,18 +49,18 @@ export function ParcelFields({ form }: { form: UseFormReturn<QuoteFormValues> })
         {field('weightKg', t('quote.weight'))}
         {field('quantity', t('quote.quantity'), false)}
       </View>
-      {isDoc ? null : (
+      {showDims ? (
         <View style={styles.row}>
           {field('widthCm', t('quote.width'))}
           {field('heightCm', t('quote.height'))}
           {field('depthCm', t('quote.depth'))}
         </View>
-      )}
+      ) : null}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  root: { gap: spacing.md },
-  row: { flexDirection: 'row', gap: spacing.sm },
+  root: { gap: spacing.sm },
+  row: { flexDirection: 'row', gap: spacing.xs },
 });

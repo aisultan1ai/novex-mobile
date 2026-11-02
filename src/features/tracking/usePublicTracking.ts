@@ -8,8 +8,11 @@ import { useTrackedShipments } from './trackedShipments';
 
 const REFRESH_MS = 60_000;
 
-/** Нормализация ввода: пробелы и дефисы из письма/SMS не мешают поиску. */
-export const normalizeTrackingNumber = (raw: string) => raw.replace(/[\s-]+/g, '').toUpperCase();
+/**
+ * Нормализация ввода: пробелы из письма/SMS убираем, регистр — верхний.
+ * Дефис оставляем: он часть номера ({КОД_ПЕРЕВОЗЧИКА}-{12 символов}, например CSE-7K2M9QX4A1BZ).
+ */
+export const normalizeTrackingNumber = (raw: string) => raw.replace(/\s+/g, '').toUpperCase();
 
 /**
  * Публичный трекинг (без входа). Пока отправление в пути — обновляется раз в минуту.

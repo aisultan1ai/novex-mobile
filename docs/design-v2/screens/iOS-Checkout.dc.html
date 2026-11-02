@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Оформление</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#0B2545}a:hover{color:#3E6E8A}
+@keyframes nxPrice{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes nxStep{from{width:25%}to{width:50%}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div style="position:relative;width:393px;height:852px;box-sizing:border-box;padding:59px 20px 0;background:#FFFFFF;font-family:Inter,system-ui,sans-serif;color:#0E1826;overflow:hidden">
+
+  <div style="display:flex;align-items:center;height:44px;margin:0 -12px">
+    <a href="iOS-Tariffs.dc.html" aria-label="Назад" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:#0E1826"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg></a>
+    <span style="flex:1;text-align:center;font-size:18px;font-weight:500;margin-right:44px">Детали отправки</span>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:22px;margin-top:28px">
+    <label style="position:relative;display:block"><span style="position:absolute;left:12px;top:-8px;padding:0 4px;background:#FFFFFF;font-size:12px;color:#6B7685">Получатель</span><input value="Ержан Бекенов" style="width:100%;box-sizing:border-box;height:52px;border:1px solid #EEF0F3;border-radius:12px;padding:0 16px;font:500 16px Inter,sans-serif;color:#0E1826;outline:none"></label>
+    <label style="position:relative;display:block"><span style="position:absolute;left:12px;top:-8px;padding:0 4px;background:#FFFFFF;font-size:12px;color:#6B7685">Телефон</span><input type="tel" value="+7 701 000 00 12" style="width:100%;box-sizing:border-box;height:52px;border:1px solid #EEF0F3;border-radius:12px;padding:0 16px;font:500 16px Inter,sans-serif;color:#0E1826;outline:none"></label>
+    <label style="position:relative;display:block"><span style="position:absolute;left:12px;top:-8px;padding:0 4px;background:#FFFFFF;font-size:12px;color:#6B7685">Адрес доставки</span><input value="Астана, пр. Мангилик Ел, 55, кв. 14" style="width:100%;box-sizing:border-box;height:52px;border:1px solid #EEF0F3;border-radius:12px;padding:0 16px;font:500 16px Inter,sans-serif;color:#0E1826;outline:none"></label>
+    <button type="button" style="position:relative;display:flex;align-items:center;justify-content:space-between;height:52px;border:1px solid #EEF0F3;border-radius:12px;padding:0 14px 0 16px;background:#FFFFFF;font:500 16px Inter,sans-serif;color:#0E1826;text-align:left;cursor:pointer">
+      <span style="position:absolute;left:12px;top:-8px;padding:0 4px;background:#FFFFFF;font-size:12px;color:#6B7685">Когда забрать</span>
+      Завтра, 30 октября · 10:00–14:00
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
+    </button>
+  </div>
+
+  <div style="margin-top:28px;font-size:18px;font-weight:600">Дополнительно</div>
+  <div style="margin-top:6px">
+    <sc-for list="{{extras}}" as="x" hint-placeholder-count="3">
+      <div style="display:flex;align-items:center;gap:12px;min-height:60px;border-bottom:1px solid #EEF0F3">
+        <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><span style="font-size:16px;font-weight:500">{{x.label}}</span><span style="font-size:13px;color:#6B7685">{{x.hint}}</span></span>
+        <button type="button" role="switch" aria-label="{{x.label}}" aria-checked="{{x.checked}}" onClick="{{x.toggle}}" style="position:relative;width:51px;height:31px;border-radius:999px;border:0;cursor:pointer;flex:none;transition:background .2s;background:{{x.track}}">
+          <span style="position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#FFFFFF;box-shadow:0 2px 6px rgba(14,24,38,.18);transition:transform .2s cubic-bezier(.2,.8,.2,1);transform:translateX({{x.knob}}px)"></span>
+        </button>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="position:absolute;left:0;right:0;bottom:0;height:104px;background:rgba(255,255,255,.78);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-top:1px solid rgba(14,24,38,.06)">
+    <div style="height:2px;background:#EEF0F3"><div style="width:50%;height:100%;background:#0B2545;animation:nxStep .5s cubic-bezier(.2,.8,.2,1) both"></div></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 20px 0">
+      <div style="display:flex;flex-direction:column">
+        <span style="display:flex;align-items:baseline;gap:6px"><span style="font-size:13px;color:#6B7685">Итого</span><span key="{{total}}" style="font-size:22px;font-weight:700;color:#0B2545;animation:nxPrice .2s cubic-bezier(.2,.8,.2,1) both">{{total}}</span></span>
+        <sc-if value="{{changed}}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#6B7685">было <span style="text-decoration:line-through">4 890 ₸</span></span></sc-if>
+      </div>
+      <a href="iOS-Payment.dc.html" style="height:52px;padding:0 28px;border-radius:999px;background:#22C9E0;color:#0E1826;display:flex;align-items:center;font-size:16px;font-weight:600;text-decoration:none">К оплате</a>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":393,"height":852}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { ins: true, call: false, fragile: false };
+  }
+  renderVals() {
+    var s = this.state, self = this;
+    var fmt = function (n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ₸'; };
+    var defs = [
+      { k: 'ins', label: 'Страхование', hint: 'Ценность до 100 000 ₸ · +490 ₸', price: 490 },
+      { k: 'call', label: 'Позвонить перед доставкой', hint: '+150 ₸', price: 150 },
+      { k: 'fragile', label: 'Хрупкое', hint: 'Бережная обработка · +300 ₸', price: 300 }
+    ];
+    var sum = 0;
+    var extras = defs.map(function (d) {
+      var on = !!s[d.k];
+      if (on) sum += d.price;
+      return {
+        label: d.label, hint: d.hint, checked: on ? 'true' : 'false',
+        track: on ? '#0B2545' : '#E6E9EE', knob: on ? 20 : 0,
+        toggle: function () { var o = {}; o[d.k] = !s[d.k]; self.setState(o); }
+      };
+    });
+    return { extras: extras, total: fmt(4890 + sum), changed: sum > 0 };
+  }
+}
+</script>
+</body>
+</html>

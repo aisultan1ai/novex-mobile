@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, View } from 'react-native';
 
 import { formatMoney } from '@/lib/format';
-import { Card, Text, radii, spacing, useColors } from '@/ui';
+import { CarrierLogo, SelectableCard, Text, fonts, spacing, useColors } from '@/ui';
 
 import type { RateQuote, TariffBadges } from '../tariffs';
 
@@ -13,98 +13,127 @@ export interface TariffCardProps {
   onSelect: () => void;
 }
 
-/** Карточка тарифа: перевозчик, тариф, цена крупно, срок; выбранная — рамка cyan. */
+/** «CSE Экспресс»: название перевозчика + тариф, без повтора, если тариф уже начинается с него. */
+export function tariffTitle(q: RateQuote) {
+  return q.tariff_name.toLowerCase().startsWith(q.carrier_name.toLowerCase())
+    ? q.tariff_name
+    : `${q.carrier_name} ${q.tariff_name}`;
+}
+
+/**
+ * Тариф (DESIGN-TZ 6.4). iOS — карточка выбора: логотип 60, название 17/600, цена 17/700 navy, срок;
+ * бейдж «Дешевле всех / Быстрее всех» справа внизу (у выбранной скрыт — там галочка).
+ * Android — строка списка с радиокнопкой справа.
+ */
 export function TariffCard({ quote, badges, selected, onSelect }: TariffCardProps) {
   const { t } = useTranslation();
   const colors = useColors();
+  const title = tariffTitle(quote);
   const price = formatMoney(quote.price);
   const eta =
     quote.eta_days_min === quote.eta_days_max
       ? t('tariffs.days', { n: quote.eta_days_max })
       : t('tariffs.daysRange', { min: quote.eta_days_min, max: quote.eta_days_max });
+  const badge = badges.cheapest
+    ? t('tariffs.cheapest')
+    : badges.fastest
+      ? t('tariffs.fastest')
+      : null;
+  const a11y = [
+    title,
+    price,
+    eta,
+    badges.cheapest && t('tariffs.cheapest'),
+    badges.fastest && t('tariffs.fastest'),
+  ]
+    .filter(Boolean)
+    .join(', ');
+  const disabled = quote.id == null;
 
-  return (
-    <Card
-      selected={selected}
-      onPress={quote.id != null ? onSelect : undefined}
-      accessibilityLabel={[
-        quote.carrier_name,
-        quote.tariff_name,
-        price,
-        eta,
-        badges.cheapest && t('tariffs.cheapest'),
-        badges.fastest && t('tariffs.fastest'),
-      ]
-        .filter(Boolean)
-        .join(', ')}
-    >
-      <View style={styles.row}>
-        {/* Логотипы перевозчиков выдаёт команда Novex; до тех пор — монограмма. */}
-        <View style={[styles.logo, { backgroundColor: colors.subtle }]}>
-          <Text variant="bodyStrong" style={{ color: colors.icon }}>
-            {monogram(quote.carrier_name)}
+  if (Platform.OS === 'android') {
+    return (
+      <Pressable
+        onPress={onSelect}
+        disabled={disabled}
+        accessibilityRole="radio"
+        accessibilityState={{ selected, disabled }}
+        accessibilityLabel={a11y}
+        style={({ pressed }) => [
+          styles.row,
+          { borderBottomColor: colors.line },
+          pressed && styles.pressed,
+        ]}
+      >
+        <CarrierLogo code={quote.carrier_code} name={quote.carrier_name} size={52} />
+        <View style={styles.texts}>
+          <Text style={styles.nameAndroid} numberOfLines={2}>
+            {title}
           </Text>
-        </View>
-        <View style={styles.names}>
-          <Text variant="bodyStrong" numberOfLines={1}>
-            {quote.carrier_name}
-          </Text>
-          <Text variant="caption" tone="muted" numberOfLines={2}>
-            {quote.tariff_name}
-          </Text>
-        </View>
-        <View style={styles.price}>
-          <Text variant="title">{price}</Text>
-          <Text variant="caption" tone="muted">
+          <Text variant="label" tone="muted" numberOfLines={1}>
             {eta}
+            {badge ? (
+              <Text style={[styles.badgeInline, { color: colors.navy }]}> · {badge}</Text>
+            ) : null}
           </Text>
         </View>
-      </View>
-      {badges.cheapest || badges.fastest ? (
-        <View style={styles.badges}>
-          {badges.cheapest ? <Badge label={t('tariffs.cheapest')} color={colors.primary} /> : null}
-          {badges.fastest ? <Badge label={t('tariffs.fastest')} color={colors.icon} /> : null}
+        <Text style={[styles.price, { color: colors.navy }]}>{price}</Text>
+        <View style={[styles.radio, { borderColor: selected ? colors.navy : colors.lineStrong }]}>
+          {selected ? <View style={[styles.radioDot, { backgroundColor: colors.navy }]} /> : null}
         </View>
-      ) : null}
-    </Card>
-  );
-}
+      </Pressable>
+    );
+  }
 
-function Badge({ label, color }: { label: string; color: string }) {
   return (
-    <View style={[styles.badge, { borderColor: color }]}>
-      <Text variant="caption" style={{ color }}>
-        {label}
-      </Text>
-    </View>
+    <SelectableCard
+      selected={selected}
+      onPress={onSelect}
+      disabled={disabled}
+      accessibilityLabel={a11y}
+      style={styles.card}
+    >
+      <CarrierLogo code={quote.carrier_code} name={quote.carrier_name} size={60} />
+      <View style={styles.texts}>
+        <Text style={styles.name} numberOfLines={2}>
+          {title}
+        </Text>
+        <Text style={[styles.price, { color: colors.navy }]}>{price}</Text>
+        <Text variant="label" tone="muted" numberOfLines={1}>
+          {eta}
+        </Text>
+      </View>
+      {badge && !selected ? (
+        <Text style={[styles.badge, { color: colors.navy }]} numberOfLines={1}>
+          {badge}
+        </Text>
+      ) : null}
+    </SelectableCard>
   );
-}
-
-function monogram(name: string) {
-  return name
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((w) => w[0] ?? '')
-    .join('')
-    .toUpperCase();
 }
 
 const styles = StyleSheet.create({
-  row: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
-  logo: {
-    width: 44,
-    height: 44,
-    borderRadius: radii.button,
+  card: { flexDirection: 'row', alignItems: 'center', gap: 14, padding: 14 },
+  texts: { flex: 1, gap: 3, paddingRight: spacing.lg },
+  name: { fontFamily: fonts.semibold, fontSize: 17, lineHeight: 22 },
+  price: { fontFamily: fonts.bold, fontSize: 17, lineHeight: 22, letterSpacing: -0.34 },
+  badge: { position: 'absolute', right: 14, bottom: 14, fontFamily: fonts.semibold, fontSize: 12 },
+  row: {
+    minHeight: 80,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    borderBottomWidth: 1,
+  },
+  pressed: { opacity: 0.7 },
+  nameAndroid: { fontFamily: fonts.semibold, fontSize: 16, lineHeight: 21 },
+  badgeInline: { fontFamily: fonts.bold },
+  radio: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    borderWidth: 2,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  names: { flex: 1, gap: 2 },
-  price: { alignItems: 'flex-end' },
-  badges: { flexDirection: 'row', gap: spacing.xs, marginTop: spacing.sm },
-  badge: {
-    borderWidth: 1,
-    borderRadius: radii.pill,
-    paddingHorizontal: spacing.xs,
-    paddingVertical: 2,
-  },
+  radioDot: { width: 10, height: 10, borderRadius: 5 },
 });

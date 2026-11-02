@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<title>Android — есептеу</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#0B2545}a:hover{color:#3E6E8A}
+</style>
+</helmet>
+<div style="position:relative;width:360px;height:800px;box-sizing:border-box;padding:24px 16px 0;background:#FFFFFF;font-family:Inter,system-ui,sans-serif;color:#0E1826;overflow:hidden">
+
+  <div style="height:64px;display:flex;align-items:center;gap:12px">
+    <span style="width:40px;height:40px;border-radius:50%;background:#0B2545;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600">АС</span>
+    <span style="flex:1;font-size:17px;font-weight:500">Сәлем, Айгерим!</span>
+    <button type="button" aria-label="Хабарламалар" style="position:relative;width:48px;height:48px;border:0;border-radius:50%;background:transparent;color:#0E1826;display:flex;align-items:center;justify-content:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg><span style="position:absolute;top:12px;right:13px;width:8px;height:8px;border-radius:50%;background:#E24B4A;border:2px solid #FFFFFF"></span></button>
+  </div>
+
+  <h1 style="margin:8px 0 0;font-size:28px;font-weight:700;line-height:1.15;letter-spacing:-0.02em">Қайда<br>жібереміз?</h1>
+
+  <div style="position:relative;margin-top:18px;background:#F6F7F9;border-radius:14px">
+    <div style="height:58px;display:flex;flex-direction:column;justify-content:center;padding:0 64px 0 16px"><span style="font-size:12px;color:#6B7685">Қайдан</span><span style="font-size:16px;font-weight:600">Алматы</span></div>
+    <div style="height:1px;background:#E6E9EE;margin:0 64px 0 16px"></div>
+    <div style="height:58px;display:flex;flex-direction:column;justify-content:center;padding:0 64px 0 16px"><span style="font-size:12px;color:#6B7685">Қайда</span><span style="font-size:16px;font-weight:600">Астана</span></div>
+    <button type="button" aria-label="Қалаларды ауыстыру" style="position:absolute;right:10px;top:34px;width:48px;height:48px;border-radius:16px;border:0;background:#FFFFFF;color:#0E1826;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(14,24,38,.12)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 16-4 4-4-4"></path><path d="M17 20V4"></path><path d="m3 8 4-4 4 4"></path><path d="M7 4v16"></path></svg></button>
+  </div>
+
+  <div style="margin-top:22px;font-size:17px;font-weight:600">Не жібересіз</div>
+  <div style="display:flex;gap:8px;margin-top:10px">
+    <button type="button" aria-pressed="true" style="height:36px;padding:0 14px 0 8px;border-radius:8px;border:0;background:rgba(34,201,224,.2);display:flex;align-items:center;gap:6px;font:600 14px Inter,sans-serif;color:#0E1826"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Сәлемдеме</button>
+    <button type="button" aria-pressed="false" style="height:36px;padding:0 14px;border-radius:8px;border:1px solid #DDE1E6;background:#FFFFFF;font:600 14px Inter,sans-serif;color:#0E1826">Құжат</button>
+    <button type="button" aria-pressed="false" style="height:36px;padding:0 14px;border-radius:8px;border:1px solid #DDE1E6;background:#FFFFFF;font:600 14px Inter,sans-serif;color:#0E1826">Жүк</button>
+  </div>
+
+  <div style="margin-top:22px;font-size:17px;font-weight:600">Сәлемдеме өлшемі</div>
+  <div style="display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:8px;margin-top:10px">
+    <button type="button" style="height:64px;border-radius:12px;border:1px solid #EEF0F3;background:#FFFFFF;font-family:inherit;text-align:left;padding:0 12px"><span style="display:block;font-size:16px;font-weight:700;color:#0E1826">S</span><span style="font-size:12px;color:#6B7685">2 кг дейін</span></button>
+    <button type="button" aria-pressed="true" style="height:64px;border-radius:12px;border:1.5px solid #22C9E0;background:#FFFFFF;font-family:inherit;text-align:left;padding:0 12px"><span style="display:block;font-size:16px;font-weight:700;color:#0E1826">M</span><span style="font-size:12px;color:#6B7685">5 кг дейін</span></button>
+    <button type="button" style="height:64px;border-radius:12px;border:1px solid #EEF0F3;background:#FFFFFF;font-family:inherit;text-align:left;padding:0 12px"><span style="display:block;font-size:16px;font-weight:700;color:#0E1826">L</span><span style="font-size:12px;color:#6B7685">10 кг дейін</span></button>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:10px;margin-top:20px">
+    <label style="position:relative;display:block"><span style="position:absolute;left:12px;top:-8px;padding:0 4px;background:#FFFFFF;font-size:12px;color:#6B7685">Салмағы, кг</span><input value="3,5" inputmode="decimal" style="width:100%;box-sizing:border-box;height:56px;border:1px solid #DDE1E6;border-radius:12px;padding:0 16px;font:600 16px Inter,sans-serif;color:#0E1826;outline:none"></label>
+    <label style="position:relative;display:block"><span style="position:absolute;left:12px;top:-8px;padding:0 4px;background:#FFFFFF;font-size:12px;color:#6B7685">Орын саны</span><input value="1" inputmode="numeric" style="width:100%;box-sizing:border-box;height:56px;border:1px solid #DDE1E6;border-radius:12px;padding:0 16px;font:600 16px Inter,sans-serif;color:#0E1826;outline:none"></label>
+  </div>
+
+  <a href="Android-Tariffs.dc.html" style="position:absolute;left:16px;right:16px;bottom:92px;height:52px;border-radius:999px;background:#22C9E0;color:#0E1826;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;text-decoration:none">Есептеу</a>
+
+  <nav aria-label="Негізгі навигация" style="position:absolute;left:0;right:0;bottom:0;height:72px;background:rgba(255,255,255,.82);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-top:1px solid rgba(14,24,38,.06);display:flex;justify-content:space-around;align-items:center">
+    <a href="Android-Home.dc.html" aria-label="Есептеу" aria-current="page" style="display:flex;align-items:center;color:#0E1826;text-decoration:none"><span style="width:64px;height:32px;border-radius:999px;background:rgba(34,201,224,.22);display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="16" height="20" x="4" y="2" rx="2"></rect><path d="M8 6h8M16 14v4M16 10h.01M12 10h.01M8 10h.01M12 14h.01M8 14h.01M12 18h.01M8 18h.01"></path></svg></span></a>
+    <a href="#" aria-label="Тапсырыстар" style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;color:#0E1826"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"></path><path d="M12 22V12"></path><path d="m3.3 7 7.7 4.7a2 2 0 0 0 2 0L20.7 7"></path></svg></a>
+    <a href="Android-Tracking.dc.html" aria-label="Бақылау" style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;color:#0E1826"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><circle cx="12" cy="12" r="8"></circle><path d="M12 2v2M12 20v2M2 12h2M20 12h2"></path></svg></a>
+    <a href="#" aria-label="Хабарламалар" style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;color:#0E1826"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg></a>
+    <a href="#" aria-label="Профиль" style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;color:#0E1826"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="5"></circle><path d="M20 21a8 8 0 0 0-16 0"></path></svg></a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":360,"height":800}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Заказы</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#0B2545}a:hover{color:#3E6E8A}
+.nx-scroll{scrollbar-width:none}.nx-scroll::-webkit-scrollbar{display:none}
+@keyframes nxExpand{from{clip-path:inset(var(--t) 20px var(--b) 20px round 20px)}to{clip-path:inset(0 0 0 0 round 0)}}
+@keyframes nxIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div style="position:relative;width:393px;height:852px;background:#FFFFFF;font-family:Inter,system-ui,sans-serif;color:#0E1826;overflow:hidden">
+
+  <div class="nx-scroll" onScroll="{{onScroll}}" style="position:absolute;inset:0;overflow-y:auto;padding:59px 20px 130px;box-sizing:border-box">
+    <h1 style="margin:0;height:52px;display:flex;align-items:center;font-size:30px;font-weight:700;letter-spacing:-0.035em;transition:opacity .2s;opacity:{{bigOpacity}}">Заказы</h1>
+    <label style="position:relative;display:block;margin-top:12px">
+      <span style="position:absolute;left:14px;top:13px;color:#6B7685"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg></span>
+      <input aria-label="Поиск по номеру или получателю" placeholder="Трек-номер или получатель" style="width:100%;box-sizing:border-box;height:46px;border:0;border-radius:999px;background:#F4F6F8;padding:0 16px 0 44px;font:500 15px Inter,sans-serif;color:#0E1826;outline:none">
+    </label>
+    <div style="display:flex;gap:8px;margin-top:14px">
+      <button type="button" style="height:38px;padding:0 16px;border-radius:999px;border:0;background:#0B2545;color:#FFFFFF;font:600 14px Inter,sans-serif">Активные · 3</button>
+      <button type="button" style="height:38px;padding:0 16px;border-radius:999px;border:0;background:#F4F6F8;color:#0E1826;font:600 14px Inter,sans-serif">Доставлены</button>
+      <button type="button" style="height:38px;padding:0 16px;border-radius:999px;border:0;background:#F4F6F8;color:#0E1826;font:600 14px Inter,sans-serif">Отменены</button>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:12px;margin-top:18px">
+      <sc-for list="{{tickets}}" as="t" hint-placeholder-count="3">
+        <button type="button" onClick="{{t.open}}" style="position:relative;display:flex;height:124px;padding:0;border:1px solid #EEF0F3;border-radius:20px;background:#FFFFFF;font-family:inherit;text-align:left;cursor:pointer;box-shadow:0 4px 14px rgba(14,24,38,.04)">
+          <span style="flex:1;min-width:0;padding:16px 14px 0 18px;display:flex;flex-direction:column">
+            <span style="display:flex;align-items:center;gap:8px">
+              <span style="font-size:22px;font-weight:800;letter-spacing:-0.03em;color:#0E1826">{{t.from}}</span>
+              <span style="flex:1;height:1.5px;background:repeating-linear-gradient(90deg,#8A94A3 0 3px,transparent 3px 7px)"></span>
+              <span style="font-size:22px;font-weight:800;letter-spacing:-0.03em;color:#0E1826">{{t.to}}</span>
+            </span>
+            <span style="font-size:12px;color:#6B7685;margin-top:3px">{{t.cities}}</span>
+            <span style="display:flex;align-items:center;gap:6px;margin-top:12px;font-size:13px;font-weight:600;color:#0E1826"><span style="width:8px;height:8px;border-radius:50%;background:{{t.dot}}"></span>{{t.status}}<span style="font-weight:400;color:#6B7685"> · {{t.date}}</span></span>
+          </span>
+          <span style="width:1px;margin:16px 0;border-left:1.5px dashed #DDE1E6"></span>
+          <span style="width:92px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
+            <img src="{{t.logo}}" alt="{{t.carrier}}" style="width:{{t.logoW}};height:auto;border-radius:6px;background:{{t.logoBg}};padding:{{t.logoPad}}">
+            <span style="font-size:15px;font-weight:700;color:#0B2545">{{t.price}}</span>
+          </span>
+          <span style="position:absolute;right:92px;top:-1px;width:18px;height:9px;margin-right:-9px;background:#FFFFFF;border:1px solid #EEF0F3;border-top:0;border-radius:0 0 9px 9px;box-sizing:border-box"></span>
+          <span style="position:absolute;right:92px;bottom:-1px;width:18px;height:9px;margin-right:-9px;background:#FFFFFF;border:1px solid #EEF0F3;border-bottom:0;border-radius:9px 9px 0 0;box-sizing:border-box"></span>
+        </button>
+      </sc-for>
+    </div>
+
+    <div style="margin-top:28px;font-size:16px;font-weight:700;letter-spacing:-0.01em">Доставлены в октябре</div>
+    <div style="margin-top:4px">
+      <sc-for list="{{delivered}}" as="d" hint-placeholder-count="4">
+        <div style="display:flex;align-items:center;min-height:60px;border-bottom:1px solid #EEF0F3">
+          <span style="flex:1"><span style="display:block;font-size:15px;font-weight:600">{{d.route}}</span><span style="font-size:13px;color:#6B7685">{{d.meta}}</span></span>
+          <span style="font-size:15px;font-weight:600">{{d.price}}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="position:absolute;left:0;right:0;top:0;height:103px;box-sizing:border-box;padding-top:59px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.78);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid rgba(14,24,38,.06);transition:opacity .2s;pointer-events:none;opacity:{{smallOpacity}}">
+    <span style="font-size:16px;font-weight:600">Заказы</span>
+  </div>
+
+  <!-- Раскрытие билета в трекинг -->
+  <sc-if value="{{isOpen}}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;z-index:20;background:#FFFFFF;animation:nxExpand .45s cubic-bezier(.2,.8,.2,1) both;--t:{{clipT}}px;--b:{{clipB}}px">
+      <div style="height:340px;background:#0E2A4D;color:#FFFFFF;padding:59px 20px 0;box-sizing:border-box;position:relative;overflow:hidden">
+        <svg width="393" height="340" viewBox="0 0 393 340" fill="none" aria-hidden="true" style="position:absolute;left:0;top:0">
+          <path d="M-20 120 L420 64 M-20 300 L420 250 M70 -20 L120 360 M310 -20 L280 360" stroke="rgba(255,255,255,.08)" stroke-width="12"></path>
+          <path d="M-20 200 C 80 180, 140 230, 240 200 S 360 160, 420 170" stroke="rgba(34,201,224,.14)" stroke-width="18"></path>
+          <path d="M110 280 L200 270 L284 260 L292 200 L300 150" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"></path>
+          <circle cx="110" cy="280" r="14" fill="#FFFFFF"></circle>
+          <circle cx="300" cy="150" r="12" fill="#22C9E0" stroke="#FFFFFF" stroke-width="3"></circle>
+        </svg>
+        <button type="button" aria-label="Назад" onClick="{{close}}" style="position:relative;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.14);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg></button>
+      </div>
+      <div style="margin-top:-28px;position:relative;background:#FFFFFF;border-radius:28px 28px 0 0;padding:22px 20px;animation:nxIn .35s .2s cubic-bezier(.2,.8,.2,1) both">
+        <div style="display:flex;align-items:center;gap:12px"><span style="font-size:36px;font-weight:800;letter-spacing:-0.03em">ALA</span><span style="flex:1;height:2px;background:repeating-linear-gradient(90deg,#0E1826 0 3px,transparent 3px 8px)"></span><span style="font-size:36px;font-weight:800;letter-spacing:-0.03em">NQZ</span></div>
+        <div style="display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:10px;margin-top:18px">
+          <div style="padding:14px 12px;border-radius:16px;border:1px solid #EEF0F3;text-align:center"><span style="display:block;font-size:12px;color:#6B7685">Трек-номер</span><span style="display:block;margin-top:6px;font-size:13px;font-weight:700">CSE-7K2M9QX4A1BZ</span></div>
+          <div style="padding:14px 12px;border-radius:16px;border:1px solid #EEF0F3;text-align:center"><span style="display:block;font-size:12px;color:#6B7685">Осталось</span><span style="display:block;margin-top:6px;font-size:17px;font-weight:700;color:#0B2545">~25 минут</span></div>
+        </div>
+        <a href="iOS-Tracking.dc.html" style="margin-top:20px;height:54px;border-radius:999px;background:#22C9E0;color:#0E1826;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;text-decoration:none">Открыть карту</a>
+      </div>
+    </div>
+  </sc-if>
+
+  <nav aria-label="Основная навигация" style="position:absolute;left:28px;right:28px;bottom:28px;z-index:10;height:64px;padding:0 8px;box-sizing:border-box;border-radius:32px;background:rgba(255,255,255,.72);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(14,24,38,.06);box-shadow:0 12px 32px rgba(14,24,38,.14);display:flex;align-items:center;justify-content:space-between">
+    <a href="iOS-Home.dc.html" aria-label="Расчёт" style="width:48px;height:48px;border-radius:50%;color:#4A5565;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="16" height="20" x="4" y="2" rx="2"></rect><path d="M8 6h8M16 14v4M16 10h.01M12 10h.01M8 10h.01M12 14h.01M8 14h.01M12 18h.01M8 18h.01"></path></svg></a>
+    <a href="iOS-Orders.dc.html" aria-label="Заказы" aria-current="page" style="width:48px;height:48px;border-radius:50%;background:#0B2545;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"></path><path d="M12 22V12"></path><path d="m3.3 7 7.7 4.7a2 2 0 0 0 2 0L20.7 7"></path></svg></a>
+    <a href="iOS-Tracking.dc.html" aria-label="Отследить" style="width:48px;height:48px;border-radius:50%;color:#4A5565;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><circle cx="12" cy="12" r="8"></circle><path d="M12 2v2M12 20v2M2 12h2M20 12h2"></path></svg></a>
+    <a href="iOS-Notifications.dc.html" aria-label="Уведомления" style="position:relative;width:48px;height:48px;border-radius:50%;color:#4A5565;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg><span style="position:absolute;top:12px;right:13px;width:7px;height:7px;border-radius:50%;background:#22C9E0"></span></a>
+    <a href="iOS-Profile.dc.html" aria-label="Профиль" style="width:48px;height:48px;border-radius:50%;color:#4A5565;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="5"></circle><path d="M20 21a8 8 0 0 0-16 0"></path></svg></a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":393,"height":852}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { collapsed: false, open: false, clipT: 245 };
+    this._y = 0;
+  }
+  renderVals() {
+    var s = this.state, self = this;
+    var L = {
+      CSE: { src: '/_blob/16cf765e94562a599e760790be7ce3e1', bg: 'transparent', w: '52px', pad: '0' },
+      EXL: { src: '/_blob/0cdd48371ba1f7e4839fa252b5289716', bg: 'transparent', w: '40px', pad: '0' },
+      AZM: { src: '/_blob/1fabec4d0df39fb70222db9c94e71ee5', bg: '#0B2545', w: '52px', pad: '4px' }
+    };
+    var raw = [
+      { from: 'ALA', to: 'NQZ', cities: 'Алматы → Астана', status: 'Курьер едет', dot: '#F5A623', date: 'сегодня', c: 'CSE', carrier: 'CSE', price: '5 380 ₸' },
+      { from: 'CIT', to: 'KGF', cities: 'Шымкент → Караганда', status: 'Ждёт оплаты', dot: '#8FA3B2', date: 'с 28 окт', c: 'EXL', carrier: 'Exline', price: '4 350 ₸' },
+      { from: 'GUW', to: 'ALA', cities: 'Атырау → Алматы', status: 'Не доставлен', dot: '#E24B4A', date: 'повтор 30 окт', c: 'AZM', carrier: 'Azimuth', price: '6 100 ₸' }
+    ];
+    var tickets = raw.map(function (r, i) {
+      var l = L[r.c];
+      return {
+        from: r.from, to: r.to, cities: r.cities, status: r.status, dot: r.dot, date: r.date, carrier: r.carrier, price: r.price,
+        logo: l.src, logoBg: l.bg, logoW: l.w, logoPad: l.pad,
+        open: function () { self.setState({ open: true, clipT: 245 + i * 136 - self._y }); }
+      };
+    });
+    var delivered = [
+      { route: 'Алматы → Костанай', meta: '28 окт · Exline', price: '5 120 ₸' },
+      { route: 'Алматы → Шымкент', meta: '26 окт · CSE', price: '3 980 ₸' },
+      { route: 'Алматы → Актобе', meta: '21 окт · Azimuth', price: '7 240 ₸' },
+      { route: 'Алматы → Павлодар', meta: '18 окт · Exline', price: '5 860 ₸' }
+    ];
+    var t = Math.max(0, s.clipT);
+    return {
+      tickets: tickets, delivered: delivered,
+      bigOpacity: s.collapsed ? 0 : 1, smallOpacity: s.collapsed ? 1 : 0,
+      isOpen: s.open, clipT: t, clipB: Math.max(0, 852 - t - 124),
+      onScroll: function (e) {
+        self._y = e.currentTarget.scrollTop;
+        var c = self._y > 40;
+        if (c !== self.state.collapsed) self.setState({ collapsed: c });
+      },
+      close: function () { self.setState({ open: false }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Расчёт стоимости</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#0B2545}a:hover{color:#3E6E8A}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</helmet>
+<div style="position:relative;width:393px;height:852px;box-sizing:border-box;padding:59px 20px 0;background:#FFFFFF;font-family:Inter,system-ui,sans-serif;color:#0E1826;overflow:hidden">
+
+  <div style="display:flex;align-items:center;gap:12px;height:44px">
+    <span style="width:40px;height:40px;border-radius:50%;background:#0B2545;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600">АС</span>
+    <span style="flex:1;font-size:16px;font-weight:500;color:#6B7685">Привет, <span style="color:#0E1826;font-weight:600">Айгерим</span></span>
+    <a href="iOS-Notifications.dc.html" aria-label="Уведомления, есть новые" style="position:relative;width:44px;height:44px;border-radius:50%;background:#F4F6F8;display:flex;align-items:center;justify-content:center;color:#0E1826">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg>
+      <span style="position:absolute;top:10px;right:11px;width:8px;height:8px;border-radius:50%;background:#E24B4A;border:2px solid #F4F6F8"></span>
+    </a>
+  </div>
+
+  <h1 style="margin:18px 0 0;font-size:30px;font-weight:700;line-height:1.12;letter-spacing:-0.035em">Куда отправим<br>посылку?</h1>
+
+  <!-- Маршрут -->
+  <div style="position:relative;margin-top:20px;background:#F4F6F8;border-radius:18px">
+    <button type="button" style="width:100%;display:flex;align-items:center;gap:14px;height:62px;padding:0 64px 0 16px;border:0;background:transparent;font-family:inherit;text-align:left;cursor:pointer">
+      <span style="font-size:13px;font-weight:800;letter-spacing:.02em;color:#6B7685;width:30px">{{fromCode}}</span>
+      <span style="display:flex;flex-direction:column;gap:1px"><span style="font-size:12px;color:#6B7685">Откуда</span><span style="font-size:16px;font-weight:600;color:#0E1826">{{fromCity}}</span></span>
+    </button>
+    <div style="height:1px;background:rgba(14,24,38,.07);margin:0 64px 0 60px"></div>
+    <button type="button" style="width:100%;display:flex;align-items:center;gap:14px;height:62px;padding:0 64px 0 16px;border:0;background:transparent;font-family:inherit;text-align:left;cursor:pointer">
+      <span style="font-size:13px;font-weight:800;letter-spacing:.02em;color:#0E1826;width:30px">{{toCode}}</span>
+      <span style="display:flex;flex-direction:column;gap:1px"><span style="font-size:12px;color:#6B7685">Куда</span><span style="font-size:16px;font-weight:600;color:#0E1826">{{toCity}}</span></span>
+    </button>
+    <button type="button" aria-label="Поменять города местами" onClick="{{swap}}" style="position:absolute;right:12px;top:40px;width:44px;height:44px;border-radius:50%;border:0;background:#FFFFFF;color:#0E1826;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 8px rgba(14,24,38,.08)">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transition:transform .25s cubic-bezier(.2,.8,.2,1);transform:rotate({{swapDeg}}deg)"><path d="m21 16-4 4-4-4"></path><path d="M17 20V4"></path><path d="m3 8 4-4 4 4"></path><path d="M7 4v16"></path></svg>
+    </button>
+  </div>
+
+  <!-- Тип -->
+  <div style="margin-top:24px;font-size:16px;font-weight:700;letter-spacing:-0.01em">Что отправляете</div>
+  <div style="display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:8px;margin-top:12px">
+    <sc-for list="{{kinds}}" as="k" hint-placeholder-count="3">
+      <button type="button" onClick="{{k.pick}}" aria-pressed="{{k.on}}" style="height:46px;padding:0 6px;border-radius:999px;display:flex;align-items:center;justify-content:center;gap:6px;font:600 14px Inter,sans-serif;cursor:pointer;transition:all .2s;background:{{k.bg}};color:{{k.fg}};border:{{k.border}}">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{k.icon}}"></path></svg>{{k.label}}
+      </button>
+    </sc-for>
+  </div>
+
+  <!-- Размер -->
+  <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:24px">
+    <span style="font-size:16px;font-weight:700;letter-spacing:-0.01em">Размер</span>
+    <a href="#" style="font-size:14px;color:#6B7685;text-decoration:none">Как измерить</a>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:8px;margin-top:12px">
+    <sc-for list="{{presets}}" as="p" hint-placeholder-count="3">
+      <button type="button" onClick="{{p.pick}}" aria-pressed="{{p.on}}" style="position:relative;height:100px;border-radius:18px;background:#FFFFFF;padding:12px;box-sizing:border-box;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;font-family:inherit;text-align:left;cursor:pointer;transition:border-color .2s;border:{{p.border}}">
+        <svg width="40" height="32" viewBox="0 0 40 32" fill="none" aria-hidden="true">
+          <path d="{{p.top}}" fill="{{p.fill}}" stroke="#0E1826" stroke-width="1.5" stroke-linejoin="round" style="transition:fill .2s"></path>
+          <path d="{{p.body}}" fill="#FFFFFF" stroke="#0E1826" stroke-width="1.5" stroke-linejoin="round"></path>
+        </svg>
+        <span style="display:flex;flex-direction:column;gap:1px"><span style="font-size:16px;font-weight:800">{{p.name}}</span><span style="font-size:12px;color:#6B7685">{{p.caption}}</span></span>
+        <sc-if value="{{p.on}}" hint-placeholder-val="{{ false }}">
+          <span style="position:absolute;right:10px;top:10px;width:20px;height:20px;border-radius:50%;background:#22C9E0;display:flex;align-items:center;justify-content:center"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0E1826" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg></span>
+        </sc-if>
+      </button>
+    </sc-for>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:8px;margin-top:20px">
+    <label style="display:flex;align-items:center;justify-content:space-between;height:52px;padding:0 16px;border-radius:16px;background:#F4F6F8;font-size:13px;color:#6B7685">Вес, кг<input inputmode="decimal" value="{{weight}}" style="width:60px;border:0;background:transparent;text-align:right;font:700 16px Inter,sans-serif;color:#0E1826;outline:none"></label>
+    <label style="display:flex;align-items:center;justify-content:space-between;height:52px;padding:0 16px;border-radius:16px;background:#F4F6F8;font-size:13px;color:#6B7685">Мест<input inputmode="numeric" value="1" style="width:60px;border:0;background:transparent;text-align:right;font:700 16px Inter,sans-serif;color:#0E1826;outline:none"></label>
+  </div>
+
+  <a href="iOS-Tariffs.dc.html" style="position:absolute;left:20px;right:20px;bottom:108px;height:56px;border-radius:999px;background:#22C9E0;color:#0E1826;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;text-decoration:none">Рассчитать</a>
+
+  <nav aria-label="Основная навигация" style="position:absolute;left:28px;right:28px;bottom:28px;height:64px;padding:0 8px;box-sizing:border-box;border-radius:32px;background:rgba(255,255,255,.72);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(14,24,38,.06);box-shadow:0 12px 32px rgba(14,24,38,.14);display:flex;align-items:center;justify-content:space-between">
+    <a href="iOS-Home.dc.html" aria-label="Расчёт" aria-current="page" style="width:48px;height:48px;border-radius:50%;background:#0B2545;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="16" height="20" x="4" y="2" rx="2"></rect><path d="M8 6h8M16 14v4M16 10h.01M12 10h.01M8 10h.01M12 14h.01M8 14h.01M12 18h.01M8 18h.01"></path></svg></a>
+    <a href="iOS-Orders.dc.html" aria-label="Заказы" style="width:48px;height:48px;border-radius:50%;color:#4A5565;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"></path><path d="M12 22V12"></path><path d="m3.3 7 7.7 4.7a2 2 0 0 0 2 0L20.7 7"></path></svg></a>
+    <a href="iOS-Tracking.dc.html" aria-label="Отследить" style="width:48px;height:48px;border-radius:50%;color:#4A5565;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><circle cx="12" cy="12" r="8"></circle><path d="M12 2v2M12 20v2M2 12h2M20 12h2"></path></svg></a>
+    <a href="iOS-Notifications.dc.html" aria-label="Уведомления" style="position:relative;width:48px;height:48px;border-radius:50%;color:#4A5565;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg><span style="position:absolute;top:12px;right:13px;width:7px;height:7px;border-radius:50%;background:#22C9E0"></span></a>
+    <a href="iOS-Profile.dc.html" aria-label="Профиль" style="width:48px;height:48px;border-radius:50%;color:#4A5565;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="5"></circle><path d="M20 21a8 8 0 0 0-16 0"></path></svg></a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":393,"height":852}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { preset: 'M', kind: 'parcel', swapped: false };
+  }
+  renderVals() {
+    var s = this.state, self = this;
+    var box = function (w, h) {
+      var x = (40 - w) / 2, d = 6, y = 31 - h;
+      return {
+        top: 'M' + x + ' ' + (y + d) + ' L' + (x + d) + ' ' + y + ' L' + (x + w) + ' ' + y + ' L' + (x + w - d) + ' ' + (y + d) + ' Z',
+        body: 'M' + x + ' ' + (y + d) + ' L' + (x + w - d) + ' ' + (y + d) + ' L' + (x + w - d) + ' 31 L' + x + ' 31 Z M' + (x + w - d) + ' ' + (y + d) + ' L' + (x + w) + ' ' + y + ' L' + (x + w) + ' ' + (31 - d) + ' L' + (x + w - d) + ' 31'
+      };
+    };
+    var defs = [
+      { id: 'S', caption: 'до 2 кг', w: 22, h: 16, kg: '1,5' },
+      { id: 'M', caption: 'до 5 кг', w: 30, h: 22, kg: '3,5' },
+      { id: 'L', caption: 'до 10 кг', w: 38, h: 29, kg: '8' }
+    ];
+    var presets = defs.map(function (d) {
+      var on = s.preset === d.id, b = box(d.w, d.h);
+      return {
+        name: d.id, caption: d.caption, top: b.top, body: b.body, on: on,
+        fill: on ? '#22C9E0' : '#F4F6F8',
+        border: on ? '1.5px solid #22C9E0' : '1px solid #EEF0F3',
+        pick: function () { self.setState({ preset: d.id }); }
+      };
+    });
+    var kinds = [
+      { id: 'parcel', label: 'Посылка', icon: 'M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73zM12 22V12M3.3 7l7.7 4.7a2 2 0 0 0 2 0L20.7 7' },
+      { id: 'doc', label: 'Документы', icon: 'M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7ZM14 2v4a2 2 0 0 0 2 2h4M16 13H8M16 17H8' },
+      { id: 'cargo', label: 'Груз', icon: 'M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6' }
+    ].map(function (k) {
+      var on = s.kind === k.id;
+      return {
+        label: k.label, icon: k.icon, on: on,
+        bg: on ? '#0B2545' : '#FFFFFF', fg: on ? '#FFFFFF' : '#0E1826',
+        border: on ? '1px solid #0B2545' : '1px solid #EEF0F3',
+        pick: function () { self.setState({ kind: k.id }); }
+      };
+    });
+    var cur = defs.filter(function (d) { return d.id === s.preset; })[0];
+    return {
+      presets: presets, kinds: kinds, weight: cur.kg,
+      fromCity: s.swapped ? 'Астана' : 'Алматы', fromCode: s.swapped ? 'NQZ' : 'ALA',
+      toCity: s.swapped ? 'Алматы' : 'Астана', toCode: s.swapped ? 'ALA' : 'NQZ',
+      swapDeg: s.swapped ? 180 : 0,
+      swap: function () { self.setState({ swapped: !s.swapped }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<title>Android — тарифтер</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#0B2545}a:hover{color:#3E6E8A}
+@keyframes nxPrice{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div style="position:relative;width:360px;height:800px;box-sizing:border-box;padding:24px 0 0;background:#FFFFFF;font-family:Inter,system-ui,sans-serif;color:#0E1826;overflow:hidden">
+
+  <div style="height:64px;display:flex;align-items:center;gap:4px;padding:0 4px">
+    <a href="Android-Home.dc.html" aria-label="Артқа" style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;color:#0E1826"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg></a>
+    <span style="flex:1;display:flex;flex-direction:column"><span style="font-size:20px;font-weight:600">Тарифтер</span><span style="font-size:13px;color:#6B7685">Алматы → Астана · 3,5 кг</span></span>
+  </div>
+
+  <div style="display:flex;gap:8px;padding:8px 16px 0">
+    <sc-for list="{{sorts}}" as="o" hint-placeholder-count="2">
+      <button type="button" onClick="{{o.pick}}" aria-pressed="{{o.on}}" style="height:36px;padding:0 14px;border-radius:8px;font:600 14px Inter,sans-serif;cursor:pointer;transition:all .2s;background:{{o.bg}};color:#0E1826;border:{{o.border}}">{{o.label}}</button>
+    </sc-for>
+  </div>
+
+  <div role="radiogroup" aria-label="Тариф" style="padding:12px 16px 0">
+    <sc-for list="{{items}}" as="t" hint-placeholder-count="5">
+      <button type="button" role="radio" aria-checked="{{t.checked}}" onClick="{{t.pick}}" style="width:100%;display:flex;align-items:center;gap:12px;min-height:80px;padding:0;border:0;border-bottom:1px solid #EEF0F3;background:transparent;font-family:inherit;text-align:left;cursor:pointer">
+        <span style="width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:none;overflow:hidden;background:{{t.logoBg}};border:{{t.logoBorder}}"><img src="{{t.logo}}" alt="{{t.carrier}}" style="width:{{t.logoW}};height:auto"></span>
+        <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px">
+          <span style="font-size:16px;font-weight:600">{{t.name}}</span>
+          <span style="font-size:13px;color:#6B7685">{{t.eta}}<sc-if value="{{t.badge}}" hint-placeholder-val="{{ false }}"><span style="color:#0B2545;font-weight:700"> · {{t.badge}}</span></sc-if></span>
+        </span>
+        <span style="font-size:17px;font-weight:700;color:#0B2545">{{t.price}}</span>
+        <span style="width:20px;height:20px;border-radius:50%;box-sizing:border-box;display:flex;align-items:center;justify-content:center;flex:none;transition:border-color .2s;border:2px solid {{t.ring}}"><span style="width:10px;height:10px;border-radius:50%;background:#0B2545;transition:transform .2s cubic-bezier(.2,.8,.2,1);transform:scale({{t.dot}})"></span></span>
+      </button>
+    </sc-for>
+  </div>
+
+  <div style="position:absolute;left:0;right:0;bottom:0;padding:14px 16px 24px;background:rgba(255,255,255,.82);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-radius:24px 24px 0 0;box-shadow:0 -6px 24px rgba(14,24,38,.08);display:flex;align-items:center;gap:14px">
+    <span style="flex:1;display:flex;flex-direction:column"><span style="font-size:12px;color:#6B7685">Барлығы</span><span key="{{selPrice}}" style="font-size:22px;font-weight:700;color:#0B2545;animation:nxPrice .2s cubic-bezier(.2,.8,.2,1) both">{{selPrice}}</span></span>
+    <a href="#" style="height:52px;padding:0 28px;border-radius:999px;background:#22C9E0;color:#0E1826;display:flex;align-items:center;font-size:16px;font-weight:600;text-decoration:none">Рәсімдеу</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":360,"height":800}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { sel: 'exl-s', sort: 'price' };
+  }
+  renderVals() {
+    var s = this.state, self = this;
+    var L = {
+      CSE: { src: '/_blob/16cf765e94562a599e760790be7ce3e1', bg: '#FFFFFF', border: '1px solid #EEF0F3', w: '40px' },
+      EXL: { src: '/_blob/0cdd48371ba1f7e4839fa252b5289716', bg: '#FFFFFF', border: '1px solid #EEF0F3', w: '46px' },
+      AZM: { src: '/_blob/1fabec4d0df39fb70222db9c94e71ee5', bg: '#0B2545', border: '0', w: '42px' }
+    };
+    var data = [
+      { id: 'cse-x', c: 'CSE', carrier: 'CSE', name: 'CSE Экспресс', min: 2, max: 3, price: 4890 },
+      { id: 'exl-s', c: 'EXL', carrier: 'Exline', name: 'Exline Стандарт', min: 3, max: 5, price: 4350 },
+      { id: 'azm-x', c: 'AZM', carrier: 'Azimuth', name: 'Azimuth Экспресс', min: 1, max: 2, price: 6100 },
+      { id: 'cse-e', c: 'CSE', carrier: 'CSE', name: 'CSE Эконом', min: 4, max: 6, price: 4520 },
+      { id: 'exl-x', c: 'EXL', carrier: 'Exline', name: 'Exline Экспресс', min: 2, max: 3, price: 5200 }
+    ];
+    var fmt = function (n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ₸'; };
+    var sorted = data.slice().sort(function (a, b) { return s.sort === 'price' ? a.price - b.price : (a.min - b.min) || (a.price - b.price); });
+    var items = sorted.map(function (d) {
+      var on = s.sel === d.id, l = L[d.c];
+      return {
+        name: d.name, carrier: d.carrier, price: fmt(d.price), eta: d.min + '–' + d.max + ' күн',
+        badge: d.id === 'exl-s' ? 'Ең арзан' : (d.id === 'azm-x' ? 'Ең жылдам' : ''),
+        logo: l.src, logoBg: l.bg, logoBorder: l.border, logoW: l.w,
+        checked: on ? 'true' : 'false', ring: on ? '#0B2545' : '#C9D0D8', dot: on ? 1 : 0,
+        pick: function () { self.setState({ sel: d.id }); }
+      };
+    });
+    var sorts = [{ id: 'price', label: 'Бағасы бойынша' }, { id: 'eta', label: 'Мерзімі бойынша' }].map(function (o) {
+      var on = s.sort === o.id;
+      return { label: o.label, on: on, bg: on ? 'rgba(34,201,224,.2)' : '#FFFFFF', border: on ? '1px solid transparent' : '1px solid #DDE1E6', pick: function () { self.setState({ sort: o.id }); } };
+    });
+    var cur = data.filter(function (d) { return d.id === s.sel; })[0];
+    return { items: items, sorts: sorts, selPrice: fmt(cur.price) };
+  }
+}
+</script>
+</body>
+</html>

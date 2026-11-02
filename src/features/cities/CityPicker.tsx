@@ -1,14 +1,14 @@
-import { Clock, MapPin, Search, X } from 'lucide-react-native';
+import { Clock, MapPin, X } from 'lucide-react-native';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FlatList, Modal, Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { FlatList, Modal, Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/i18n/useLocale';
 import { cityLabel, REGIONAL_CITIES, resolveCity, searchCities } from '@/lib/cities';
 import { haptics } from '@/lib/haptics';
 import { useRecentCities } from './recentCities';
-import { Text, fonts, radii, sizes, spacing, useColors } from '@/ui';
+import { SearchField, Text, screenPadding, sizes, spacing, useColors } from '@/ui';
 
 export interface CityPickerProps {
   visible: boolean;
@@ -58,7 +58,7 @@ export function CityPicker({ visible, title, onSelect, onClose }: CityPickerProp
     >
       <SafeAreaView style={[styles.root, { backgroundColor: colors.background }]} edges={['top']}>
         <View style={styles.header}>
-          <Text variant="heading" accessibilityRole="header" style={styles.title}>
+          <Text variant="title" accessibilityRole="header" style={styles.title}>
             {title}
           </Text>
           <Pressable
@@ -68,22 +68,17 @@ export function CityPicker({ visible, title, onSelect, onClose }: CityPickerProp
             hitSlop={spacing.xs}
             style={styles.close}
           >
-            <X color={colors.icon} size={24} strokeWidth={1.75} />
+            <X color={colors.text} size={24} strokeWidth={1.75} />
           </Pressable>
         </View>
-        <View style={[styles.search, { backgroundColor: colors.card, borderColor: colors.line }]}>
-          <Search color={colors.textMuted} size={20} strokeWidth={1.75} />
-          <TextInput
+        <View style={styles.search}>
+          <SearchField
             autoFocus
+            label={t('cityPicker.placeholder')}
+            placeholder={t('cityPicker.placeholder')}
             value={query}
             onChangeText={setQuery}
-            placeholder={t('cityPicker.placeholder')}
-            placeholderTextColor={colors.textMuted}
-            selectionColor={colors.accent}
-            accessibilityLabel={t('cityPicker.placeholder')}
             autoCorrect={false}
-            returnKeyType="search"
-            style={[styles.input, { color: colors.text }]}
           />
         </View>
         <FlatList
@@ -136,17 +131,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  search: {
-    marginHorizontal: spacing.md,
-    minHeight: sizes.buttonHeight,
-    borderRadius: radii.button,
-    borderWidth: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.xs,
-    paddingHorizontal: spacing.sm,
-  },
-  input: { flex: 1, fontFamily: fonts.regular, fontSize: 16, paddingVertical: spacing.sm },
+  search: { paddingHorizontal: screenPadding },
   list: { paddingVertical: spacing.xs },
   row: {
     minHeight: sizes.buttonHeight,

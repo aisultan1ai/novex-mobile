@@ -1,17 +1,33 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'expo-router';
-import { ChevronRight } from 'lucide-react-native';
+import { ChevronRight, ScanBarcode } from 'lucide-react-native';
+import { useState, type ReactNode } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { z } from 'zod';
 
-import { fieldError, onInvalidForm } from '@/lib/forms';
 import { useLocale } from '@/i18n/useLocale';
 import { cityLabel } from '@/lib/cities';
-import { Button, Screen, Text, TextField, radii, sizes, spacing, useColors } from '@/ui';
-import { STATUS_ICONS, toneColor } from '@/ui/statusIcons';
+import { formatDate } from '@/lib/format';
+import { fieldError, onInvalidForm } from '@/lib/forms';
+import {
+  Button,
+  Screen,
+  Sheet,
+  StatusDot,
+  Text,
+  TextField,
+  fonts,
+  radii,
+  screenPadding,
+  spacing,
+  useColors,
+  useScreenInsets,
+} from '@/ui';
+import { SearchParcelIllustration } from '@/ui/illustrations';
 
+import type { ShipmentLiveState } from './liveState';
 import { useTrackedShipments } from './trackedShipments';
 import { normalizeTrackingNumber } from './usePublicTracking';
 
@@ -23,20 +39,18 @@ const schema = z.object({
 });
 
 /**
- * Вкладка «Отследить» (без входа).
- *   Screen (футер: «Отследить»)
- *   ├── заголовок
- *   ├── поле трек-номера
- *   └── недавние отправления: статус иконкой и цветом, маршрут — без сети тоже видны
- * Скан штрихкода (expo-camera) — следующий шаг.
+ * Вкладка «Отследить» (DESIGN-TZ 6.9), без входа.
+ *   иллюстрация · «Где моя посылка?» · поле трек-номера + кнопка сканера · подсказка
+ *   «Недавние» — строки 64 pt: номер, статус точкой и текстом (без сети тоже видны)
+ *   футер: «Отследить» над таб-баром
  */
 export function TrackScreen() {
   const { t } = useTranslation();
   const router = useRouter();
   const colors = useColors();
-  const locale = useLocale();
   const recent = useTrackedShipments((s) => s.recent);
   const byNumber = useTrackedShipments((s) => s.byNumber);
+  const [scanInfo, setScanInfo] = useState(false);
 
   const form = useForm<z.input<typeof schema>, unknown, z.output<typeof schema>>({
     resolver: zodResolver(schema),
@@ -45,96 +59,179 @@ export function TrackScreen() {
 
   const open = (number: string) =>
     router.push({ pathname: '/tracking/[number]', params: { number } });
-
   const submit = form.handleSubmit(({ number }) => open(number), onInvalidForm);
 
   return (
-    <Screen footer={<Button title={t('tabs.track')} onPress={() => void submit()} />}>
-      <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-        <View style={styles.header}>
-          <Text variant="title" accessibilityRole="header">
-            {t('tracking.title')}
-          </Text>
-          <Text tone="muted">{t('tracking.subtitle')}</Text>
+    <Screen
+      withTabBar
+      footer={
+        <View style={styles.footer}>
+          <Button title={t('tabs.track')} onPress={() => void submit()} />
+        </View>
+      }
+    >
+      <TrackContent>
+        <View style={styles.illustration}>
+          <SearchParcelIllustration />
+        </View>
+        <Text variant="largeTitle" accessibilityRole="header" style={styles.center}>
+          {t('tracking.title')}
+        </Text>
+        <Text tone="muted" style={[styles.center, styles.subtitle]}>
+          {t('tracking.subtitle')}
+        </Text>
+
+        <View style={styles.inputRow}>
+          <Controller
+            control={form.control}
+            name="number"
+            render={({ field, fieldState }) => (
+              <TextField
+                ref={field.ref}
+                label={t('tracking.numberLabel')}
+                placeholder={t('tracking.numberPlaceholder')}
+                value={field.value}
+                onChangeText={field.onChange}
+                onBlur={field.onBlur}
+                error={fieldError(t, fieldState.error)}
+                hint={fieldState.error ? undefined : t('tracking.hint')}
+                autoCapitalize="characters"
+                autoCorrect={false}
+                returnKeyType="search"
+                onSubmitEditing={() => void submit()}
+              />
+            )}
+          />
+          <Pressable
+            onPress={() => setScanInfo(true)}
+            accessibilityRole="button"
+            accessibilityLabel={t('tracking.scan')}
+            style={({ pressed }) => [
+              styles.scan,
+              { backgroundColor: colors.navy },
+              pressed && styles.pressed,
+            ]}
+          >
+            <ScanBarcode color={colors.onNavy} size={24} strokeWidth={1.75} />
+          </Pressable>
         </View>
 
-        <Controller
-          control={form.control}
-          name="number"
-          render={({ field, fieldState }) => (
-            <TextField
-              ref={field.ref}
-              label={t('tracking.numberLabel')}
-              placeholder={t('tracking.numberPlaceholder')}
-              value={field.value}
-              onChangeText={field.onChange}
-              onBlur={field.onBlur}
-              error={fieldError(t, fieldState.error)}
-              autoCapitalize="characters"
-              autoCorrect={false}
-              returnKeyType="search"
-              onSubmitEditing={() => void submit()}
-            />
-          )}
-        />
-
         {recent.length > 0 ? (
-          <View style={styles.recent}>
-            <Text variant="label" tone="muted">
+          <View>
+            <Text variant="section" accessibilityRole="header" style={styles.recentTitle}>
               {t('tracking.recent')}
             </Text>
             {recent.map((number) => {
               const item = byNumber[number];
-              if (!item) return null;
-              const Icon = STATUS_ICONS[item.group];
-              const label = t(`statusGroup.${item.group}`);
-              const route = `${cityLabel(item.fromCity, locale)} → ${cityLabel(item.toCity, locale)}`;
-              return (
-                <Pressable
-                  key={number}
-                  onPress={() => open(number)}
-                  accessibilityRole="button"
-                  accessibilityLabel={`${number}, ${label}, ${route}`}
-                  style={({ pressed }) => [
-                    styles.row,
-                    { backgroundColor: colors.card, borderColor: colors.line },
-                    pressed && { backgroundColor: colors.subtle },
-                  ]}
-                >
-                  <Icon color={toneColor(colors, item.tone)} size={22} strokeWidth={1.75} />
-                  <View style={styles.rowText}>
-                    <Text variant="bodyStrong" numberOfLines={1}>
-                      {label}
-                    </Text>
-                    <Text variant="caption" tone="muted" numberOfLines={1}>
-                      {number} · {route}
-                    </Text>
-                  </View>
-                  <ChevronRight color={colors.textMuted} size={20} strokeWidth={1.75} />
-                </Pressable>
-              );
+              return item ? (
+                <RecentRow key={number} number={number} item={item} onPress={() => open(number)} />
+              ) : null;
             })}
           </View>
-        ) : (
-          <Text tone="muted">{t('tracking.hint')}</Text>
-        )}
-      </ScrollView>
+        ) : null}
+      </TrackContent>
+
+      <Sheet
+        visible={scanInfo}
+        onClose={() => setScanInfo(false)}
+        title={t('tracking.scanSoonTitle')}
+        message={t('tracking.scanSoonText')}
+        closeLabel={t('common.close')}
+      >
+        <Button title={t('common.ok')} onPress={() => setScanInfo(false)} style={styles.flex} />
+      </Sheet>
     </Screen>
   );
 }
 
+function RecentRow({
+  number,
+  item,
+  onPress,
+}: {
+  number: string;
+  item: ShipmentLiveState;
+  onPress: () => void;
+}) {
+  const { t } = useTranslation();
+  const colors = useColors();
+  const locale = useLocale();
+  // «Жолда · Балқаш» — где посылка сейчас; доставленная — дата вручения.
+  const meta = item.deliveredAt
+    ? formatDate(item.deliveredAt, locale)
+    : item.lastEvent?.location
+      ? cityLabel(item.lastEvent.location, locale)
+      : cityLabel(item.toCity, locale);
+  const label = t(`statusGroup.${item.group}`);
+
+  return (
+    <Pressable
+      onPress={onPress}
+      accessibilityRole="button"
+      accessibilityLabel={`${number}, ${label}, ${meta}`}
+      style={({ pressed }) => [
+        styles.row,
+        { borderBottomColor: colors.line },
+        pressed && styles.pressed,
+      ]}
+    >
+      <View style={styles.rowText} importantForAccessibility="no-hide-descendants">
+        <Text style={styles.number} numberOfLines={1}>
+          {number}
+        </Text>
+        <StatusDot status={item.status} label={label} meta={meta} size={7} />
+      </View>
+      <ChevronRight color={colors.text} size={20} strokeWidth={1.75} />
+    </Pressable>
+  );
+}
+
+function TrackContent({ children }: { children: ReactNode }) {
+  const insets = useScreenInsets();
+  return (
+    <ScrollView
+      contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + spacing.md }]}
+      keyboardShouldPersistTaps="handled"
+      automaticallyAdjustKeyboardInsets
+      showsVerticalScrollIndicator={false}
+    >
+      {children}
+    </ScrollView>
+  );
+}
+
+const SCAN = 56;
+
 const styles = StyleSheet.create({
-  content: { gap: spacing.lg, paddingVertical: spacing.md },
-  header: { gap: spacing.xxs },
-  recent: { gap: spacing.xs },
+  content: { paddingTop: spacing.xl },
+  illustration: { alignItems: 'center' },
+  center: { textAlign: 'center' },
+  subtitle: { marginTop: spacing.xs, fontSize: 15, lineHeight: 22 },
+  inputRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: spacing.xs,
+    marginTop: spacing.lg,
+  },
+  scan: {
+    width: SCAN,
+    height: SCAN,
+    borderRadius: radii.tile,
+    marginTop: spacing.xs,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  pressed: { opacity: 0.8 },
+  recentTitle: { marginTop: 22, fontSize: 17 },
   row: {
-    minHeight: sizes.buttonHeight + spacing.md,
+    minHeight: 64,
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.sm,
-    paddingHorizontal: spacing.md,
-    borderRadius: radii.card,
-    borderWidth: 1,
+    borderBottomWidth: 1,
   },
-  rowText: { flex: 1, gap: 2 },
+  rowText: { flex: 1, gap: 2, paddingVertical: spacing.xs },
+  number: { fontFamily: fonts.semibold, fontSize: 16, letterSpacing: 0.32 },
+  footer: { paddingHorizontal: screenPadding, paddingBottom: spacing.xs },
+  flex: { flex: 1 },
 });

@@ -2,9 +2,11 @@ import {
   Inter_400Regular,
   Inter_500Medium,
   Inter_600SemiBold,
+  Inter_700Bold,
+  Inter_800ExtraBold,
   useFonts,
 } from '@expo-google-fonts/inter';
-import { SpaceGrotesk_500Medium, SpaceGrotesk_700Bold } from '@expo-google-fonts/space-grotesk';
+import { SpaceGrotesk_700Bold } from '@expo-google-fonts/space-grotesk';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -30,7 +32,9 @@ function RootLayout() {
     Inter_400Regular,
     Inter_500Medium,
     Inter_600SemiBold,
-    SpaceGrotesk_500Medium,
+    Inter_700Bold,
+    Inter_800ExtraBold,
+    // Только словесный знак «novex» (DESIGN-TZ 2.4).
     SpaceGrotesk_700Bold,
   });
   const colors = useColors();
@@ -59,6 +63,11 @@ function RootLayout() {
           >
             {/* Гостевой режим: приложение открывается сразу на вкладках, вход — только по требованию. */}
             <Stack.Screen name="(tabs)" />
+            {/* Первый запуск: онбординг и выбор языка (DESIGN-TZ 6.1), назад жестом не уйти. */}
+            <Stack.Screen
+              name="onboarding"
+              options={{ animation: 'fade', gestureEnabled: false }}
+            />
             <Stack.Screen name="quote/[id]" />
             <Stack.Screen name="checkout/[draftId]" />
             <Stack.Screen name="tracking/[number]" />

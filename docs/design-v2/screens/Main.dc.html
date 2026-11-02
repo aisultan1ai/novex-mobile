@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Novex — дизайн-система</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#0B2545}a:hover{color:#3E6E8A}
+</style>
+</helmet>
+<div style="width:1440px;height:1040px;box-sizing:border-box;padding:64px 72px;background:#FFFFFF;font-family:Inter,system-ui,sans-serif;color:#0E1826;display:flex;flex-direction:column;gap:44px">
+
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;border-bottom:1px solid #EEF0F3;padding-bottom:28px">
+    <div style="display:flex;align-items:baseline;gap:20px">
+      <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:44px;letter-spacing:-0.02em;color:#0B2545;line-height:1">novex<span style="color:#22C9E0">.</span></span>
+      <span style="font-size:18px;color:#6B7685">Мобильное приложение · iOS и Android</span>
+    </div>
+    <span style="font-size:15px;color:#6B7685">Белый фон · один акцент · стекло · только иконки в навигации</span>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:56px;flex:1">
+
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <div style="font-size:14px;font-weight:600;color:#6B7685">Цвет</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;align-items:center;gap:14px"><span style="width:56px;height:56px;border-radius:14px;background:#22C9E0"></span><span><span style="display:block;font-size:17px;font-weight:600">Cyan · #22C9E0</span><span style="font-size:14px;color:#6B7685">Только главная кнопка и выбранное</span></span></div>
+        <div style="display:flex;align-items:center;gap:14px"><span style="width:56px;height:56px;border-radius:14px;background:#0B2545"></span><span><span style="display:block;font-size:17px;font-weight:600">Navy · #0B2545</span><span style="font-size:14px;color:#6B7685">Активная вкладка, цены, шапка трекинга</span></span></div>
+        <div style="display:flex;align-items:center;gap:14px"><span style="width:56px;height:56px;border-radius:14px;background:#0E1826"></span><span><span style="display:block;font-size:17px;font-weight:600">Ink · #0E1826</span><span style="font-size:14px;color:#6B7685">Текст и линии иллюстраций</span></span></div>
+        <div style="display:flex;align-items:center;gap:14px"><span style="width:56px;height:56px;border-radius:14px;background:#F6F7F9;border:1px solid #EEF0F3;box-sizing:border-box"></span><span><span style="display:block;font-size:17px;font-weight:600">Фон поиска · #F6F7F9</span><span style="font-size:14px;color:#6B7685">Рамки #EEF0F3 · вторичный текст #6B7685</span></span></div>
+      </div>
+      <div style="font-size:14px;font-weight:600;color:#6B7685;margin-top:12px">Статусы</div>
+      <div style="display:flex;flex-wrap:wrap;gap:18px;font-size:15px;font-weight:600">
+        <span style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#8FA3B2"></span>Оформляется</span>
+        <span style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#F5A623"></span>В пути</span>
+        <span style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#12B886"></span>Доставлен</span>
+        <span style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#E24B4A"></span>Проблема</span>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <div style="font-size:14px;font-weight:600;color:#6B7685">Типографика · Inter</div>
+      <div style="font-size:40px;font-weight:700;letter-spacing:-0.04em;line-height:1.08">Куда отправим<br>посылку?</div>
+      <div style="display:flex;align-items:center;gap:12px"><span style="font-size:32px;font-weight:800;letter-spacing:-0.03em">ALA</span><span style="flex:1;height:2px;background:repeating-linear-gradient(90deg,#0E1826 0 3px,transparent 3px 8px)"></span><span style="font-size:32px;font-weight:800;letter-spacing:-0.03em">NQZ</span></div>
+      <div style="font-size:26px;font-weight:600;letter-spacing:-0.01em">Ваши заказы</div>
+      <div style="font-size:20px;font-weight:600">Детали отправления</div>
+      <div style="font-size:16px;font-weight:500">Алматы → Астана · 2–3 дня</div>
+      <div style="font-size:14px;color:#6B7685">Курьер заберёт посылку завтра с 10:00 до 14:00</div>
+      <div style="display:flex;align-items:baseline;gap:8px;margin-top:6px"><span style="font-size:13px;color:#6B7685">Итого</span><span style="font-size:22px;font-weight:700;color:#0B2545">4 890 ₸</span></div>
+      <div style="font-size:14px;font-weight:600;color:#6B7685;margin-top:12px">Иллюстрации · линия ink, заливка cyan</div>
+      <svg width="140" height="96" viewBox="0 0 140 96" fill="none" aria-hidden="true">
+        <path d="M70 20 L106 36 L70 52 L34 36 Z" fill="#22C9E0" stroke="#0E1826" stroke-width="2" stroke-linejoin="round"></path>
+        <path d="M34 36 L34 66 L70 82 L70 52 Z" fill="#FFFFFF" stroke="#0E1826" stroke-width="2" stroke-linejoin="round"></path>
+        <path d="M106 36 L106 66 L70 82 L70 52 Z" fill="#FFFFFF" stroke="#0E1826" stroke-width="2" stroke-linejoin="round"></path>
+        <path d="M52 28 L88 44 L88 54" stroke="#0E1826" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        <path d="M14 82 h20 M110 82 h16" stroke="#0E1826" stroke-width="2" stroke-linecap="round"></path>
+        <circle cx="120" cy="18" r="3" fill="#22C9E0"></circle><path d="M20 22 v8 M16 26 h8" stroke="#22C9E0" stroke-width="2" stroke-linecap="round"></path>
+      </svg>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="font-size:14px;font-weight:600;color:#6B7685">Компоненты</div>
+      <div style="display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:10px">
+        <button type="button" style="height:52px;border:0;border-radius:999px;background:#F4F6F8;font:600 16px Inter,sans-serif;color:#0E1826">Назад</button>
+        <button type="button" style="height:52px;border:0;border-radius:999px;background:#22C9E0;font:600 16px Inter,sans-serif;color:#0E1826">Продолжить</button>
+      </div>
+      <label style="position:relative;display:block;margin-top:6px">
+        <span style="position:absolute;left:12px;top:-8px;padding:0 4px;background:#FFFFFF;font-size:12px;color:#6B7685">Получатель</span>
+        <input value="Ержан Бекенов" style="width:100%;box-sizing:border-box;height:52px;border:1px solid #EEF0F3;border-radius:12px;padding:0 16px;font:500 16px Inter,sans-serif;color:#0E1826;outline:none">
+      </label>
+      <label style="position:relative;display:block;margin-top:6px">
+        <span style="position:absolute;left:12px;top:-8px;padding:0 4px;background:#FFFFFF;font-size:12px;color:#0E1826;font-weight:600">Телефон</span>
+        <input value="+7 701 000 00 12" style="width:100%;box-sizing:border-box;height:52px;border:1.5px solid #22C9E0;border-radius:12px;padding:0 16px;font:500 16px Inter,sans-serif;color:#0E1826;outline:none">
+      </label>
+      <div style="display:flex;align-items:center;gap:14px;height:64px;padding:0 16px;border:1.5px solid #22C9E0;border-radius:14px">
+        <span style="width:40px;height:40px;border-radius:10px;border:1px solid #EEF0F3;display:flex;align-items:center;justify-content:center"><img src="/_blob/16cf765e94562a599e760790be7ce3e1" alt="CSE" style="width:30px;height:auto"></span>
+        <span style="flex:1;font-size:16px;font-weight:600">CSE · Экспресс</span>
+        <span style="width:22px;height:22px;border-radius:50%;background:#22C9E0;display:flex;align-items:center;justify-content:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0E1826" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg></span>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;height:64px;padding:0 8px;margin:8px 24px 0;border-radius:32px;background:rgba(255,255,255,.72);backdrop-filter:blur(24px);border:1px solid rgba(14,24,38,.06);box-shadow:0 12px 32px rgba(14,24,38,.14)">
+        <span style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:#0E1826"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="16" height="20" x="4" y="2" rx="2"></rect><path d="M8 6h8M16 14v4M16 10h.01M12 10h.01M8 10h.01M12 14h.01M8 14h.01M12 18h.01M8 18h.01"></path></svg></span>
+        <span style="width:48px;height:48px;border-radius:50%;background:#0B2545;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"></path><path d="M12 22V12"></path><path d="m3.3 7 7.7 4.7a2 2 0 0 0 2 0L20.7 7"></path></svg></span>
+        <span style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:#0E1826"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><circle cx="12" cy="12" r="8"></circle><path d="M12 2v2M12 20v2M2 12h2M20 12h2"></path></svg></span>
+        <span style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:#0E1826"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="5"></circle><path d="M20 21a8 8 0 0 0-16 0"></path></svg></span>
+      </div>
+      <div style="font-size:13px;color:#6B7685;line-height:1.5">Движение только по делу: выбор тарифа и пересчёт цены (200 мс), шаги оформления, сжатие шапки, раскрытие заказа в трекинг, лист снизу.</div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1040}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

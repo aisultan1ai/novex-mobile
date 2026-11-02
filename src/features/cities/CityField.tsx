@@ -44,7 +44,7 @@ export function CityField({
         style={[
           styles.field,
           !bare && [styles.boxed, { backgroundColor: colors.card }],
-          !bare && { borderColor: error ? colors.status.danger : colors.line },
+          !bare && { borderColor: error ? colors.danger : colors.line },
         ]}
       >
         {Icon ? <Icon color={colors.icon} size={20} strokeWidth={1.75} /> : null}
@@ -59,7 +59,7 @@ export function CityField({
         <ChevronDown color={colors.textMuted} size={20} strokeWidth={1.75} />
       </Pressable>
       {error ? (
-        <Text variant="caption" style={[styles.error, { color: colors.status.danger }]}>
+        <Text variant="caption" style={[styles.error, { color: colors.danger }]}>
           {error}
         </Text>
       ) : null}
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
     paddingVertical: spacing.xs,
   },
-  boxed: { borderWidth: 1, borderRadius: radii.button, paddingHorizontal: spacing.sm },
+  boxed: { borderWidth: 1, borderRadius: radii.input, paddingHorizontal: spacing.sm },
   texts: { flex: 1, gap: 2 },
   error: { marginTop: spacing.xxs },
 });

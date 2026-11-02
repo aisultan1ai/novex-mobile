@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Трекинг посылки</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0E2A4D}
+a{color:#0B2545}a:hover{color:#3E6E8A}
+.nx-scroll{scrollbar-width:none}.nx-scroll::-webkit-scrollbar{display:none}
+@keyframes nxDraw{from{stroke-dashoffset:400}to{stroke-dashoffset:0}}
+@keyframes nxIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div style="position:relative;width:393px;height:852px;background:#FFFFFF;font-family:Inter,system-ui,sans-serif;color:#0E1826;overflow:hidden">
+
+  <div class="nx-scroll" onScroll="{{onScroll}}" style="position:absolute;inset:0;overflow-y:auto">
+    <!-- Карта -->
+    <div style="position:relative;height:500px;background:#0E2A4D;overflow:hidden">
+      <svg width="393" height="500" viewBox="0 0 393 500" fill="none" aria-hidden="true" style="position:absolute;inset:0">
+        <path d="M-20 250 C 80 230, 120 280, 220 250 S 360 200, 420 215" stroke="rgba(34,201,224,.16)" stroke-width="22" stroke-linecap="round"></path>
+        <path d="M24 60 L120 48 L132 140 L36 152 Z" fill="rgba(18,184,134,.10)"></path>
+        <path d="M-20 120 L420 64" stroke="rgba(255,255,255,.09)" stroke-width="14"></path>
+        <path d="M-20 380 L420 330" stroke="rgba(255,255,255,.09)" stroke-width="12"></path>
+        <path d="M70 -20 L150 520" stroke="rgba(255,255,255,.09)" stroke-width="14"></path>
+        <path d="M310 -20 L268 520" stroke="rgba(255,255,255,.09)" stroke-width="12"></path>
+        <path d="M-20 190 L420 140 M-20 450 L420 410 M200 -20 L196 520 M24 -20 L60 520 M362 -20 L340 520" stroke="rgba(255,255,255,.05)" stroke-width="6"></path>
+        <path d="M-20 300 L130 282 M150 220 L300 200 M150 420 L270 405" stroke="rgba(255,255,255,.04)" stroke-width="4"></path>
+        <text x="300" y="98" fill="rgba(255,255,255,.38)" font-size="10" font-family="Inter, sans-serif" transform="rotate(-7 300 98)">пр. Мангилик Ел</text>
+        <text x="28" y="246" fill="rgba(34,201,224,.5)" font-size="10" font-family="Inter, sans-serif" font-style="italic">р. Есиль</text>
+        <text x="163" y="470" fill="rgba(255,255,255,.38)" font-size="10" font-family="Inter, sans-serif" transform="rotate(82 163 470)">ул. Сыганак</text>
+        <path d="M118 376 L200 366 L288 356 L292 300 L298 250 L304 196" stroke="rgba(255,255,255,.18)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"></path>
+        <path d="M118 376 L200 366 L288 356 L292 300 L298 250 L304 196" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="400" style="animation:nxDraw 1.2s .2s cubic-bezier(.4,0,.2,1) both"></path>
+      </svg>
+      <span style="position:absolute;left:99px;top:357px;width:38px;height:38px;border-radius:50%;background:#FFFFFF;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,.35)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B2545" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
+      </span>
+      <span style="position:absolute;left:46px;top:300px;padding:7px 11px;border-radius:12px;background:rgba(255,255,255,.14);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.22);color:#FFFFFF;text-align:center;line-height:1.25">
+        <span style="display:block;font-size:11px;color:rgba(255,255,255,.75)">Прибудет через</span><span style="font-size:14px;font-weight:700">25 минут</span>
+      </span>
+      <span style="position:absolute;left:287px;top:176px;width:36px;height:36px;border-radius:50%;background:#22C9E0;border:3px solid #FFFFFF;box-sizing:border-box;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,.35)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0E1826" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+      </span>
+    </div>
+
+    <!-- Лист -->
+    <div style="position:relative;margin-top:-28px;background:#FFFFFF;border-radius:28px 28px 0 0;padding:10px 20px 48px">
+      <div style="width:40px;height:5px;border-radius:3px;background:#E3E7EC;margin:0 auto"></div>
+
+      <div style="margin-top:18px;padding:18px;border-radius:20px;border:1px solid #EEF0F3;animation:nxIn .4s .2s cubic-bezier(.2,.8,.2,1) both">
+        <div style="display:flex;align-items:center;gap:12px">
+          <span style="font-size:36px;font-weight:800;letter-spacing:-0.03em;line-height:1">ALA</span>
+          <span style="flex:1;height:2px;background:repeating-linear-gradient(90deg,#0E1826 0 3px,transparent 3px 8px);position:relative"><span style="position:absolute;right:-2px;top:-4px;width:0;height:0;border-left:7px solid #0E1826;border-top:5px solid transparent;border-bottom:5px solid transparent"></span></span>
+          <span style="font-size:36px;font-weight:800;letter-spacing:-0.03em;line-height:1">NQZ</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:10px;font-size:13px">
+          <span><span style="display:block;font-weight:600">Алматы</span><span style="color:#6B7685">28 окт, 16:02</span></span>
+          <span style="text-align:right"><span style="display:block;font-weight:600">Астана</span><span style="color:#6B7685">сегодня, до 18:00</span></span>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:10px;margin-top:10px">
+        <button type="button" aria-label="Скопировать трек-номер CSE-7K2M9QX4A1BZ" style="padding:14px 12px;border-radius:16px;border:1px solid #EEF0F3;background:#FFFFFF;text-align:center;font-family:inherit;cursor:pointer">
+          <span style="display:block;font-size:12px;color:#6B7685">Трек-номер</span>
+          <span style="display:block;margin-top:6px;font-size:13px;font-weight:700;color:#0E1826;letter-spacing:.01em">CSE-7K2M9QX4A1BZ</span>
+        </button>
+        <div style="padding:14px 12px;border-radius:16px;border:1px solid #EEF0F3;text-align:center">
+          <span style="display:block;font-size:12px;color:#6B7685">Осталось</span>
+          <span style="display:block;margin-top:6px;font-size:17px;font-weight:700;color:#0B2545">~25 минут</span>
+        </div>
+      </div>
+
+      <div style="margin-top:24px;font-size:17px;font-weight:700;letter-spacing:-0.01em">Статус доставки</div>
+      <div style="margin-top:14px">
+        <sc-for list="{{events}}" as="e" hint-placeholder-count="5">
+          <div style="display:flex;gap:14px">
+            <div style="display:flex;flex-direction:column;align-items:center;width:22px">
+              <span style="width:22px;height:22px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;box-sizing:border-box;background:{{e.bg}};border:{{e.border}}"><span style="width:6px;height:6px;border-radius:50%;background:{{e.dot}}"></span></span>
+              <span style="flex:1;width:0;margin:4px 0;border-left:1.5px dashed {{e.line}}"></span>
+            </div>
+            <div style="padding-bottom:18px;flex:1"><div style="font-size:15px;font-weight:{{e.weight}}">{{e.title}}</div><div style="font-size:13px;color:#6B7685;margin-top:3px">{{e.meta}}</div></div>
+          </div>
+        </sc-for>
+      </div>
+
+      <a href="#" style="margin-top:6px;height:54px;border-radius:999px;background:#22C9E0;color:#0E1826;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;text-decoration:none">Поделиться трекингом</a>
+    </div>
+  </div>
+
+  <!-- Верхняя панель: стекло на карте → светлое стекло при прокрутке -->
+  <div style="position:absolute;left:0;right:0;top:0;height:107px;box-sizing:border-box;padding:59px 16px 0;display:flex;align-items:center;gap:10px;transition:background .25s, border-color .25s;background:{{barBg}};backdrop-filter:{{barBlur}};-webkit-backdrop-filter:{{barBlur}};border-bottom:1px solid {{barLine}}">
+    <a href="iOS-Orders.dc.html" aria-label="Назад" style="width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;transition:all .25s;background:{{btnBg}};border:1px solid {{btnLine}};color:{{btnFg}};backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg></a>
+    <span style="flex:1;font-size:16px;font-weight:600;transition:opacity .2s;opacity:{{titleOpacity}}">Курьер едет · 25 мин</span>
+    <a href="#" style="height:44px;padding:0 16px 0 12px;border-radius:999px;display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;text-decoration:none;transition:all .25s;background:{{btnBg}};border:1px solid {{btnLine}};color:{{btnFg}};backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>Позвонить</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":393,"height":852}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { collapsed: false };
+  }
+  renderVals() {
+    var self = this, c = this.state.collapsed;
+    var raw = [
+      { t: 'Курьер везёт посылку', m: 'Астана · сегодня, 15:20', now: true },
+      { t: 'Прибыл в сортировочный центр', m: 'Астана · сегодня, 07:40' },
+      { t: 'Сортировка в Балхаше', m: '29 октября, 18:40' },
+      { t: 'Курьер забрал посылку', m: 'Алматы · 28 октября, 16:02', last: true }
+    ];
+    return {
+      events: raw.map(function (r) {
+        return {
+          title: r.t, meta: r.m, weight: r.now ? 700 : 500,
+          bg: r.now ? '#22C9E0' : '#FFFFFF', border: r.now ? '0' : '1.5px solid #0E1826',
+          dot: r.now ? '#0E1826' : '#0E1826', line: r.last ? 'transparent' : '#B9C1CB'
+        };
+      }),
+      barBg: c ? 'rgba(255,255,255,.78)' : 'transparent',
+      barBlur: c ? 'blur(24px) saturate(180%)' : 'none',
+      barLine: c ? 'rgba(14,24,38,.06)' : 'transparent',
+      btnBg: c ? 'rgba(14,24,38,.05)' : 'rgba(255,255,255,.14)',
+      btnLine: c ? 'transparent' : 'rgba(255,255,255,.22)',
+      btnFg: c ? '#0E1826' : '#FFFFFF',
+      titleOpacity: c ? 1 : 0,
+      onScroll: function (e) {
+        var v = e.currentTarget.scrollTop > 380;
+        if (v !== self.state.collapsed) self.setState({ collapsed: v });
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

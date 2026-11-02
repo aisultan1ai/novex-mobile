@@ -21,7 +21,8 @@
     "@react-native-async-storage/async-storage": "2.2.0",
     "@sentry/react-native": "~8.28.0",
     "@tanstack/react-query": "^5.105.0",
-    "expo": "~58.0.21",
+    "expo": "~58.0.22",
+    "expo-blur": "~58.0.5",
     "expo-clipboard": "~58.0.4",
     "expo-constants": "~58.0.14",
     "expo-crypto": "~58.0.7",
@@ -29,7 +30,7 @@
     "expo-haptics": "~58.0.7",
     "expo-linking": "~58.0.15",
     "expo-localization": "~58.0.5",
-    "expo-router": "~58.0.28",
+    "expo-router": "~58.0.29",
     "expo-secure-store": "~58.0.2",
     "expo-splash-screen": "~58.0.12",
     "expo-status-bar": "~58.0.4",
@@ -73,7 +74,8 @@
       "./jest.setup.ts"
     ],
     "moduleNameMapper": {
-      "^lucide-react-native$": "<rootDir>/node_modules/lucide-react-native/dist/cjs/lucide-react-native.js"
+      "^lucide-react-native$": "<rootDir>/node_modules/lucide-react-native/dist/cjs/lucide-react-native.js",
+      "^react-native-reanimated/mock$": "<rootDir>/__tests__/mocks/reanimated.tsx"
     },
     "transformIgnorePatterns": [
       "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@sentry/.*|react-native-svg|lucide-react-native|openapi-fetch|standard-navigation)"

@@ -2,8 +2,8 @@ import { StyleSheet, View } from 'react-native';
 import Svg, { Circle, Line } from 'react-native-svg';
 
 import { Text } from './Text';
-import { useColors } from './theme';
-import { fonts, logoColors, spacing } from './tokens';
+import { useColors, useIsDark } from './theme';
+import { darkColors, fonts, lightColors, logoColors, spacing } from './tokens';
 
 // Геометрия — из assets/brand/novex-mark.svg, обрезанная по габаритам знака (x 109.5…417.5, y 115.5…396.5).
 const VIEWBOX = '109.5 115.5 308 281';
@@ -59,21 +59,43 @@ export function Logo({ size = 32, wordmark = false, accessibilityLabel }: LogoPr
       importantForAccessibility={accessibilityLabel ? 'yes' : 'no-hide-descendants'}
     >
       <LogoMark size={size} />
-      {wordmark ? (
-        <Text
-          style={[
-            styles.wordmark,
-            { color: colors.primary, fontSize: size * 0.9, lineHeight: size * 1.1 },
-          ]}
-        >
-          novex
-        </Text>
-      ) : null}
+      {wordmark ? <Wordmark size={size * 0.9} color={colors.text} /> : null}
     </View>
+  );
+}
+
+export interface WordmarkProps {
+  /** Размер шрифта, pt. */
+  size?: number;
+  /** На тёмном фоне (онбординг, шапка трекинга) — белый. */
+  onDark?: boolean;
+  /** Явный цвет букв; по умолчанию navy (в тёмной теме — цвет текста). */
+  color?: string;
+}
+
+/**
+ * Словесный знак «novex.» — Space Grotesk 700, буквы navy, точка cyan (макеты v2).
+ * Название бренда не переводится, поэтому текст здесь, а не в i18n.
+ */
+export function Wordmark({ size = 22, onDark = false, color }: WordmarkProps) {
+  const isDark = useIsDark();
+  const letters =
+    color ?? (onDark ? lightColors.onNavy : isDark ? darkColors.text : lightColors.navy);
+  return (
+    <Text
+      accessibilityRole="header"
+      accessibilityLabel="Novex"
+      style={[
+        styles.wordmark,
+        { color: letters, fontSize: size, lineHeight: size * 1.15, letterSpacing: size * -0.02 },
+      ]}
+    >
+      novex<Text style={{ color: logoColors.node }}>.</Text>
+    </Text>
   );
 }
 
 const styles = StyleSheet.create({
   row: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs },
-  wordmark: { fontFamily: fonts.display, letterSpacing: 0.3 },
+  wordmark: { fontFamily: fonts.wordmark },
 });
