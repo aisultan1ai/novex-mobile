@@ -25,11 +25,15 @@ export interface ApiClientDeps {
 }
 
 // На эти пути 401 означает «неверные данные», а не «истёк токен» — обновлять токен не нужно.
+// verify-email и reset-password отвечают 401 на недействительную ссылку из письма.
 const NO_REFRESH_PATHS: string[] = [
   MOBILE_AUTH.login,
   MOBILE_AUTH.refresh,
   MOBILE_AUTH.logout,
   '/api/v1/auth/register',
+  '/api/v1/auth/verify-email',
+  '/api/v1/auth/forgot-password',
+  '/api/v1/auth/reset-password',
 ];
 
 export function createApiClient(deps: ApiClientDeps) {

@@ -1,10 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'expo-router';
-import { Eye, EyeOff, X } from 'lucide-react-native';
-import { useState, type ReactNode } from 'react';
+import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { z } from 'zod';
 
 import { ApiError } from '@/api/errors';
@@ -15,7 +14,6 @@ import {
   Button,
   RequestError,
   Screen,
-  Sheet,
   Text,
   TextField,
   Wordmark,
@@ -23,11 +21,13 @@ import {
   sizes,
   spacing,
   useColors,
-  useScreenInsets,
 } from '@/ui';
 
+import { AuthScroll, AuthTopBar, PasswordField, useCloseAuth } from './AuthChrome';
+import { emailField } from './authForms';
+
 const schema = z.object({
-  email: z.email('validation.email'),
+  email: emailField,
   password: z.string().min(1, 'validation.passwordRequired'),
 });
 type Values = z.infer<typeof schema>;
@@ -39,16 +39,14 @@ type Values = z.infer<typeof schema>;
  *   «novex.» + подзаголовок · Email · Пароль (показать) · «Забыли пароль?»
  *   футер: «Создать аккаунт» (secondary) · «Войти» (primary)
  *
- * Регистрации и восстановления пароля в приложении пока нет — кнопки объясняют, где это сделать.
  * «Войти по Face ID» появится на этапе 3 (биометрия), до этого скрыта.
  */
 export function SignInScreen() {
   const { t } = useTranslation();
   const router = useRouter();
   const colors = useColors();
+  const close = useCloseAuth();
   const [requestError, setRequestError] = useState<unknown>(null);
-  const [showPassword, setShowPassword] = useState(false);
-  const [info, setInfo] = useState<'register' | 'forgot' | null>(null);
 
   const form = useForm<Values>({
     resolver: zodResolver(schema),
@@ -60,7 +58,7 @@ export function SignInScreen() {
     try {
       await login(email.trim(), password);
       haptics.success();
-      router.back();
+      close();
     } catch (error) {
       haptics.error();
       if (error instanceof ApiError && error.kind === 'validation') {
@@ -80,7 +78,7 @@ export function SignInScreen() {
           <Button
             variant="secondary"
             title={t('auth.createAccount')}
-            onPress={() => setInfo('register')}
+            onPress={() => router.push('/register')}
           />
           <Button
             title={t('auth.signIn')}
@@ -90,17 +88,8 @@ export function SignInScreen() {
         </View>
       }
     >
-      <View style={styles.top}>
-        <Pressable
-          onPress={() => router.back()}
-          accessibilityRole="button"
-          accessibilityLabel={t('common.close')}
-          style={styles.close}
-        >
-          <X color={colors.text} size={24} strokeWidth={1.75} />
-        </Pressable>
-      </View>
-      <SignInContent>
+      <AuthTopBar />
+      <AuthScroll>
         <View style={styles.brand}>
           <Wordmark size={34} />
           <Text tone="muted" style={styles.subtitle}>
@@ -132,39 +121,22 @@ export function SignInScreen() {
             control={form.control}
             name="password"
             render={({ field, fieldState }) => (
-              <TextField
+              <PasswordField
                 ref={field.ref}
                 label={t('auth.password')}
                 value={field.value}
                 onChangeText={field.onChange}
                 onBlur={field.onBlur}
                 error={fieldError(t, fieldState.error)}
-                secureTextEntry={!showPassword}
                 autoComplete="current-password"
                 textContentType="password"
                 returnKeyType="done"
                 onSubmitEditing={() => void submit()}
-                accessory={
-                  <Pressable
-                    onPress={() => setShowPassword((v) => !v)}
-                    accessibilityRole="button"
-                    accessibilityLabel={
-                      showPassword ? t('auth.hidePassword') : t('auth.showPassword')
-                    }
-                    style={styles.eye}
-                  >
-                    {showPassword ? (
-                      <EyeOff color={colors.text} size={20} strokeWidth={1.75} />
-                    ) : (
-                      <Eye color={colors.text} size={20} strokeWidth={1.75} />
-                    )}
-                  </Pressable>
-                }
               />
             )}
           />
           <Pressable
-            onPress={() => setInfo('forgot')}
+            onPress={() => router.push('/forgot-password')}
             accessibilityRole="button"
             style={styles.forgot}
           >
@@ -175,52 +147,15 @@ export function SignInScreen() {
         </View>
 
         <RequestError error={requestError} />
-      </SignInContent>
-
-      <Sheet
-        visible={info !== null}
-        onClose={() => setInfo(null)}
-        title={info === 'forgot' ? t('auth.forgotTitle') : t('auth.registerTitle')}
-        message={info === 'forgot' ? t('auth.forgotText') : t('auth.noAccount')}
-        closeLabel={t('common.close')}
-      >
-        <Button title={t('common.ok')} onPress={() => setInfo(null)} style={styles.flex} />
-      </Sheet>
+      </AuthScroll>
     </Screen>
   );
 }
 
-function SignInContent({ children }: { children: ReactNode }) {
-  const insets = useScreenInsets();
-  return (
-    <ScrollView
-      contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + spacing.lg }]}
-      keyboardShouldPersistTaps="handled"
-      automaticallyAdjustKeyboardInsets
-    >
-      {children}
-    </ScrollView>
-  );
-}
-
 const styles = StyleSheet.create({
-  top: { alignItems: 'flex-end' },
-  close: {
-    width: sizes.hitTarget,
-    height: sizes.hitTarget,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  content: { gap: spacing.lg },
   brand: { alignItems: 'center', marginTop: spacing.xl },
   subtitle: { marginTop: 10, textAlign: 'center', fontSize: 15 },
   fields: { gap: 22, marginTop: spacing.xl },
-  eye: {
-    width: sizes.hitTarget,
-    height: sizes.hitTarget,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   forgot: {
     alignSelf: 'flex-end',
     minHeight: sizes.hitTarget,
@@ -234,5 +169,4 @@ const styles = StyleSheet.create({
     paddingTop: spacing.sm,
     paddingBottom: spacing.sm,
   },
-  flex: { flex: 1 },
 });

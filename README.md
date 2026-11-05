@@ -80,7 +80,8 @@ npm i --no-save sharp@0.34.4 && node scripts/generate-icons.js
 ```
 app/              маршруты expo-router — тонкие файлы, экран берут из src/features
   (tabs)/         нижняя панель: расчёт, заказы, отследить, уведомления, профиль
-  quote/ tracking/ checkout/ sign-in.tsx onboarding.tsx   экраны вне вкладок (sign-in — модальный Soft Wall)
+  (auth)/         вход, регистрация, восстановление пароля, подтверждение email — одно модальное окно
+  quote/ tracking/ checkout/ onboarding.tsx   экраны вне вкладок
 src/api/          клиент API: schema.d.ts (генерируется), client.ts, tokens.ts, errors.ts, endpoints/
 src/features/     фичи: экран + его компоненты, хуки react-query, формы и своё состояние (zustand)
   quote/          расчёт и тарифы       tracking/   трекинг, офлайн-кэш, Live Activities
@@ -139,6 +140,12 @@ __tests__/        тесты (*.test.ts / *.test.tsx) и mocks/ для Jest
   одного обновления. Каждая новая пара токенов сохраняется целиком (старый refresh-токен перестаёт работать).
   Если обновить не удалось — токены стираются, сессия переходит в `signedOut`. Без сети сессия не сбрасывается.
 - Токены и `device_id` хранятся только в `expo-secure-store` (Keychain / Keystore).
+- Регистрация — `/auth/register`, сразу после неё приложение входит тем же паролем и просит подтвердить email
+  (без подтверждения можно считать, но не оплачивать). Ссылки из писем ведут на `/verify-email?token=…` и
+  `/reset-password?token=…` — в приложении есть маршруты с теми же путями; пока нет deep links (этап 3),
+  ссылки открывают сайт. На этих путях и на `/auth/forgot-password` ответ 401 значит «ссылка недействительна»,
+  токен сессии клиент из-за него не обновляет.
+- Ссылки на политику и условия в форме регистрации берутся из `EXPO_PUBLIC_WEB_URL`; без него — только текст согласия.
 
 **Пока `/mobile/auth/*` нет в `openapi.json`:** их типы временно описаны в `src/api/mobileAuth.ts` (помечены
 `TODO(B1)`). Когда придёт PR с новой схемой — заменить их на типы из `schema.d.ts`.

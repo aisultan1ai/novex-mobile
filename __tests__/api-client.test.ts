@@ -96,7 +96,8 @@ function setup(
   return { ...client, tokens, onSessionExpired };
 }
 
-const bodyOf = (call: Call | undefined) => JSON.parse(call?.body ?? '{}') as Record<string, unknown>;
+const bodyOf = (call: Call | undefined) =>
+  JSON.parse(call?.body ?? '{}') as Record<string, unknown>;
 
 describe('API-клиент: запросы', () => {
   it('добавляет X-Locale и Bearer-токен, cookie не отправляет', async () => {
@@ -219,7 +220,9 @@ describe('API-клиент: обновление токена', () => {
       createMemoryTokenStore({ accessToken: 'old-access' }),
     );
 
-    await expect(unwrap(api.GET('/api/v1/profile'))).rejects.toMatchObject({ kind: 'unauthorized' });
+    await expect(unwrap(api.GET('/api/v1/profile'))).rejects.toMatchObject({
+      kind: 'unauthorized',
+    });
     expect(server.refreshCount()).toBe(0);
     expect(onSessionExpired).toHaveBeenCalledTimes(1);
   });
@@ -244,8 +247,22 @@ describe('API-клиент: обновление токена', () => {
     const server = fakeServer();
     const { api } = setup(server, createMemoryTokenStore());
 
-    await expect(unwrap(api.GET('/api/v1/profile'))).rejects.toMatchObject({ kind: 'unauthorized' });
+    await expect(unwrap(api.GET('/api/v1/profile'))).rejects.toMatchObject({
+      kind: 'unauthorized',
+    });
     expect(server.refreshCount()).toBe(0);
+  });
+
+  it('401 на ссылку из письма — ошибка ссылки: токен не обновляется, сессия остаётся', async () => {
+    const server = fakeServer();
+    const { api, tokens, onSessionExpired } = setup(server);
+
+    await expect(
+      unwrap(api.POST('/api/v1/auth/verify-email', { body: { token: 'used' } })),
+    ).rejects.toMatchObject({ kind: 'unauthorized', status: 401 });
+    expect(server.refreshCount()).toBe(0);
+    expect(onSessionExpired).not.toHaveBeenCalled();
+    expect(await tokens.getAccessToken()).toBe('old-access');
   });
 });
 
@@ -388,7 +405,11 @@ describe('ApiError.fromResponse', () => {
 
   it('5xx → server, текст из detail', () => {
     const error = ApiError.fromResponse(503, { detail: 'Сервис недоступен' });
-    expect(error).toMatchObject({ kind: 'server', message: 'Сервис недоступен', isRetryable: true });
+    expect(error).toMatchObject({
+      kind: 'server',
+      message: 'Сервис недоступен',
+      isRetryable: true,
+    });
   });
 
   it('тело не JSON → пустой текст', () => {

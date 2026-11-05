@@ -4,6 +4,7 @@ import {
   FileText,
   Globe,
   LogOut,
+  MailWarning,
   Moon,
   MonitorSmartphone,
   UserRound,
@@ -143,6 +144,13 @@ export function ProfileScreen() {
 
         {signedIn && profile ? (
           <ListGroup>
+            {profile.email_verified === false ? (
+              <ListRow
+                icon={MailWarning}
+                title={t('profile.emailNotVerified')}
+                onPress={() => router.push('/verify-email')}
+              />
+            ) : null}
             <ListRow
               icon={UserRound}
               title={t('profile.personal')}

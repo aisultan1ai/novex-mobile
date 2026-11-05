@@ -71,8 +71,9 @@ function RootLayout() {
             <Stack.Screen name="quote/[id]" />
             <Stack.Screen name="checkout/[draftId]" />
             <Stack.Screen name="tracking/[number]" />
-            {/* Soft Wall поверх тарифов: после входа экран под ним продолжает оформление. */}
-            <Stack.Screen name="sign-in" options={{ presentation: 'modal' }} />
+            {/* Вход и регистрация — одно модальное окно (Soft Wall поверх тарифов):
+                после входа экран под ним продолжает оформление. */}
+            <Stack.Screen name="(auth)" options={{ presentation: 'modal' }} />
           </Stack>
         </QueryClientProvider>
       </SafeAreaProvider>
