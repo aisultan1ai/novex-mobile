@@ -24,7 +24,7 @@ const ROAD = 'rgba(255,255,255,0.09)';
 const ROAD_THIN = 'rgba(255,255,255,0.05)';
 const RIVER = 'rgba(34,201,224,0.16)';
 const LABEL = 'rgba(255,255,255,0.38)';
-const WHITE = lightColors.onNavy;
+const WHITE = lightColors.onStrong;
 
 export interface TrackingMapProps {
   /** city — курьер в городе получателя; intercity — посылка между городами. */
@@ -135,7 +135,7 @@ export function TrackingMap({ mode, fromLabel, toLabel, badge }: TrackingMapProp
 
       {mode === 'city' ? (
         <View style={[styles.marker, styles.truck, { left: start.x - 19, top: start.y - 19 }]}>
-          <Truck color={lightColors.navy} size={20} strokeWidth={2} />
+          <Truck color={lightColors.strong} size={20} strokeWidth={2} />
         </View>
       ) : null}
       <View

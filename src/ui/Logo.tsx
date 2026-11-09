@@ -3,7 +3,7 @@ import Svg, { Circle, Line } from 'react-native-svg';
 
 import { Text } from './Text';
 import { useColors, useIsDark } from './theme';
-import { darkColors, fonts, lightColors, logoColors, spacing } from './tokens';
+import { darkColors, fonts, logoColors, onDark as onDarkColors, spacing } from './tokens';
 
 // Геометрия — из assets/brand/novex-mark.svg, обрезанная по габаритам знака (x 109.5…417.5, y 115.5…396.5).
 const VIEWBOX = '109.5 115.5 308 281';
@@ -80,7 +80,7 @@ export interface WordmarkProps {
 export function Wordmark({ size = 22, onDark = false, color }: WordmarkProps) {
   const isDark = useIsDark();
   const letters =
-    color ?? (onDark ? lightColors.onNavy : isDark ? darkColors.text : lightColors.navy);
+    color ?? (onDark ? onDarkColors.text : isDark ? darkColors.text : logoColors.wordmark);
   return (
     <Text
       accessibilityRole="header"

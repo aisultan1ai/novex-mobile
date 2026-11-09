@@ -8,7 +8,7 @@ export interface StatTileProps {
   label: string;
   value: string;
   /** navy — денежные и ключевые значения («К оплате по акту», «Осталось»). */
-  tone?: 'default' | 'navy';
+  tone?: 'default' | 'strong';
   /** large — 20 pt (профиль); default — 13–17 pt (трекинг). */
   size?: 'default' | 'large';
   align?: 'center' | 'left';
@@ -31,7 +31,7 @@ export function StatTile({
 }: StatTileProps) {
   const colors = useColors();
   const valueStyle = {
-    color: tone === 'navy' ? colors.navy : colors.text,
+    color: tone === 'strong' ? colors.strong : colors.text,
     fontSize: size === 'large' ? 20 : value.length > 12 ? 13 : 17,
     textAlign: align,
   } as const;

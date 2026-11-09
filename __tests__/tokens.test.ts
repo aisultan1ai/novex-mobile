@@ -23,9 +23,9 @@ const PAIRS: [fg: Key, bg: Key, what: string][] = [
   ['textMuted', 'subtle', 'вторичный текст на сером блоке'],
   ['textMuted', 'card', 'вторичный текст на карточке'],
   ['onPrimary', 'primary', 'текст главной кнопки'],
-  ['onNavy', 'navy', 'текст на navy (активный чип, аватар)'],
-  ['navy', 'background', 'цены'],
-  ['navy', 'card', 'цены на карточке'],
+  ['onStrong', 'strong', 'текст на strong (активный чип, вкладка)'],
+  ['strong', 'background', 'цены'],
+  ['strong', 'card', 'цены на карточке'],
   ['danger', 'subtle', '«Выйти» на сером'],
   ['iconInactive', 'background', 'неактивные иконки таб-бара (≥ 3:1)'],
 ];

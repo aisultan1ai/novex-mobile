@@ -117,9 +117,14 @@ export function QuoteScreen() {
     >
       <QuoteContent>
         <HomeHeader />
-        <Text variant="largeTitle" accessibilityRole="header" style={styles.title}>
-          {t('quote.title')}
-        </Text>
+        <View style={styles.title}>
+          <Text variant="largeTitle" accessibilityRole="header">
+            {t('quote.title')}
+          </Text>
+          <Text tone="muted" style={styles.subtitle}>
+            {t('quote.subtitle')}
+          </Text>
+        </View>
 
         <RouteCard
           from={from.field.value}
@@ -237,6 +242,7 @@ function QuoteContent({ children }: { children: ReactNode }) {
 const styles = StyleSheet.create({
   content: { gap: spacing.lg, paddingTop: spacing.xs },
   title: { marginTop: -spacing.xxs },
+  subtitle: { marginTop: spacing.xs },
   section: { gap: spacing.sm },
   sectionHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' },
   kinds: { flexDirection: 'row', gap: spacing.xs },

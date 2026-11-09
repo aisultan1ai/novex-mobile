@@ -102,7 +102,7 @@ function TabButton({
 }) {
   const colors = useColors();
   const Icon = item.icon;
-  const iconColor = focused ? (android ? colors.text : colors.onNavy) : colors.iconInactive;
+  const iconColor = focused ? (android ? colors.text : colors.onStrong) : colors.iconInactive;
 
   return (
     <Pressable
@@ -118,7 +118,7 @@ function TabButton({
         style={[
           android ? styles.androidIndicator : styles.iosCircle,
           focused && {
-            backgroundColor: android ? colors.accentTintStrong : colors.navy,
+            backgroundColor: android ? colors.accentTintStrong : colors.strong,
           },
         ]}
       >

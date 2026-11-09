@@ -72,13 +72,13 @@ export function TariffCard({ quote, badges, selected, onSelect }: TariffCardProp
           <Text variant="label" tone="muted" numberOfLines={1}>
             {eta}
             {badge ? (
-              <Text style={[styles.badgeInline, { color: colors.navy }]}> · {badge}</Text>
+              <Text style={[styles.badgeInline, { color: colors.strong }]}> · {badge}</Text>
             ) : null}
           </Text>
         </View>
-        <Text style={[styles.price, { color: colors.navy }]}>{price}</Text>
-        <View style={[styles.radio, { borderColor: selected ? colors.navy : colors.lineStrong }]}>
-          {selected ? <View style={[styles.radioDot, { backgroundColor: colors.navy }]} /> : null}
+        <Text style={[styles.price, { color: colors.strong }]}>{price}</Text>
+        <View style={[styles.radio, { borderColor: selected ? colors.strong : colors.lineStrong }]}>
+          {selected ? <View style={[styles.radioDot, { backgroundColor: colors.strong }]} /> : null}
         </View>
       </Pressable>
     );
@@ -97,13 +97,13 @@ export function TariffCard({ quote, badges, selected, onSelect }: TariffCardProp
         <Text style={styles.name} numberOfLines={2}>
           {title}
         </Text>
-        <Text style={[styles.price, { color: colors.navy }]}>{price}</Text>
+        <Text style={[styles.price, { color: colors.strong }]}>{price}</Text>
         <Text variant="label" tone="muted" numberOfLines={1}>
           {eta}
         </Text>
       </View>
       {badge && !selected ? (
-        <Text style={[styles.badge, { color: colors.navy }]} numberOfLines={1}>
+        <Text style={[styles.badge, { color: colors.strong }]} numberOfLines={1}>
           {badge}
         </Text>
       ) : null}

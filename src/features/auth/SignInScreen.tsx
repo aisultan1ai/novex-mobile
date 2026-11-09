@@ -140,7 +140,7 @@ export function SignInScreen() {
             accessibilityRole="button"
             style={styles.forgot}
           >
-            <Text variant="bodyStrong" style={[styles.forgotText, { color: colors.navy }]}>
+            <Text variant="bodyStrong" style={[styles.forgotText, { color: colors.strong }]}>
               {t('auth.forgotPassword')}
             </Text>
           </Pressable>

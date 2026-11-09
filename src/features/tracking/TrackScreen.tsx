@@ -108,11 +108,11 @@ export function TrackScreen() {
             accessibilityLabel={t('tracking.scan')}
             style={({ pressed }) => [
               styles.scan,
-              { backgroundColor: colors.navy },
+              { backgroundColor: colors.strong },
               pressed && styles.pressed,
             ]}
           >
-            <ScanBarcode color={colors.onNavy} size={24} strokeWidth={1.75} />
+            <ScanBarcode color={colors.onStrong} size={24} strokeWidth={1.75} />
           </Pressable>
         </View>
 

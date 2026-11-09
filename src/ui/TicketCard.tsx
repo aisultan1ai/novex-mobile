@@ -85,7 +85,7 @@ export function TicketCard({
 
       <View style={styles.stub} importantForAccessibility="no-hide-descendants">
         <CarrierLogo code={carrierCode} name={carrierName} size={52} bare />
-        <Text style={[styles.price, { color: colors.navy }]} numberOfLines={1}>
+        <Text style={[styles.price, { color: colors.strong }]} numberOfLines={1}>
           {price}
         </Text>
       </View>

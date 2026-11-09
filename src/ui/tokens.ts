@@ -1,6 +1,10 @@
 import { Platform } from 'react-native';
 
 // Единственный источник цветов, шрифтов, отступов и анимаций (ТЗ 4, правило 3; DESIGN-TZ.md, раздел 2).
+//
+// «Вес» интерфейса (выбранный чип, цены, активная вкладка) — почти чёрный ink, а не navy;
+// cyan — только главная кнопка и выбранное, navy — только знак и словесный знак Novex.
+// Абрикос — иллюстрации онбординга и тёплая подложка аватара, не текст.
 
 const brand = {
   navy: '#0B2545',
@@ -10,10 +14,19 @@ const brand = {
   steel: '#3E6E8A',
   ink: '#0E1826',
   white: '#FFFFFF',
+  apricot: '#F4B183',
+  apricotSoft: '#FCE6D4',
 } as const;
 
 /** Цвета знака Novex — одинаковые в обеих темах. */
-export const logoColors = { node: brand.cyan, branch: brand.steel } as const;
+export const logoColors = { node: brand.cyan, branch: brand.steel, wordmark: brand.navy } as const;
+
+/** Заливки иллюстраций онбординга — одинаковы в обеих темах; линии и «бумага» берутся из темы. */
+export const illustration = {
+  apricot: brand.apricot,
+  apricotSoft: brand.apricotSoft,
+  cyan: brand.cyan,
+} as const;
 
 const status = {
   neutral: '#8FA3B2',
@@ -48,15 +61,17 @@ export interface ColorScheme {
   primary: string;
   primaryPressed: string;
   onPrimary: string;
-  /** «Вес» интерфейса: активная вкладка, цены, выбранный чип. В тёмной теме — cyan. */
-  navy: string;
-  onNavy: string;
+  /** «Вес» интерфейса: активная вкладка, цены, выбранный чип. Почти чёрный; в тёмной теме — почти белый. */
+  strong: string;
+  onStrong: string;
   /** Рамка и галочка выбранного элемента. */
   accent: string;
   accentGlow: string;
   /** Круги иконок уведомлений, индикатор Android-навбара. */
   accentTint: string;
   accentTintStrong: string;
+  /** Тёплая подложка: аватар на главном, круг за сценой онбординга. */
+  warmTint: string;
   /** Подложки кругов уведомлений: проблема / доставлено. */
   dangerTint: string;
   successTint: string;
@@ -83,12 +98,13 @@ export const lightColors: ColorScheme = {
   primary: brand.cyan,
   primaryPressed: brand.cyanPressed,
   onPrimary: brand.ink,
-  navy: brand.navy,
-  onNavy: brand.white,
+  strong: brand.ink,
+  onStrong: brand.white,
   accent: brand.cyan,
   accentGlow: brand.cyanGlow,
   accentTint: 'rgba(34,201,224,0.16)',
   accentTintStrong: 'rgba(34,201,224,0.22)',
+  warmTint: brand.apricotSoft,
   dangerTint: 'rgba(226,75,74,0.12)',
   successTint: 'rgba(18,184,134,0.14)',
   mapBackground: '#0E2A4D',
@@ -96,8 +112,8 @@ export const lightColors: ColorScheme = {
   status,
 };
 
-// Тёмная тема (DESIGN-TZ 2.3): CTA остаётся cyan с тёмным текстом, «navy»-акценты становятся cyan —
-// тёмно-синий на тёмном фоне не читается. Контраст пар проверяет тест __tests__/tokens.test.ts.
+// Тёмная тема (DESIGN-TZ 2.3): CTA остаётся cyan с тёмным текстом, «вес» — почти белый.
+// Контраст пар проверяет тест __tests__/tokens.test.ts.
 export const darkColors: ColorScheme = {
   background: brand.ink,
   card: '#16233A',
@@ -114,12 +130,13 @@ export const darkColors: ColorScheme = {
   primary: brand.cyan,
   primaryPressed: brand.cyanPressed,
   onPrimary: brand.ink,
-  navy: brand.cyan,
-  onNavy: brand.ink,
+  strong: '#F1F5F9',
+  onStrong: brand.ink,
   accent: brand.cyan,
   accentGlow: brand.cyanGlow,
   accentTint: 'rgba(34,201,224,0.18)',
   accentTintStrong: 'rgba(34,201,224,0.26)',
+  warmTint: 'rgba(244,177,131,0.18)',
   dangerTint: 'rgba(226,75,74,0.18)',
   successTint: 'rgba(18,184,134,0.2)',
   mapBackground: '#0B1F3A',
@@ -154,7 +171,7 @@ export const glass = {
   scrim: 'rgba(14,24,38,0.28)',
 } as const;
 
-/** Текст и линии на тёмно-синем фоне (онбординг, схема трекинга) — одинаковы в обеих темах. */
+/** Текст и линии на тёмно-синем фоне (схема трекинга) — одинаковы в обеих темах. */
 export const onDark = {
   text: '#FFFFFF',
   textSecondary: 'rgba(255,255,255,0.82)',

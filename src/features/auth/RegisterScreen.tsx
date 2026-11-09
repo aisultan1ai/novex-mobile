@@ -259,7 +259,7 @@ export function RegisterScreen() {
                         variant="label"
                         accessibilityRole="link"
                         onPress={() => void Linking.openURL(privacy)}
-                        style={[styles.link, { color: colors.navy }]}
+                        style={[styles.link, { color: colors.strong }]}
                       >
                         {t('register.privacy')}
                       </Text>
@@ -268,7 +268,7 @@ export function RegisterScreen() {
                         variant="label"
                         accessibilityRole="link"
                         onPress={() => void Linking.openURL(terms)}
-                        style={[styles.link, { color: colors.navy }]}
+                        style={[styles.link, { color: colors.strong }]}
                       >
                         {t('register.terms')}
                       </Text>

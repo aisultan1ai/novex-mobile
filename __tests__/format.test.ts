@@ -1,4 +1,11 @@
-import { formatDate, formatMoney, formatPhone, formatTime, isValidTaxId } from '@/lib/format';
+import {
+  formatDate,
+  formatMoney,
+  formatPhone,
+  formatTime,
+  isValidTaxId,
+  partOfDay,
+} from '@/lib/format';
 
 const NBSP = ' ';
 
@@ -43,14 +50,12 @@ describe('formatTime', () => {
 });
 
 describe('formatPhone', () => {
-  it.each([
-    '+77010000000',
-    '87010000000',
-    '7010000000',
-    '+7 (701) 000-00-00',
-  ])('%p → +7 701 000 00 00', (input) => {
-    expect(formatPhone(input)).toBe('+7 701 000 00 00');
-  });
+  it.each(['+77010000000', '87010000000', '7010000000', '+7 (701) 000-00-00'])(
+    '%p → +7 701 000 00 00',
+    (input) => {
+      expect(formatPhone(input)).toBe('+7 701 000 00 00');
+    },
+  );
 
   it('нераспознанный номер не меняется', () => {
     expect(formatPhone('+49 30 123456')).toBe('+49 30 123456');
@@ -65,5 +70,21 @@ describe('isValidTaxId', () => {
     expect(isValidTaxId('90010130012')).toBe(false);
     expect(isValidTaxId('9001013001234')).toBe(false);
     expect(isValidTaxId('90010130012a')).toBe(false);
+  });
+});
+
+describe('partOfDay', () => {
+  const at = (h: number) => new Date(2026, 10, 9, h, 30);
+  it.each([
+    [4, 'night'],
+    [5, 'morning'],
+    [11, 'morning'],
+    [12, 'day'],
+    [17, 'day'],
+    [18, 'evening'],
+    [22, 'evening'],
+    [23, 'night'],
+  ])('%i:30 → %s', (hour, expected) => {
+    expect(partOfDay(at(hour))).toBe(expected);
   });
 });

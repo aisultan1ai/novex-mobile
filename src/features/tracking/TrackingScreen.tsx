@@ -244,7 +244,7 @@ function TrackingSheet({
         <StatTile
           label={state.deliveredAt ? t('tracking.delivered') : t('tracking.expectedDelivery')}
           value={expected}
-          tone="navy"
+          tone="strong"
         />
       </View>
 
@@ -293,7 +293,7 @@ function TrackingHeader({
 
   const barStyle = useAnimatedStyle(() => ({ opacity: progress.get() }));
   const onLight = collapsed;
-  const iconColor = onLight ? colors.text : lightColors.onNavy;
+  const iconColor = onLight ? colors.text : lightColors.onStrong;
 
   return (
     <View style={[styles.header, { paddingTop: safe.top }]} pointerEvents="box-none">

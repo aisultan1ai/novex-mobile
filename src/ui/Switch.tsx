@@ -13,7 +13,7 @@ export function Switch({ accessibilityLabel, ...rest }: SwitchProps) {
     <RNSwitch
       accessibilityRole="switch"
       accessibilityLabel={accessibilityLabel}
-      trackColor={{ true: colors.navy, false: colors.lineStrong }}
+      trackColor={{ true: colors.strong, false: colors.lineStrong }}
       ios_backgroundColor={colors.lineStrong}
       {...rest}
     />

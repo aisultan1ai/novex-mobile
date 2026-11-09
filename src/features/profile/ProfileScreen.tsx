@@ -100,8 +100,8 @@ export function ProfileScreen() {
 
         {signedIn && profile ? (
           <View style={styles.person}>
-            <View style={[styles.avatar, { backgroundColor: colors.navy }]}>
-              <Text style={[styles.avatarText, { color: colors.onNavy }]}>
+            <View style={[styles.avatar, { backgroundColor: colors.strong }]}>
+              <Text style={[styles.avatarText, { color: colors.onStrong }]}>
                 {initials(profile.full_name, profile.email)}
               </Text>
             </View>
@@ -129,7 +129,7 @@ export function ProfileScreen() {
             <StatTile
               size="large"
               align="left"
-              tone="navy"
+              tone="strong"
               label={t('profile.debt')}
               value={formatMoney(contract.debt)}
             />

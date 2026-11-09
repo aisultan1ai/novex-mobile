@@ -127,3 +127,14 @@ export function formatPhone(raw: string): string {
 export function isValidTaxId(value: string): boolean {
   return /^\d{12}$/.test(value);
 }
+
+export type PartOfDay = 'morning' | 'day' | 'evening' | 'night';
+
+/** Время суток для приветствия: утро 5–11, день 12–17, вечер 18–22, ночь — остальное. */
+export function partOfDay(date: Date = new Date()): PartOfDay {
+  const h = date.getHours();
+  if (h >= 5 && h < 12) return 'morning';
+  if (h >= 12 && h < 18) return 'day';
+  if (h >= 18 && h < 23) return 'evening';
+  return 'night';
+}

@@ -35,13 +35,13 @@ describe('онбординг', () => {
 
   it('три слайда: «Далее» листает, «Начать» отмечает онбординг показанным', async () => {
     await renderRouter(routes, { initialUrl: '/onboarding', wrapper });
-    expect(screen.getByRole('header', { name: /Все курьеры/ })).toBeTruthy();
+    expect(screen.getByRole('header', { name: /Отправить посылку/ })).toBeTruthy();
 
     await fireEvent.press(screen.getByRole('button', { name: 'Далее' }));
-    expect(screen.getByRole('header', { name: /Курьер заберёт/ })).toBeTruthy();
+    expect(screen.getByRole('header', { name: /Курьер сам/ })).toBeTruthy();
 
     await fireEvent.press(screen.getByRole('button', { name: 'Далее' }));
-    expect(screen.getByRole('header', { name: /Каждая посылка/ })).toBeTruthy();
+    expect(screen.getByRole('header', { name: /Всегда знаете/ })).toBeTruthy();
 
     await fireEvent.press(screen.getByRole('button', { name: 'Начать' }));
     expect(useSettingsStore.getState().onboardingSeen).toBe(true);

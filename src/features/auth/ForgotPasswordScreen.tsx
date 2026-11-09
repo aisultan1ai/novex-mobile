@@ -65,7 +65,7 @@ export function ForgotPasswordScreen() {
         <AuthTopBar />
         <AuthScroll>
           <View style={styles.icon}>
-            <MailCheck color={colors.navy} size={48} strokeWidth={1.5} />
+            <MailCheck color={colors.strong} size={48} strokeWidth={1.5} />
           </View>
           <AuthHeading
             title={t('forgot.sentTitle')}

@@ -23,11 +23,11 @@ development-сборка: `npx eas-cli@latest build --profile development` ил�
 
 ## Окружения
 
-| Окружение | `APP_ENV` | Профиль EAS | Окружение EAS | API |
-|---|---|---|---|---|
-| development | `development` | `development` | development | `http://<локальный IP>:8000/api/v1` (`.env.local`) |
-| staging | `staging` | `staging` | preview | выдаёт команда Novex |
-| production | `production` | `production` | production | `https://<домен Novex>/api/v1` |
+| Окружение   | `APP_ENV`     | Профиль EAS   | Окружение EAS | API                                                |
+| ----------- | ------------- | ------------- | ------------- | -------------------------------------------------- |
+| development | `development` | `development` | development   | `http://<локальный IP>:8000/api/v1` (`.env.local`) |
+| staging     | `staging`     | `staging`     | preview       | выдаёт команда Novex                               |
+| production  | `production`  | `production`  | production    | `https://<домен Novex>/api/v1`                     |
 
 - `APP_ENV` задаётся в `eas.json` и влияет на имя приложения и bundle id (`app.config.ts`): у dev и staging
   свои суффиксы, поэтому сборки ставятся рядом с продовой.
@@ -65,14 +65,14 @@ npm i --no-save sharp@0.34.4 && node scripts/generate-icons.js
 
 ## Команды
 
-| Команда | Что делает |
-|---|---|
-| `npm start` | Dev Server |
-| `npm run lint` | ESLint + Prettier |
-| `npm run typecheck` | `tsc --noEmit` |
-| `npm test` | Jest + React Native Testing Library |
-| `npm run check` | всё сразу, как в CI |
-| `npm run api:types` | перегенерировать типы API |
+| Команда                    | Что делает                                                          |
+| -------------------------- | ------------------------------------------------------------------- |
+| `npm start`                | Dev Server                                                          |
+| `npm run lint`             | ESLint + Prettier                                                   |
+| `npm run typecheck`        | `tsc --noEmit`                                                      |
+| `npm test`                 | Jest + React Native Testing Library                                 |
+| `npm run check`            | всё сразу, как в CI                                                 |
+| `npm run api:types`        | перегенерировать типы API                                           |
 | `npx expo install <пакет>` | добавить зависимость в версии, совместимой с SDK (не `npm install`) |
 
 ## Структура
@@ -104,8 +104,9 @@ __tests__/        тесты (*.test.ts / *.test.tsx) и mocks/ для Jest
 
 Описание — [DESIGN-TZ.md](DESIGN-TZ.md), макеты — `docs/design-v2/screens`. Коротко:
 
-- **Токены** (`src/ui/tokens.ts`): белый фон, cyan — только CTA и выбранное, navy — цены и активная вкладка;
-  шрифт Inter (Space Grotesk — только словесный знак). Контраст пар текст/фон обеих тем проверяет
+- **Токены** (`src/ui/tokens.ts`): белый фон, `strong` (почти чёрный, в тёмной теме — почти белый) — цены,
+  выбранный чип, активная вкладка; cyan — только CTA и выбранное; navy — только знак и словесный знак Novex;
+  абрикос (`illustration`, `warmTint`) — иллюстрации онбординга и аватар. Шрифт Inter (Space Grotesk — только словесный знак). Контраст пар текст/фон обеих тем проверяет
   `__tests__/tokens.test.ts`.
 - **Стекло** (`src/ui/glass`): `GlassSurface` на `expo-blur` с фолбэком при «Уменьшить прозрачность».
   На Android размытие работает только поверх `BlurTargetView`: прокручиваемая часть `Screen` — цель размытия,

@@ -20,15 +20,15 @@ import { haptics } from '@/lib/haptics';
 import { useSettingsStore } from '@/store/settings';
 import {
   Button,
-  GlassSurface,
   Text,
   Wordmark,
   fonts,
-  lightColors,
-  onDark,
+  radii,
   screenPadding,
   spacing,
   typography,
+  useColors,
+  useIsDark,
 } from '@/ui';
 
 import { BoxScene, PlaneScene, SCENE_H, SCENE_W, TruckScene } from './scenes';
@@ -40,7 +40,6 @@ const SLIDES = [
 ] as const;
 
 const EASE = Easing.bezier(0.2, 0.8, 0.2, 1);
-const WHITE = onDark.text;
 
 /** Смена слайда: текст появляется со сдвигом 12 pt (DESIGN-TZ 7). */
 const textIn: EntryExitAnimationFunction = () => {
@@ -55,13 +54,16 @@ const textIn: EntryExitAnimationFunction = () => {
 };
 
 /**
- * Онбординг (DESIGN-TZ 6.1): navy на весь экран, переключатель языка и «Пропустить» — стекло,
- * сцена ≈360 pt, «novex.», заголовок hero 40, текст, три полоски прогресса, CTA «Далее / Начать».
+ * Онбординг (DESIGN-TZ 6.1, палитра v2.1): тёплый светлый фон, сцена ≈360 pt на мягком абрикосовом
+ * круге, «novex.», заголовок hero, текст, три полоски прогресса, CTA «Далее / Начать».
+ * Сверху — переключатель языка и «Пропустить».
  * Слайды листаются свайпом и кнопкой. После — сразу на главный экран (гостевой режим).
  */
 export function OnboardingScreen() {
   const { t, i18n } = useTranslation();
   const router = useRouter();
+  const colors = useColors();
+  const isDark = useIsDark();
   const safe = useSafeAreaInsets();
   const { width } = useWindowDimensions();
   const reduceMotion = useReducedMotion();
@@ -96,10 +98,19 @@ export function OnboardingScreen() {
   const scale = Math.min(1, width / SCENE_W);
 
   return (
-    <View style={[styles.root, { paddingTop: safe.top, paddingBottom: safe.bottom + spacing.lg }]}>
-      <StatusBar style="light" />
+    <View
+      style={[
+        styles.root,
+        {
+          backgroundColor: colors.background,
+          paddingTop: safe.top,
+          paddingBottom: safe.bottom + spacing.lg,
+        },
+      ]}
+    >
+      <StatusBar style={isDark ? 'light' : 'dark'} />
       <View style={styles.topBar}>
-        <GlassSurface variant="onDark" style={styles.pill}>
+        <View style={[styles.pill, { backgroundColor: colors.subtle }]}>
           <View
             style={styles.langs}
             accessibilityRole="radiogroup"
@@ -112,20 +123,23 @@ export function OnboardingScreen() {
                 accessibilityState={{ selected: locale === l }}
                 accessibilityLabel={l === 'ru' ? 'Русский' : 'Қазақша'}
                 onPress={() => setLocale(l)}
-                style={[styles.lang, locale === l && styles.langOn]}
+                style={[styles.lang, locale === l && { backgroundColor: colors.strong }]}
               >
-                <Text style={[styles.pillText, { color: locale === l ? lightColors.navy : WHITE }]}>
+                <Text
+                  style={[
+                    styles.pillText,
+                    { color: locale === l ? colors.onStrong : colors.textMuted },
+                  ]}
+                >
                   {l === 'ru' ? 'Рус' : 'Қаз'}
                 </Text>
               </Pressable>
             ))}
           </View>
-        </GlassSurface>
-        <GlassSurface variant="onDark" style={styles.pill}>
-          <Pressable onPress={finish} accessibilityRole="button" style={styles.skip}>
-            <Text style={[styles.pillText, { color: WHITE }]}>{t('onboarding.skip')}</Text>
-          </Pressable>
-        </GlassSurface>
+        </View>
+        <Pressable onPress={finish} accessibilityRole="button" style={styles.skip}>
+          <Text style={[styles.pillText, { color: colors.textMuted }]}>{t('onboarding.skip')}</Text>
+        </Pressable>
       </View>
 
       <GestureDetector gesture={swipe}>
@@ -135,6 +149,12 @@ export function OnboardingScreen() {
             accessibilityElementsHidden
             importantForAccessibility="no-hide-descendants"
           >
+            <View
+              style={[
+                styles.blob,
+                { backgroundColor: colors.warmTint, width: 300 * scale, height: 300 * scale },
+              ]}
+            />
             <View style={{ transform: [{ scale }] }}>
               <slide.Scene key={slide.key} />
             </View>
@@ -142,11 +162,13 @@ export function OnboardingScreen() {
 
           <View style={styles.text}>
             <Animated.View key={slide.key} entering={reduceMotion ? undefined : textIn}>
-              <Wordmark size={22} onDark />
-              <Text style={styles.title} accessibilityRole="header">
+              <Wordmark size={22} />
+              <Text style={[styles.title, { color: colors.text }]} accessibilityRole="header">
                 {t(`onboarding.${slide.key}.title`)}
               </Text>
-              <Text style={styles.subtitle}>{t(`onboarding.${slide.key}.text`)}</Text>
+              <Text style={[styles.subtitle, { color: colors.textMuted }]}>
+                {t(`onboarding.${slide.key}.text`)}
+              </Text>
             </Animated.View>
             <View style={styles.bars}>
               {SLIDES.map((s, i) => (
@@ -191,6 +213,7 @@ function ProgressBar({
     if (state === 'active' && !reduceMotion)
       fill.set(withTiming(1, { duration: 600, easing: EASE }));
   }, [state, reduceMotion, fill]);
+  const colors = useColors();
   const style = useAnimatedStyle(() => ({ width: `${fill.get() * 100}%` }));
   return (
     <Pressable
@@ -201,22 +224,22 @@ function ProgressBar({
       hitSlop={{ top: 16, bottom: 16 }}
       style={styles.bar}
     >
-      <View style={styles.track}>
-        <Animated.View style={[styles.fill, style]} />
+      <View style={[styles.track, { backgroundColor: colors.lineStrong }]}>
+        <Animated.View style={[styles.fill, { backgroundColor: colors.strong }, style]} />
       </View>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: lightColors.navy },
+  root: { flex: 1 },
   topBar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: spacing.md,
     paddingTop: spacing.xs,
   },
-  pill: { height: 40, borderRadius: 20 },
+  pill: { height: 40, borderRadius: radii.pill },
   langs: { flexDirection: 'row', padding: 3, gap: 2 },
   lang: {
     height: 34,
@@ -226,23 +249,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 10,
   },
-  langOn: { backgroundColor: WHITE },
   skip: { height: 40, justifyContent: 'center', paddingHorizontal: spacing.md },
   pillText: { fontFamily: fonts.semibold, fontSize: 14 },
   body: { flex: 1 },
   scene: { alignItems: 'center', justifyContent: 'center', marginTop: spacing.xxs },
+  blob: { position: 'absolute', borderRadius: radii.pill },
   text: { paddingHorizontal: 28, marginTop: spacing.md },
-  title: { ...typography.hero, color: WHITE, marginTop: 14 },
+  title: { ...typography.hero, marginTop: 14 },
   subtitle: {
     marginTop: 14,
     fontFamily: fonts.regular,
     fontSize: 17,
     lineHeight: 25,
-    color: onDark.textSecondary,
   },
   bars: { flexDirection: 'row', gap: spacing.xs, marginTop: 28 },
   bar: { flex: 1, paddingVertical: 4 },
-  track: { height: 3, borderRadius: 2, backgroundColor: onDark.track, overflow: 'hidden' },
-  fill: { height: 3, backgroundColor: WHITE },
+  track: { height: 3, borderRadius: 2, overflow: 'hidden' },
+  fill: { height: 3 },
   cta: { paddingHorizontal: screenPadding },
 });

@@ -54,7 +54,7 @@ export function AddressFields({ form, onPhone }: AddressFieldsProps) {
             hitSlop={spacing.sm}
             style={styles.undo}
           >
-            <Text variant="label" style={{ color: colors.navy }}>
+            <Text variant="label" style={{ color: colors.strong }}>
               {t('common.undo')}
             </Text>
           </Pressable>

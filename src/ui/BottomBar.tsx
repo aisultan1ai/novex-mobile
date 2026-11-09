@@ -59,7 +59,7 @@ export function BottomBar({
             <Text variant="label" tone="muted">
               {totalLabel}
             </Text>
-            {total ? <AnimatedPrice value={total} color={colors.navy} /> : null}
+            {total ? <AnimatedPrice value={total} color={colors.strong} /> : null}
           </View>
           {note ? (
             <Text variant="caption" tone="muted" numberOfLines={1}>
@@ -92,7 +92,7 @@ function ProgressLine({ value, from }: { value: number; from: number }) {
       accessibilityRole="progressbar"
       accessibilityValue={{ min: 0, max: 100, now: Math.round(value * 100) }}
     >
-      <Animated.View style={[styles.fill, { backgroundColor: colors.navy }, fill]} />
+      <Animated.View style={[styles.fill, { backgroundColor: colors.strong }, fill]} />
     </View>
   );
 }

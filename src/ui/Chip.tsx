@@ -42,13 +42,13 @@ export function Chip({
   const bg = selected
     ? android
       ? colors.accentTintStrong
-      : colors.navy
+      : colors.strong
     : variant === 'outline'
       ? colors.card
       : colors.subtle;
-  const fg = selected && !android ? colors.onNavy : colors.text;
+  const fg = selected && !android ? colors.onStrong : colors.text;
   const border =
-    selected && !android ? colors.navy : variant === 'outline' ? colors.line : 'transparent';
+    selected && !android ? colors.strong : variant === 'outline' ? colors.line : 'transparent';
   const chipHeight = android ? 36 : height;
   const ShownIcon = selected && android ? Check : Icon;
 

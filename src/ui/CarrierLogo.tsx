@@ -49,7 +49,7 @@ export function CarrierLogo({ code, name, size = 52, bare = false }: CarrierLogo
   const asset = carrierAsset(code);
   const radius = size >= 56 ? 14 : 12;
   // Плитка под белым логотипом всегда тёмно-синяя, в обеих темах.
-  const background = asset?.dark ? lightColors.navy : colors.card;
+  const background = asset?.dark ? lightColors.strong : colors.card;
 
   return (
     <View
